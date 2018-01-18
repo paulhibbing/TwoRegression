@@ -1,6 +1,6 @@
 Package: TwoRegression
 Type: Package
-Title: Application of Two-Regression Algorithms for Accelerometers
+Title: Process accelerometer data with common two-regression algorithms
 Version: 0.1.0
 Authors@R: person("Paul", "Hibbing", email = "paulhibbing@gmail.com",
 		  role = c("aut","cre"))
@@ -20,3 +20,5 @@ RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: http://github.com/paulhibbing/TwoRegression
+BugReports: http://github.com/paulhibbing/TwoRegression/issues

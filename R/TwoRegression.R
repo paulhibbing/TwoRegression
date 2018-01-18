@@ -1,9 +1,15 @@
-#' TwoRegression: Process accelerometer data with common two-regression algorithms
+#' Process accelerometer data with common two-regression algorithms
 #'
 #' The critical functions of the TwoRegression package are:
 #'
-#' @section TwoRegression functions:
+#' @section Core functions:
 #'
+#'
+#' @section Associated References:
+#' Hibbing PR, LaMunion SR, Kaplan AS, & Crouter SE (2017). Estimating
+#' energy expenditure with ActiGraph GT9X Inertial Measurement Unit.
+#' *Medicine and Science in Sports and Exercise*. Advance online publication.
+#' doi:
 #'
 #' @docType package
 #' @name TwoRegression

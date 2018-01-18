@@ -4,12 +4,19 @@
 \name{TwoRegression}
 \alias{TwoRegression}
 \alias{TwoRegression-package}
-\title{TwoRegression: Process accelerometer data with common two-regression algorithms}
+\title{Process accelerometer data with common two-regression algorithms}
 \description{
 The critical functions of the TwoRegression package are:
 }
-\section{TwoRegression functions}{
+\section{Core functions}{
 
-I updated this file to see if it makes a difference.
+}
+
+\section{Associated References}{
+
+Hibbing PR, LaMunion SR, Kaplan AS, & Crouter SE (2017). Estimating
+energy expenditure with ActiGraph GT9X Inertial Measurement Unit.
+*Medicine and Science in Sports and Exercise*. Advance online publication.
+doi:
 }
 

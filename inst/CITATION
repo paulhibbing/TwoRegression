@@ -1,0 +1,13 @@
+citHeader("To cite TwoRegression in publications use:")
+
+citEntry(entry = "Misc",
+  title        = "Process accelerometer data with common two-regression algorithms",
+  author       = personList(as.person("Paul Hibbing")),
+  year         = "2018",
+  url          = "http://www.github.com/paulhibbing/TwoRegression/",
+
+  textVersion  =
+  paste("Paul Hibbing (2018).",
+        "Process accelerometer data with common two-regression algorithms.",
+        "URL http://www.github.com/paulhibbing/TwoRegression/.")
+)
