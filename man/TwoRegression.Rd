@@ -4,7 +4,7 @@
 \name{TwoRegression}
 \alias{TwoRegression}
 \alias{TwoRegression-package}
-\title{Process accelerometer data with common two-regression algorithms}
+\title{Process Accelerometer Data with Two-Regression Algorithms}
 \description{
 The critical functions of the TwoRegression package are:
 }
