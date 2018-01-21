@@ -1,4 +1,4 @@
-#' Process accelerometer data with common two-regression algorithms
+#' Process Accelerometer Data with Two-Regression Algorithms
 #'
 #' The critical functions of the TwoRegression package are:
 #'

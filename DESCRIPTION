@@ -1,8 +1,8 @@
 Package: TwoRegression
 Type: Package
-Title: Process accelerometer data with common two-regression algorithms
-Version: 0.1.0
-Authors@R: person("Paul", "Hibbing", email = "paulhibbing@gmail.com",
+Title: Process Accelerometer Data with Two-Regression Algorithms
+Version: 0.1
+Authors@R: person(c("Paul", "R."), "Hibbing", email = "paulhibbing@gmail.com",
 		  role = c("aut","cre"))
 Description: Application of Various Two-Regression Algorithms for Accelerometers.
     It provides an easy way for users to read in their accelerometer data files
@@ -15,7 +15,13 @@ Encoding: UTF-8
 LazyData: true
 Imports: svDialogs (>= 0.9.57),
     lubridate (>= 1.6.0),
-    magrittr (>= 1.5)
+    magrittr (>= 1.5),
+    stats (>= 3.2.4),
+    graphics (>= 3.2.4),
+    grDevices (>= 3.2.4),
+    utils (>= 3.2.4),
+    datasets (>= 3.2.4),
+    methods (>= 3.2.4)
 RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown
