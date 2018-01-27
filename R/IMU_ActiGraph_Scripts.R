@@ -12,49 +12,98 @@ cv <- function(signal) {
   }
 }
 
-## Functions to calculate CV per 10s and Direction changes per 5s
-get.cvPER <- function(BigData, windowSecs = 10, verbose = F) {
-    if (verbose)
-        cat(paste("\n... Getting ", windowSecs, "s CVs", sep = ""))
+#' Determine which variable(s) to calculate coefficient of variation on
+#'
+#' @param Algorithm the algorithm(s) selected to process the accelerometer/IMU data
+#'
+#' @keywords internal
+get_cv_vars <- function(Algorithm, verbose = FALSE) {
+  cvs <-
+    unique(c("ENMO",
+      "Gyroscope_VM_DegPerS",
+      "Gyroscope_VM_DegPerS")[1:3 %in% Algorithm]
+    )
 
-    inds <- sapply(seq_along(BigData), function(x) sapply(windowSecs:1, function(y) ((x - y):(x - y + windowSecs -
-        1)) + 1), simplify = F)
-
-    CVS <- do.call(rbind, lapply(inds, function(x) {
-        values <- sapply(data.frame(x), function(y) {
-            Y <- y[y > 0 & y <= length(BigData)]
-            if (length(y) != length(Y)) {
-                data.frame(CV = NA)
-            } else {
-                data.frame(CV = cv(BigData[Y]))
-            }
-        }, simplify = F)
-
-        CV <- sapply(do.call(rbind, values), min, na.rm = T)
-        return(CV)
-    }))
-
-    if (verbose)
-        cat("\n... Done!\n")
-    return(CVS)
+  if(verbose) message_update(11, cvs = cvs)
+  if(verbose) message_update(12)
+  return(cvs)
 }
 
-get.directions <- function(BigData, windowSecs = 5) {
-    if (windowSecs%%2 != 1)
-        stop("windowSecs must be an odd number, to look forward and backward of the observation by equal amounts.")
-    windowSecs <- (windowSecs - 1)/2
+#' Calculate coefficient of variation in sliding windows
+#'
+#' Calculates coefficient of variation using the approach of Crouter et al. (2010, \emph{Med Sci Sports Exerc})
+#'
+#' @param big_data a numeric vector on which to perform the calculation
+#' @param window_secs size of the sliding window, in seconds
+#' @param verbose a logical scalar: print progress updates?
+#'
+#' @return a numeric vector of values, giving the lowest coefficient of variation among the sliding windows that correspond to each epoch of data
+#' @export
+get_cvPER <- function(big_data, window_secs = 10, Algorithm, verbose = F) {
+    if (verbose) message_update(13, window_secs = window_secs)
 
-    inds <- sapply(seq_along(BigData), function(x) {
-        if ((x - windowSecs > 0) & (x + windowSecs <= length(BigData))) {
-            seq(x - windowSecs, x + windowSecs)
-        } else NA
-    }, simplify = F)  ##Generate indices for each eligible block
+  inds <-
+    sapply(seq(big_data),
+          function(x) {
+            sapply(window_secs:1, function(y) {
+              ((x - y):(x - y + window_secs - 1)) + 1
+            })
+          }, simplify = F)
 
-    changes <- sapply(inds, function(x) if (is.na(x[1]))
-        NA else {
-        compareDirs <- diff(as.numeric(as.factor(BigData[x])))  ##Checks for successive
-        ## Differences by subtracting factor levels
-        dirChange <- sum(ifelse(compareDirs == 0, 0, 1))  ##Totals the direction changes, after setting all nonzero differences to 1
+  CVS <-
+    do.call(rbind,
+      lapply(inds,
+        function(x) {
+            values <- sapply(data.frame(x), function(y) {
+              Y <- y[y > 0 & y <= length(big_data)]
+              if (length(y) != length(Y)) {
+                data.frame(CV = NA)
+              } else {
+                data.frame(CV = cv(big_data[Y]))
+              }
+            }, simplify = F)
+
+                CV <- sapply(do.call(rbind, values), min, na.rm = TRUE)
+                return(CV)
+    }
+    ))
+
+  stopifnot(ncol(CVS)==1 | is.vector(CVS))
+  CVS <- as.vector(CVS)
+  if (verbose) message_update(6)
+  return(CVS)
+}
+
+#' Calculate direction changes per five seconds in sliding windows
+#'
+#' @inheritParams get_cvPER
+#'
+#' @return a numeric vector of values, giving the number of direction changes in the sliding window that corresponds to each epoch of data
+#' @export
+get.directions <- function(big_data, window_secs = 5) {
+    if (window_secs%%2 != 1)
+        stop("window_secs must be an odd number, to look forward and backward of the observation by equal amounts.")
+
+    window_secs <- (window_secs - 1)/2
+
+    inds <-
+      sapply(seq_along(big_data), function(x) {
+        if ((x - window_secs > 0) & (x + window_secs <= length(big_data))) {
+          seq(x - window_secs, x + window_secs)
+        } else
+          NA
+      }, simplify = F)
+
+    changes <-
+      sapply(inds, function(x) {
+        if (is.na(x[1])) {
+          NA
+        } else {
+          compareDirs <-
+            diff(as.numeric(as.factor(big_data[x])))
+          dirChange <-
+            sum(ifelse(compareDirs == 0, 0, 1))
+      }
     })
 
     return(changes)

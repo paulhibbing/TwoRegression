@@ -136,7 +136,7 @@ imu_collapse <- function(AG, block_size) {
       mean_abs_Gyroscope_x_DegPerS = mean(abs(`Gyroscope.X`)),
       mean_abs_Gyroscope_y_DegPerS = mean(abs(`Gyroscope.Y`)),
       mean_abs_Gyroscope_z_DegPerS = mean(abs(`Gyroscope.Z`)),
-      mean_MagnetometerDirection = classify_magnetometer(
+      mean_magnetometer_direction = classify_magnetometer(
         mean(`Magnetometer.X`),
         mean(`Magnetometer.Y`),
         mean(`Magnetometer.Z`)

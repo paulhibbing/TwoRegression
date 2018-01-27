@@ -12,6 +12,8 @@ message_update <-
     file,
     vm_variables,
     duration,
+    cvs,
+    window_secs,
     is_message = FALSE) {
 
   note <-
@@ -31,7 +33,10 @@ message_update <-
       "\n     Vector magnitude calculation complete.\n",
       "Number of rows not divisible by samp_rate*output_window\nTruncating data.",
       "\n-- Collapsing data. This could take awhile...",
-      "11"
+      paste("\nCalculating CV per 10s for:", paste(cvs, collapse = " and ")),
+      "\nThis could take awhile. Be patient...",
+      paste("\n... Getting ", window_secs, "s CVs", sep = ""),
+      "14"
     )
   if (is_message) {
     message(note)

@@ -15,7 +15,7 @@ hibbing18_twoReg_process <-
     Wear_Location = c("Hip", "Left Wrist", "Right Wrist", "Left Ankle",
       "Right Ankle"),
     PID,
-    Algorithm = 1) {
+    Algorithm = 1, verbose = FALSE) {
 
     ## Read the data
     raw_data <- read_AG_raw(RAW)
@@ -25,13 +25,13 @@ hibbing18_twoReg_process <-
     imu_data$Timestamp <- as.character(imu_data$Timestamp)
 
     ## Merge the data
-    alldata <- merge(raw_data, imu_data, "Timestamp")
+    all_data <- merge(raw_data, imu_data, "Timestamp")
 
-    names(alldata) <-
-      gsub("\\.y$", "_IMU", gsub("\\.x$", "_PrimaryAccel", names(alldata)))
+    names(all_data) <-
+      gsub("\\.y$", "_IMU", gsub("\\.x$", "_PrimaryAccel", names(all_data)))
 
     ## Add the ID and order the variables
-    alldata$PID <- PID
+    all_data$PID <- PID
     firstVars <-
       c(
         "PID",
@@ -43,36 +43,40 @@ hibbing18_twoReg_process <-
         "day_of_year",
         "minute_of_day"
       )
-    alldata <- alldata[, c(firstVars, setdiff(names(alldata), firstVars))]
+    all_data <- all_data[, c(firstVars, setdiff(names(all_data), firstVars))]
 
-    ## Calculate CV per 10s and add it to the data set
-    cvs <- unique(sapply(1:3, function(x) {
-        switch(x, "ENMO", "Gyroscope_VM_DegPerS", "Gyroscope_VM_DegPerS")
-    })[1:3 %in% Algorithm])
+    ## Retrieve CV/10-s variable(s), then calculate CV, then add to all_data
+    cv_vars <- get_cv_vars(Algorithm, verbose)
+    CVS <- sapply(cv_vars, function(x) get_cvPER(all_data[, x]))
 
-    print(paste("Calculating CV per 10s for:", paste(cvs, collapse = " and ")))
-    print("This could take awhile. Be patient...")
-
-    CVS <- sapply(cvs, function(x) get.cvPER(alldata[, x]))
-
-    cvs <- sapply(cvs, function(x) switch(x, ENMO = "ENMO_CV10s", Gyroscope_VM_DegPerS = "GVM_CV10s", mean_abs_Gyroscope_y_DegPerS = "GYA_CV10s"))
-    alldata <- cbind(alldata, setNames(data.frame(CVS), cvs))
+    cvs <-
+      sapply(cv_vars, function(x)
+        switch(
+          x,
+          ENMO = "ENMO_CV10s",
+          Gyroscope_VM_DegPerS = "GVM_CV10s",
+          mean_abs_Gyroscope_y_DegPerS = "GYA_CV10s"
+        ))
+    all_data <-
+      cbind(all_data,
+        setNames(data.frame(CVS), cvs))
 
     ## Calculate Direction Changes per 5s and add it to the data set
-    alldata$Direction <- get.directions(alldata$mean_MagnetometerDirection)
+    all_data$Direction <-
+      get.directions(all_data$mean_magnetometer_direction)
 
     ## Get the predictions
     allProcesses <- expand.grid(Wear_Location = Wear_Location, Algorithm = Algorithm, stringsAsFactors = F)
     allPredictions <- setNames(data.frame(do.call(cbind, lapply(split(allProcesses, seq_len(nrow(allProcesses))),
-        apply.TwoRegression, alldata = alldata)), stringsAsFactors = F), unlist(lapply(split(allProcesses,
+        apply.TwoRegression, all_data = all_data)), stringsAsFactors = F), unlist(lapply(split(allProcesses,
         seq_len(nrow(allProcesses))), function(x) {
         paste(x$Wear_Location, gsub("^", "Agorithm", x$Algorithm), "METs", sep = "_")
     })))
 
     ## Final formatting and output of the data
-    alldata <- cbind(alldata, allPredictions)
+    all_data <- cbind(all_data, allPredictions)
 
     cat("\n\n")
     print("All two-regression processing complete.")
-    return(alldata)
+    return(all_data)
 }
