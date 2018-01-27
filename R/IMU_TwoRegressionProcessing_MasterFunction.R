@@ -18,8 +18,8 @@ hibbing18_twoReg_process <-
     Algorithm = 1) {
 
     ## Read the data
-    raw_data <- read.AG.raw(RAW)
-    imu_data <- read.IMU(IMU)
+    raw_data <- read_AG_raw(RAW)
+    imu_data <- read_IMU(IMU)
 
     raw_data$Timestamp <- as.character(raw_data$Timestamp)
     imu_data$Timestamp <- as.character(imu_data$Timestamp)

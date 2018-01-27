@@ -4,10 +4,17 @@
 \alias{message_update}
 \title{Print updates to console}
 \usage{
-message_update(message_number, vm_variables, duration, is_message = FALSE)
+message_update(message_number, file, vm_variables, duration,
+  is_message = FALSE)
 }
 \arguments{
-\item{message_number}{The index of the message to print}
+\item{message_number}{the index of the message to print}
+
+\item{file}{the name of the file being processed}
+
+\item{vm_variables}{variables being used to calculate vector magnitude}
+
+\item{duration}{the duration of processing}
 
 \item{is_Message}{print update as a message?}
 }
