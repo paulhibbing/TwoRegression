@@ -13,8 +13,7 @@ Description: Application of Various Two-Regression Algorithms for Accelerometers
 License: CC0
 Encoding: UTF-8
 LazyData: true
-Imports: svDialogs (>= 0.9.57),
-    data.table (>= 1.10.4),
+Imports: data.table (>= 1.10.4),
     dplyr (>= 0.5.0),
     seewave (>= 2.0.5),
     lubridate (>= 1.6.0),

@@ -6,7 +6,7 @@
 \usage{
 hibbing18_twoReg_process(RAW, IMU = NULL, Wear_Location = c("Hip",
   "Left Wrist", "Right Wrist", "Left Ankle", "Right Ankle"), PID,
-  Algorithm = 1)
+  Algorithm = 1, verbose = FALSE)
 }
 \arguments{
 \item{RAW}{A character scalar giving path to primary accelerometer data file}
