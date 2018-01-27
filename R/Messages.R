@@ -36,7 +36,14 @@ message_update <-
       paste("\nCalculating CV per 10s for:", paste(cvs, collapse = " and ")),
       "\nThis could take awhile. Be patient...",
       paste("\n... Getting ", window_secs, "s CVs", sep = ""),
-      "14"
+      "\n\n",
+      "All two-regression processing complete.",
+      paste(
+        "\nTwo-Regression processing complete. Total processing time:",
+        round(duration / 60, 2),
+        "minutes.\n"
+      ),
+      "17"
     )
   if (is_message) {
     message(note)

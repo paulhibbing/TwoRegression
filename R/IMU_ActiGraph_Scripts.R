@@ -109,47 +109,104 @@ get.directions <- function(big_data, window_secs = 5) {
     return(changes)
 }
 
-## Function to apply a two-regression algorithm
-apply.TwoRegression <- function(which.algorithm = data.frame(Wear.Location = "Hip", Algorithm = 1), alldata) {
-    if (!exists("Algorithms", envir = globalenv())) {
-        stop("Can't find the data from Algorithms.RData. Use load(file.choose()) to navigate to the file and load it.")
+#' Apply a Hibbing 2018 two-regression algorithm
+#'
+#' Applies the specified two-regression algorithm from Hibbing et al. (2018, \emph{Med Sci Sports Exerc}) to data from the primary accelerometer and IMU (if applicable)
+#' @param which_algorithm a dataframe specifying which algorithm to use, based on \code{Wear_Location} and \code{Algorithm}
+#' @param all_data a dataframe providing the processed GT9X data on which to make the predictions
+#'
+#' @return a numeric vector of predicted energy expenditure values, expressed in metabolic equivalents
+#' @export
+apply_two_regression_hibbing18 <-
+  function(which_algorithm = data.frame(Wear_Location = "Hip", Algorithm = 1),
+    all_data) {
+
+    Site <-
+      sapply(which_algorithm$Wear_Location, function(x)
+        switch(
+          x,
+          Hip = "Hip",
+          `Left Wrist` = "LW",
+          `Right Wrist` = "RW",
+          `Left Ankle` = "LA",
+          `Right Ankle` = "RA"
+        ))
+
+    matched_Algorithm <- TwoRegression::Algorithms[[Site]]
+    if (length(matched_Algorithm) == 0)
+      stop("Didn't find a matching algorithm. This could take some work to figure out...")
+    if (length(matched_Algorithm) != 7)
+      stop(
+        "Found too many matching algorithms. This could take some work to figure out... Make sure there's only one wear
+        location/algorithm passed to the function."
+
+      )
+
+    which_sed_cutpoint <-
+      switch(which_algorithm$Algorithm,
+        "accelSedCut",
+        "VM_gyroSedCut",
+        "VM_gyroSedCut")
+
+    which_cwr_cutpoint <-
+      switch(
+        which_algorithm$Algorithm,
+        "accelAmbulationCut",
+        "VM_gyroAmbulationCut",
+        "VM_gyroAmbulationCut"
+      )
+
+    which_sed_variable <-
+      switch(which_algorithm$Algorithm,
+        "ENMO",
+        "Gyroscope_VM_DegPerS",
+        "Gyroscope_VM_DegPerS"
+      )
+
+    which_cwr_variable <-
+      switch(which_algorithm$Algorithm,
+        "ENMO_CV10s",
+        "GVM_CV10s",
+        "GVM_CV10s"
+      )
+
+    all_data$Classification <-
+      ifelse(
+        all_data[, which_sed_variable] <= matched_Algorithm[[which_sed_cutpoint]],
+        "SED",
+        ifelse(all_data[, which_cwr_variable] <= matched_Algorithm[[which_cwr_cutpoint]], "CWR", "ILA")
+      )
+
+    all_data$Orig_index <- seq(nrow(all_data))
+
+    models <- switch(which_algorithm$Algorithm, "A1", "A2", "A3")
+
+    ##Make predictions after initializing a MET variable to NA
+    all_data$METs <- NA
+
+    ##Predict sedentary METs
+    SED <- all_data[all_data$Classification == "SED", ]
+    if(nrow(SED) > 0) {
+      SED$METs <- 1.25
     }
 
-    Site <- sapply(which.algorithm$Wear.Location, function(x) switch(x, Hip = "Hip", `Left Wrist` = "LW", `Right Wrist` = "RW",
-        `Left Ankle` = "LA", `Right Ankle` = "RA"))
+    ##Predict CWR METs
+    CWR <- all_data[all_data$Classification == "CWR", ]
+    if(nrow(CWR) > 0) {
+      CWR$METs <-
+        predict(matched_Algorithm[[models]]$CWR, newdata = CWR)
+    }
 
-    matched_Algorithm <- Algorithms[[Site]]
-    if (length(matched_Algorithm) == 0)
-        stop("Didn't find a matching algorithm. This could take some work to figure out...")
-    if (length(matched_Algorithm) != 7)
-        stop("Found too many matching algorithms. This could take some work to figure out... Make sure there's only one wear
-                                          location/algorithm passed to the function.")
+    ##Predict ILA METs
+    ILA <- all_data[all_data$Classification == "ILA", ]
+    if(nrow(ILA) > 0) {
+      ILA$METs <-
+        predict(matched_Algorithm[[models]]$ILA, newdata = ILA)
+    }
 
-    which.sed.cutpoint <- switch(which.algorithm$Algorithm, "accelSedCut", "VM_gyroSedCut", "VM_gyroSedCut")
-    which.cwr.cutpoint <- switch(which.algorithm$Algorithm, "accelAmbulationCut", "VM_gyroAmbulationCut", "VM_gyroAmbulationCut")
+    all_data <- rbind(SED, CWR, ILA)
+    all_data <- all_data[order(all_data$Orig_index), ]
 
-    which.sed.variable <- switch(which.algorithm$Algorithm, "ENMO", "Gyroscope_VM_DegPerS", "Gyroscope_VM_DegPerS")
-    which.cwr.variable <- switch(which.algorithm$Algorithm, "ENMO_CV10s", "GVM_CV10s", "GVM_CV10s")
-
-    alldata$Classification <- ifelse(alldata[, which.sed.variable] <= matched_Algorithm[[which.sed.cutpoint]],
-        "SED", ifelse(alldata[, which.cwr.variable] <= matched_Algorithm[[which.cwr.cutpoint]], "CWR", "ILA"))
-
-    alldata$Orig_index <- seq_len(nrow(alldata))
-
-    models <- switch(which.algorithm$Algorithm, "A1", "A2", "A3")
-
-    SED <- within(subset(alldata, Classification == "SED"), {
-        METs = 1.25
-    })
-    CWR <- within(subset(alldata, Classification == "CWR"), {
-        METs = predict(matched_Algorithm[[models]]$CWR, newdata = subset(alldata, Classification == "CWR"))
-    })
-    ILA <- within(subset(alldata, Classification == "ILA"), {
-        METs = predict(matched_Algorithm[[models]]$ILA, newdata = subset(alldata, Classification == "ILA"))
-    })
-
-    alldata <- rbind(SED, CWR, ILA)
-    alldata <- alldata[order(alldata$Orig_index), ]
-
-    return(alldata$METs)
+    stopifnot(sum(is.na(all_data$METs)) == 0)
+    return(all_data[ , c("Classification", "METs")])
 }

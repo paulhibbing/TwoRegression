@@ -17,6 +17,8 @@ hibbing18_twoReg_process <-
     PID,
     Algorithm = 1, verbose = FALSE) {
 
+    t <- proc.time()
+
     ## Read the data
     raw_data <- read_AG_raw(RAW)
     imu_data <- read_IMU(IMU)
@@ -66,17 +68,44 @@ hibbing18_twoReg_process <-
       get.directions(all_data$mean_magnetometer_direction)
 
     ## Get the predictions
-    allProcesses <- expand.grid(Wear_Location = Wear_Location, Algorithm = Algorithm, stringsAsFactors = F)
-    allPredictions <- setNames(data.frame(do.call(cbind, lapply(split(allProcesses, seq_len(nrow(allProcesses))),
-        apply.TwoRegression, all_data = all_data)), stringsAsFactors = F), unlist(lapply(split(allProcesses,
-        seq_len(nrow(allProcesses))), function(x) {
-        paste(x$Wear_Location, gsub("^", "Agorithm", x$Algorithm), "METs", sep = "_")
-    })))
+    all_processes <-
+      expand.grid(
+        Wear_Location = Wear_Location,
+        Algorithm = Algorithm,
+        stringsAsFactors = F
+      )
+
+    all_predictions <-
+      data.frame(
+        do.call(cbind,
+                lapply(split(all_processes, seq(nrow(all_processes))),
+                       apply_two_regression_hibbing18,
+                       all_data = all_data
+                      )
+                    ),
+        stringsAsFactors = F
+      )
+
+    names(all_predictions) <-
+        unlist(lapply(split(all_processes, seq(nrow(all_processes))),
+                function(x) {
+                    paste(
+                      gsub(" ", "_", x$Wear_Location),
+                      paste("Algorithm", x$Algorithm, sep = ""),
+                      c("Classification", "METs"),
+                      sep = "_")
+              })
+          )
 
     ## Final formatting and output of the data
-    all_data <- cbind(all_data, allPredictions)
+    all_data <- cbind(all_data, all_predictions)
 
-    cat("\n\n")
-    print("All two-regression processing complete.")
+    if(verbose) message_update(14)
+    if(verbose) message_update(15)
+
+    duration <-
+      unname((proc.time() - t)[3])
+
+    if(verbose) message_update(16, duration = duration)
     return(all_data)
 }
