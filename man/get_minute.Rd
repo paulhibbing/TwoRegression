@@ -4,7 +4,7 @@
 \alias{get_minute}
 \title{Numerical Minute of the Day.}
 \usage{
-get_minute(timestamp, format = "\%Y-\%m-\%d \%H:\%M:\%S", rational = F)
+get_minute(timestamp, format = "\%Y-\%m-\%d \%H:\%M:\%S", rational = FALSE)
 }
 \arguments{
 \item{timestamp}{A character vector containing timestamp information}
@@ -15,6 +15,6 @@ get_minute(timestamp, format = "\%Y-\%m-\%d \%H:\%M:\%S", rational = F)
 }
 \description{
 Converts a timestamp to a numerical value between 0 (midnight) and 1439
-(11:59). Seconds can be represented using a rational decimal.
+(23:59). Seconds can be represented using a rational decimal.
 }
 \keyword{internal}

@@ -4,45 +4,44 @@
 #'
 #' @keywords internal
 get_file_meta <- function(file) {
-  file.meta <-
+  file_meta <-
     data.frame(data.table::fread(
       file,
       nrow = 10,
       header = F,
       sep = "\n"
     ))
-  samp.freq <-
-    file.meta[sapply(file.meta, function(x) {
+  samp_freq <-
+    file_meta[sapply(file_meta, function(x) {
       grepl("Hz", x, ignore.case = T)
       }),]
-  samp.freq <-
-    as.numeric(unlist(strsplit(samp.freq, " "))[which(grepl("Hz", unlist(strsplit(samp.freq, " ")), ignore.case = T)) - 1])
+  samp_freq <-
+    as.numeric(unlist(strsplit(samp_freq, " "))[which(grepl("Hz", unlist(strsplit(samp_freq, " ")), ignore.case = T)) - 1])
 
-  start.time <-
-    gsub("[[:alpha:] ,]", "", file.meta[sapply(file.meta, function(x) {
+  start_time <-
+    gsub("[[:alpha:] ,]", "", file_meta[sapply(file_meta, function(x) {
       grepl("start[. ]time", x,
         ignore.case = T)
       }), ]
       )
-  start.date <-
-    gsub("[[:alpha:] ,]", "", file.meta[sapply(file.meta, function(x) {
+  start_date <-
+    gsub("[[:alpha:] ,]", "", file_meta[sapply(file_meta, function(x) {
       grepl("start[. ]date", x,
         ignore.case = T)
       }), ])
   start <-
-    as.POSIXlt(paste(start.date, start.time), format = "%m/%d/%Y %H:%M:%S")
+    as.POSIXlt(paste(start_date, start_time), format = "%m/%d/%Y %H:%M:%S")
   if(is.na(start)) message_update(3, is_message = TRUE)
-  return(list(start = start, samp.freq = samp.freq))
+  return(list(start = start, samp_freq = samp_freq))
 }
 
 #' Collapse primary accelerometer data
 #'
 #' @param AG a dataframe of raw primary accelerometer data
 #'
-#' @return
 #' @keywords internal
-AG_collapse <- function(AG, output.window, samp.freq) {
-  blocksize <- samp.freq * output.window
+AG_collapse <- function(AG, output_window, samp_freq) {
+  blocksize <- samp_freq * output_window
   Block <-
     rep(seq(floor(nrow(AG) / blocksize)),
         each = blocksize)
@@ -69,7 +68,19 @@ getVM <- function(triaxial, verbose = T) {
     apply(triaxial, 1, function(x) sqrt(sum(x^2)))
 }
 
-cv <- function(signal) if (mean(signal) == 0) 0 else sd(signal)/mean(signal) * 100
+#' Calculate coefficient of variation
+#'
+#' @param signal the variable on which to perform calculation
+#'
+#' @keywords internal
+#'
+cv <- function(signal) {
+  if (mean(signal) == 0) {
+    0
+  } else {
+    sd(signal)/mean(signal) * 100
+  }
+}
 
 classify.magnetometer <- function(x = "Magnetometer X", y = "Magnetometer Y", z = "Magnetometer Z", orientation = "vertical") {
 
@@ -116,34 +127,34 @@ classify.magnetometer <- function(x = "Magnetometer X", y = "Magnetometer Y", z 
 #'
 #' @return A dataframe giving processed raw data from the primary accelerometer in the specified epoch length
 #' @export
-read.AG.raw <- function(file, output.window = 1) {
+read.AG.raw <- function(file, output_window = 1) {
     timer <- proc.time()
 
-    message_update(1)
+    message_update(1, file = file)
 
     meta <- get_file_meta(file)
 
     AG <-
       data.table::fread(file, stringsAsFactors = F, showProgress = F, skip = 10)
     AG$Timestamp <-
-      meta$start + ((seq(nrow(AG)) - 1) / meta$samp.freq)
+      meta$start + ((seq(nrow(AG)) - 1) / meta$samp_freq)
 
-    AG <- AG_collapse(AG, output.window, samp.freq)
+    AG <- AG_collapse(AG, output_window, meta$samp_freq)
 
     ## Get ENMO
     ENMO <- sqrt(AG$Gx^2 + AG$Gy^2 + AG$Gz^2) - 1
     ENMO[which(ENMO < 0)] <- 0
     ENMO2 <- cumsum(ENMO)
     ENMO3 <-
-      diff(ENMO2[seq(1, length(ENMO), by = (samp.freq * output.window))]) /
-      (samp.freq * output.window)
+      diff(ENMO2[seq(1, length(ENMO), by = (meta$samp_freq * output_window))]) /
+      (meta$samp_freq * output_window)
 
     final_length = min(c(length(ENMO3), nrow(data)))
     AG <- data.frame(AG$AG[1:final_length, ])
     ENMO3 <- ENMO3[1:final_length]
     AG$ENMO <- ENMO3 * 1000
 
-    if(any(grepl('block', names(AG), ignore.case = TRUE)) {
+    if(any(grepl('block', names(AG), ignore.case = TRUE))) {
       AG[ , grepl('block', names(AG), ignore.case = TRUE)] <-
         NULL
     }

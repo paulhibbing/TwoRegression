@@ -1,14 +1,15 @@
 #' Print updates to console
 #'
-#' @param message_number The index of the message to print
-#' @param vm_variables
-#' @param vm_variables
+#' @param message_number the index of the message to print
+#' @param file the name of the file being processed
+#' @param vm_variables variables being used to calculate vector magnitude
+#' @param duration the duration of processing
 #' @param is_Message print update as a message?
 #'
-#' @return
 #' @keywords internal
 message_update <-
   function(message_number,
+    file,
     vm_variables,
     duration,
     is_message = FALSE) {
@@ -16,7 +17,7 @@ message_update <-
   note <-
     switch(
       message_number,
-      paste("\nProcessing", file, "..."),
+      paste("\nProcessing", basename(file), "..."),
       paste(
         "\n     Getting VM for variables searched on the following criteri(a/on):",
         vm_variables,
