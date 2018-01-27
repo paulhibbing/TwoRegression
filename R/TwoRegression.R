@@ -17,6 +17,3 @@ NULL
 
 #' @importFrom magrittr %>%
 NULL
-
-#' @import base
-NULL

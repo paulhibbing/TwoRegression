@@ -1,13 +1,13 @@
 #' Numerical Minute of the Day.
 #'
 #' Converts a timestamp to a numerical value between 0 (midnight) and 1439
-#' (11:59). Seconds can be represented using a rational decimal.
+#' (23:59). Seconds can be represented using a rational decimal.
 #'
 #' @param timestamp A character vector containing timestamp information
 #' @param format The posix format of the \code{timestamp} vector
 #' @param rational A logical scalar. Use rational number to represent seconds?
 #' @keywords internal
-get_minute <- function(timestamp, format = "%Y-%m-%d %H:%M:%S", rational = F) {
+get_minute <- function(timestamp, format = "%Y-%m-%d %H:%M:%S", rational = FALSE) {
     timestamp <- as.POSIXlt(timestamp, format = format)
     hour      <- as.numeric(strftime(timestamp, format = "%H")) * 60
     minute    <- as.numeric(strftime(timestamp, format = "%M"))

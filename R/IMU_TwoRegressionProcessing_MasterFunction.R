@@ -9,8 +9,13 @@
 #' @return A data frame giving the data and predictions
 #' @export
 #'
-hibbing18_twoReg_process <- function(RAW, IMU = NULL, Wear_Location = c("Hip", "Left Wrist", "Right Wrist", "Left Ankle",
-    "Right Ankle"), PID, Algorithm = 1) {
+hibbing18_twoReg_process <-
+  function(RAW,
+    IMU = NULL,
+    Wear_Location = c("Hip", "Left Wrist", "Right Wrist", "Left Ankle",
+      "Right Ankle"),
+    PID,
+    Algorithm = 1) {
 
     ## Read the data
     rawdata <- read.AG.raw(RAW)
