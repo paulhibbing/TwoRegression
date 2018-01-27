@@ -18,22 +18,31 @@ hibbing18_twoReg_process <-
     Algorithm = 1) {
 
     ## Read the data
-    rawdata <- read.AG.raw(RAW)
-    imudata <- read.IMU(IMU)
+    raw_data <- read.AG.raw(RAW)
+    imu_data <- read.IMU(IMU)
+
+    raw_data$Timestamp <- as.character(raw_data$Timestamp)
+    imu_data$Timestamp <- as.character(imu_data$Timestamp)
 
     ## Merge the data
-    alldata <- merge(within(rawdata, {
-        Timestamp = as.character(Timestamp)
-    }), within(subset(imudata, select = -c(Timestamp)), {
-        Time = as.character(Time)
-    }), by.x = "Timestamp", by.y = "Time")
+    alldata <- merge(raw_data, imu_data, "Timestamp")
 
-    names(alldata) <- gsub("\\.y$", "_IMU", gsub("\\.x$", "_PrimaryAccel", names(alldata)))
+    names(alldata) <-
+      gsub("\\.y$", "_IMU", gsub("\\.x$", "_PrimaryAccel", names(alldata)))
 
     ## Add the ID and order the variables
     alldata$PID <- PID
-    firstVars <- c("PID", "filesource_PrimaryAccel", "dateProcessed_PrimaryAccel", "filesource_IMU", "dateProcessed_IMU",
-        "Timestamp", "dayofyear", "minofday")
+    firstVars <-
+      c(
+        "PID",
+        "file_source_PrimaryAccel",
+        "date_processed_PrimaryAccel",
+        "file_source_IMU",
+        "date_processed_IMU",
+        "Timestamp",
+        "day_of_year",
+        "minute_of_day"
+      )
     alldata <- alldata[, c(firstVars, setdiff(names(alldata), firstVars))]
 
     ## Calculate CV per 10s and add it to the data set

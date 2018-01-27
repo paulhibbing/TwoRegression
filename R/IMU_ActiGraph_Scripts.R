@@ -3,7 +3,7 @@
 #' @param file character scalar giving path to primary accelerometer file
 #'
 #' @keywords internal
-get_file_meta <- function(file) {
+get_raw_file_meta <- function(file) {
   file_meta <-
     data.frame(data.table::fread(
       file,
@@ -53,15 +53,24 @@ AG_collapse <- function(AG, output_window, samp_freq) {
   AG <- AG %>% dplyr::group_by(Block) %>% dplyr::summarise(Timestamp = first(Timestamp))
   return(list(AG = AG, Gx = Gx, Gy = Gy, Gz = Gz))
 }
+
+#' Calculate vector magnitude
+#'
+#' @param triaxial a dataframe of triaxial data on which to calculate vector magnitude
+#' @param verbose print information about variable search criteria?
+#'
+#' @return a vector of vector magnitude values
 getVM <- function(triaxial, verbose = T) {
     if (verbose) {
-        vm_variables <- gsub("\"", "", substring(deparse(substitute(triaxial)), unlist(gregexpr("\"", deparse(substitute(triaxial))))[1],
-            unlist(gregexpr("\"", deparse(substitute(triaxial))))[2]))
+      vm_variables <-
+        gsub("\"", "", substring(deparse(substitute(triaxial)), unlist(gregexpr(
+          "\"", deparse(substitute(triaxial))
+        ))[1],
+          unlist(gregexpr(
+            "\"", deparse(substitute(triaxial))
+          ))[2]))
 
-        message_update(1, vm_variables = vm_variables)
-        # cat('\n Getting VM for variables searched on the following criteri(a/on):', gsub('\'','',
-        # substring(deparse(substitute(triaxial)), unlist(gregexpr('\'', deparse(substitute(triaxial))))[1],
-        # unlist(gregexpr('\'', deparse(substitute(triaxial))))[2])), '\n')
+        message_update(2, vm_variables = vm_variables)
     }
     triaxial <- triaxial[, !grepl("VM", names(triaxial))]
     stopifnot(ncol(triaxial) == 3)
@@ -82,7 +91,15 @@ cv <- function(signal) {
   }
 }
 
-classify.magnetometer <- function(x = "Magnetometer X", y = "Magnetometer Y", z = "Magnetometer Z", orientation = "vertical") {
+#' Convert magnetometer signal to cardinal direction
+#'
+#' @param x x-axis magnetometer data
+#' @param y y-axis magnetometer data
+#' @param z z-axis magnetometer data
+#' @param orientation the conversion scheme to use, from c("vertical", "horizontal")
+#'
+#' @keywords internal
+classify_magnetometer <- function(x = "Magnetometer X", y = "Magnetometer Y", z = "Magnetometer Z", orientation = "vertical") {
 
     if (length(x) != length(y)) {
         message("Length of X and Y differ. Returning NULL.")
@@ -123,7 +140,7 @@ classify.magnetometer <- function(x = "Magnetometer X", y = "Magnetometer Y", z 
 #' File reading function for primary accelerometer files
 #'
 #' @param file A character scalar giving path to primary accelerometer file
-#' @param output.window The desired epoch length; defaults to one second
+#' @param output_window the desired epoch length; defaults to one second
 #'
 #' @return A dataframe giving processed raw data from the primary accelerometer in the specified epoch length
 #' @export
@@ -132,7 +149,7 @@ read.AG.raw <- function(file, output_window = 1) {
 
     message_update(1, file = file)
 
-    meta <- get_file_meta(file)
+    meta <- get_raw_file_meta(file)
 
     AG <-
       data.table::fread(file, stringsAsFactors = F, showProgress = F, skip = 10)
@@ -184,104 +201,175 @@ read.AG.raw <- function(file, output_window = 1) {
     return(AG)
 }
 
-## IMU data file reader function
-read.IMU <- function(file, output.window.secs = 1) {
+get_imu_file_meta <- function(file, output_window_secs) {
+  header <- read.csv(file, nrow = 20, stringsAsFactors = F, header = F)
+
+  samp_rate <- unlist(strsplit(header[, 1], " "))
+  samp_rate <-
+    suppressWarnings(try(as.numeric(samp_rate[which(samp_rate == "Hz") - 1])))
+  if (grepl("error", samp_rate, ignore.case = T)) {
+    message("Unable to detect sampling rate. Defaulting to 100")
+    samp_rate = 100
+  }
+
+  date_index <-
+    which(grepl("start date", header[, 1], ignore.case = T))
+  time_index <-
+    which(grepl("start time", header[, 1], ignore.case = T))
+
+  start_time <-
+    as.POSIXlt(gsub("[[:alpha:] ]", "",
+                    paste(header[date_index, 1],
+                          header[time_index, 1])),
+               format = "%m/%d/%Y%H:%M:%S")
+
+  block_size <- samp_rate * output_window_secs
+  return(list(
+    start_time = start_time,
+    block_size = block_size,
+    samp_rate = samp_rate
+  ))
+}
+
+#' Check if the AG data start on an exact second
+#'
+#' @param AG a dataframe of IMU data
+#'
+#' @keywords internal
+check_second <- function(AG) {
+  AG$ms <-
+    as.numeric(format(AG$Timestamp, "%OS3"))%%1
+  if(AG$ms[1]!=0) {
+    AG <- AG[-c(1:(which(AG$ms == 0)[1] - 1)),]
+  }
+  return(AG)
+}
+
+#' Low-Pass filter the Gyroscope data at 35 Hz
+#'
+#' @inheritParams check_second
+#'
+#' @keywords internal
+imu_filter_gyroscope <- function(AG, samp_rate) {
+  message_update(5)
+  AG[, grepl("gyroscope", names(AG), ignore.case = T)] <-
+    sapply(AG[, grepl("gyroscope", names(AG),
+      ignore.case = T)], function(x) {
+        seewave::bwfilter(
+          wave = x,
+          f = samp_rate,
+          n = 2,
+          to = 35
+        )
+      })
+  message_update(6)
+  return(AG)
+}
+
+#' Collapse raw IMU data to a specified epoch
+#'
+#' @param AG
+#'
+#' @return
+#' @export
+#'
+#' @examples
+imu_collapse <- function(AG, block_size) {
+
+  if (nrow(AG) %% block_size != 0) {
+    message_update(9, is_message = TRUE)
+    final_obs <-
+      rev(seq_len(nrow(AG)))[which(rev(seq_len(nrow(AG)))[1:block_size] %%
+          (block_size) ==
+          0)[1]]
+    AG <- AG[1:final_obs, ]
+  }
+
+  AG$epoch <- rep(1:(nrow(AG) / block_size), each = block_size)
+
+  message_update(10)
+  AG <-
+    AG %>% dplyr::group_by(epoch) %>%
+    dplyr::summarise(
+      date_processed = first(date_processed),
+      file_source = first(file_source),
+      Timestamp = first(Timestamp),
+      #Time = first(Time),
+      Gyroscope_VM_DegPerS = mean(Gyroscope_VM_DegPerS),
+      mean_abs_Gyroscope_x_DegPerS = mean(abs(`Gyroscope.X`)),
+      mean_abs_Gyroscope_y_DegPerS = mean(abs(`Gyroscope.Y`)),
+      mean_abs_Gyroscope_z_DegPerS = mean(abs(`Gyroscope.Z`)),
+      mean_MagnetometerDirection = classify_magnetometer(
+        mean(`Magnetometer.X`),
+        mean(`Magnetometer.Y`),
+        mean(`Magnetometer.Z`)
+      )
+    )
+
+  message_update(6)
+  AG <- as.data.frame(AG)
+}
+
+#' File reading function for IMU files
+#'
+#' @param file character scalar giving the path to the IMU file
+#' @param output_window_secs the desired epoch length; defaults to one second
+#'
+#' @return A dataframe giving processed IMU data in the specified epoch length
+#' @export
+read.IMU <- function(file, output_window_secs = 1) {
     timer <- proc.time()
+    message_update(1, file = file)
 
-    # Start Processing
-    if (sum(grepl("dplyr", search())) != 1)
-        library(dplyr, quietly = T, verbose = F, warn.conflicts = F)
-    if (sum(grepl("data.table", search())) != 1)
-        library(data.table, quietly = T, verbose = F, warn.conflicts = F)
-    if (sum(grepl("svDialogs", search())) != 1)
-        library(svDialogs, quietly = T, verbose = F, warn.conflicts = F)
-    if (sum(grepl("seewave", search())) != 1)
-        library(seewave, quietly = T, verbose = F, warn.conflicts = F)
+    meta <- get_imu_file_meta(file, output_window_secs)
 
-    # Read the header in and prepare some meta-variables
-    header <- read.csv(file, nrow = 20, stringsAsFactors = F, header = F)
-
-    samp.rate <- unlist(strsplit(header[, 1], " "))
-    samp.rate <- suppressWarnings(try(as.numeric(samp.rate[which(samp.rate == "Hz") - 1])))
-    if (grepl("error", samp.rate, ignore.case = T)) {
-        message("Unable to detect sampling rate. Defaulting to 100")
-        samp.rate = 100
-    }
-
-    date.index <- which(grepl("start date", header[, 1], ignore.case = T))
-    time.index <- which(grepl("start time", header[, 1], ignore.case = T))
-
-    start.time <- as.POSIXlt(gsub("[[:alpha:] ]", "", paste(header[date.index, 1], header[time.index, 1])),
-        format = "%m/%d/%Y%H:%M:%S")
-
-    block.size <- samp.rate * output.window.secs
-
-    # Read the data and groom it
-    cat("\nProcessing", file, "...")
-    data <- suppressWarnings(try(data.table::fread(file, stringsAsFactors = F, skip = 20, showProgress = F)))
-    if (sum(unlist(sapply(data, function(x) sum(grepl("error", x, ignore.case = T))))) > 0) {
+    AG <-
+      suppressWarnings(try(data.table::fread(
+        file,
+        stringsAsFactors = F,
+        skip = 10,
+        #nrows = 25,
+        showProgress = F
+      ))
+      )
+    if (sum(unlist(sapply(AG, function(x) sum(grepl("error", x, ignore.case = T))))) > 0) {
         message("Error in file formatting. Returning NULL.")
         return(NULL)
     }
-    data <- setNames(data.frame(data), rev(header[rev(seq_len(nrow(header)))[1:ncol(data)], ]))
+    AG <- data.frame(AG)
 
-    data <- within(data, {
-        filesource <- file
-        dateProcessed <- Sys.time()
-        Time <- start.time + (0:(nrow(data) - 1)/samp.rate)
-    })
+    AG$file_source <- basename(file)
+    AG$date_processed <- Sys.time()
+    AG$Timestamp <- meta$start_time + (0:(nrow(AG) - 1) / meta$samp_rate)
 
-    # These two steps check to see if the data start on an exact second
-    data$ms <- as.numeric(substring(data$Timestamp, regexpr(".[^.]*$", data$Timestamp)))
-    data <- data[-c(1:(which(data$ms == 0)[1] - 1)), ]
-
-    # Low-Pass filter the Gyroscope data at 35 Hz
-    cat("\n\n-- Filtering Gyroscope...")
-    data[, grepl("gyroscope", names(data), ignore.case = T)] <- sapply(data[, grepl("gyroscope", names(data),
-        ignore.case = T)], function(x) bwfilter(wave = x, f = samp.rate, n = 2, to = 35))
-    cat(" Done.\n")
+    AG <- check_second(AG)
+    AG <- imu_filter_gyroscope(AG, meta$samp_rate)
 
     # Calculate vector magnitudes
-    cat("\n-- Calculating Vector Magnitudes...")
+    message_update(7)
 
-    data$mean_Accel_VM <- getVM(data[, grepl("accelerometer", names(data), ignore.case = T)])
+    AG$mean_Accel_VM <-
+      getVM(AG[, grepl("accelerometer", names(AG), ignore.case = T)])
 
-    data$Gyroscope_VM_DegPerS <- getVM(data[, grepl("gyroscope", names(data), ignore.case = T)])
+    AG$Gyroscope_VM_DegPerS <-
+      getVM(AG[, grepl("gyroscope", names(AG), ignore.case = T)])
 
-    data$Magnetometer_VM_MicroT <- getVM(data[, grepl("magnetometer", names(data), ignore.case = T)])
+    AG$Magnetometer_VM_MicroT <-
+      getVM(AG[, grepl("magnetometer", names(AG), ignore.case = T)])
 
-    cat("\n     Vector magnitude calculation complete.\n")
+    message_update(8)
 
-    # Now for the reducing
-    if (nrow(data)%%block.size != 0) {
-        message("Number of rows not divisible by samp.rate*output.window\nTruncating data.")
-        final_obs <- rev(seq_len(nrow(data)))[which(rev(seq_len(nrow(data)))[1:block.size]%%(block.size) ==
-            0)[1]]
-        data <- data[1:final_obs, ]
-    }
+    AG <- imu_collapse(AG, meta$block_size)
 
-    data$epoch <- rep(1:(nrow(data)/block.size), each = block.size)
+    first_variables <- c("file_source", "date_processed", "Timestamp")
 
-    cat("\n-- Collapsing data. This could take awhile...")
-    data <- data %>% group_by(epoch) %>% summarise(dateProcessed = first(dateProcessed), filesource = first(filesource),
-        Timestamp = first(Timestamp), Time = first(Time), Gyroscope_VM_DegPerS = mean(Gyroscope_VM_DegPerS),
-        mean_abs_Gyroscope_x_DegPerS = mean(abs(`Gyroscope X`)), mean_abs_Gyroscope_y_DegPerS = mean(abs(`Gyroscope Y`)),
-        mean_abs_Gyroscope_z_DegPerS = mean(abs(`Gyroscope Z`)), mean_MagnetometerDirection = classify.magnetometer(mean(`Magnetometer X`),
-            mean(`Magnetometer Y`), mean(`Magnetometer Z`)))
+    AG <- AG[, c(first_variables, setdiff(names(AG), first_variables))]
 
-    cat(" Done!\n")
-    data <- as.data.frame(data)
-
-    first_variables <- c("filesource", "dateProcessed", "Time")
-
-    data <- data[, c(first_variables, setdiff(names(data), first_variables))]
-
-    data$epoch <- NULL
+    AG$epoch <- NULL
 
     duration <- unname((proc.time() - timer)[3])
-    cat("\nFile processed. Processing took", round(duration/60, 2), "minutes.\n\n\n")
-
-    return(data)
+    message_update(4, duration = duration)
+    return(AG)
 }
 
 ## Functions to calculate CV per 10s and Direction changes per 5s

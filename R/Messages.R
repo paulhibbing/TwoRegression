@@ -25,7 +25,13 @@ message_update <-
       ),
       "Failed to detect start time in file header",
       paste("\nFile processed. Processing took", round(duration/60, 2), "minutes.\n"),
-      "5"
+      "\n\n-- Filtering Gyroscope...",
+      " Done.\n",
+      "\n-- Calculating Vector Magnitudes...",
+      "\n     Vector magnitude calculation complete.\n",
+      "Number of rows not divisible by samp_rate*output_window\nTruncating data.",
+      "\n-- Collapsing data. This could take awhile...",
+      "11"
     )
   if (is_message) {
     message(note)
