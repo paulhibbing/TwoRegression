@@ -62,7 +62,7 @@ get_imu_file_meta <- function(file, output_window_secs) {
   samp_rate <-
     suppressWarnings(try(as.numeric(samp_rate[which(samp_rate == "Hz") - 1])))
   if (grepl("error", samp_rate, ignore.case = T)) {
-    message("Unable to detect sampling rate. Defaulting to 100")
+    message_update(21, is_message = TRUE)
     samp_rate = 100
   }
 
@@ -111,7 +111,7 @@ AG_collapse <- function(AG, output_window, samp_freq) {
 #'
 #' @return dataframe of IMU data averaged over the specified epoch length
 #' @keywords internal
-imu_collapse <- function(AG, block_size) {
+imu_collapse <- function(AG, block_size, verbose = FALSE) {
 
   if (nrow(AG) %% block_size != 0) {
     message_update(9, is_message = TRUE)
@@ -124,12 +124,12 @@ imu_collapse <- function(AG, block_size) {
 
   AG$epoch <- rep(1:(nrow(AG) / block_size), each = block_size)
 
-  message_update(10)
+  if (verbose) message_update(10)
   AG <-
     AG %>% dplyr::group_by(epoch) %>%
     dplyr::summarise(
-      date_processed = first(date_processed),
-      file_source = first(file_source),
+      date_processed_IMU = first(date_processed_IMU),
+      file_source_IMU = first(file_source_IMU),
       Timestamp = first(Timestamp),
       #Time = first(Time),
       Gyroscope_VM_DegPerS = mean(Gyroscope_VM_DegPerS),
@@ -143,6 +143,6 @@ imu_collapse <- function(AG, block_size) {
       )
     )
 
-  message_update(6)
+  if (verbose) message_update(6)
   AG <- as.data.frame(AG)
 }

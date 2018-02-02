@@ -4,19 +4,24 @@
 \name{TwoRegression}
 \alias{TwoRegression}
 \alias{TwoRegression-package}
-\title{Process Accelerometer Data with Two-Regression Algorithms}
+\title{Process Data from Research Wearables using Two-Regression Algorithms}
 \description{
 The critical functions of the TwoRegression package are:
 }
 \section{Core functions}{
 
+\code{\link{apply_two_regression_hibbing18}}
+
+\code{\link{get_cvPER}}
+
+\code{\link{hibbing18_twoReg_process}}
 }
 
 \section{Associated References}{
 
 Hibbing PR, LaMunion SR, Kaplan AS, & Crouter SE (2017). Estimating
 energy expenditure with ActiGraph GT9X Inertial Measurement Unit.
-*Medicine and Science in Sports and Exercise*. Advance online publication.
-doi:
+\emph{Medicine and Science in Sports and Exercise}. Advance online publication.
+doi: 10.1249/MSS.0000000000001532
 }
 

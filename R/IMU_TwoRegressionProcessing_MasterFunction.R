@@ -5,6 +5,7 @@
 #' @param Wear_Location A character scalar indicating the device's attachment site
 #' @param PID A character scalar giving the participant identification
 #' @param Algorithm A numeric vector giving the algorithm(s) to apply to the data from the primary accelerometer and (if applicable) IMU
+#' @param IMU_ignore_A1 A logical scalar. If Algorithm = 1, should IMU files be ignored?
 #'
 #' @return A data frame giving the data and predictions
 #' @export
@@ -15,19 +16,31 @@ hibbing18_twoReg_process <-
     Wear_Location = c("Hip", "Left Wrist", "Right Wrist", "Left Ankle",
       "Right Ankle"),
     PID,
-    Algorithm = 1, verbose = FALSE) {
+    Algorithm = 1, verbose = FALSE, IMU_ignore_A1 = TRUE) {
 
     t <- proc.time()
 
+    if (all(is.null(IMU), sum(Algorithm) != 1)) {
+      message_update(17, is_message = TRUE)
+      Algorithm <- 1
+    }
+
+    if (all(!is.null(IMU), sum(Algorithm) == 1, IMU_ignore_A1)) {
+      message_update(22, is_message = TRUE)
+      IMU <- NULL
+    }
+
     ## Read the data
-    raw_data <- read_AG_raw(RAW)
-    imu_data <- read_IMU(IMU)
-
+    raw_data <- read_AG_raw(RAW, verbose = verbose)
     raw_data$Timestamp <- as.character(raw_data$Timestamp)
-    imu_data$Timestamp <- as.character(imu_data$Timestamp)
 
-    ## Merge the data
-    all_data <- merge(raw_data, imu_data, "Timestamp")
+    if (!is.null(IMU)) {
+      imu_data <- read_IMU(IMU, verbose = verbose)
+      imu_data$Timestamp <- as.character(imu_data$Timestamp)
+      all_data <- merge(raw_data, imu_data, "Timestamp")
+    } else {
+      all_data <- raw_data
+    }
 
     names(all_data) <-
       gsub("\\.y$", "_IMU", gsub("\\.x$", "_PrimaryAccel", names(all_data)))
@@ -45,11 +58,14 @@ hibbing18_twoReg_process <-
         "day_of_year",
         "minute_of_day"
       )
-    all_data <- all_data[, c(firstVars, setdiff(names(all_data), firstVars))]
+    firstVars <- firstVars[firstVars %in% names(all_data)]
+    all_data  <- all_data[, c(firstVars, setdiff(names(all_data), firstVars))]
 
     ## Retrieve CV/10-s variable(s), then calculate CV, then add to all_data
     cv_vars <- get_cv_vars(Algorithm, verbose)
-    CVS <- sapply(cv_vars, function(x) get_cvPER(all_data[, x]))
+    CVS <-
+      sapply(cv_vars, function(x)
+        get_cvPER(all_data[, x], Algorithm = Algorithm, verbose = verbose))
 
     cvs <-
       sapply(cv_vars, function(x)
@@ -59,13 +75,16 @@ hibbing18_twoReg_process <-
           Gyroscope_VM_DegPerS = "GVM_CV10s",
           mean_abs_Gyroscope_y_DegPerS = "GYA_CV10s"
         ))
+
     all_data <-
       cbind(all_data,
         setNames(data.frame(CVS), cvs))
 
     ## Calculate Direction Changes per 5s and add it to the data set
-    all_data$Direction <-
-      get.directions(all_data$mean_magnetometer_direction)
+    if (!is.null(IMU)) {
+      all_data$Direction <-
+        get.directions(all_data$mean_magnetometer_direction)
+    }
 
     ## Get the predictions
     all_processes <-
@@ -100,12 +119,12 @@ hibbing18_twoReg_process <-
     ## Final formatting and output of the data
     all_data <- cbind(all_data, all_predictions)
 
-    if(verbose) message_update(14)
-    if(verbose) message_update(15)
+    if (verbose) message_update(14)
+    if (verbose) message_update(15)
 
     duration <-
       unname((proc.time() - t)[3])
 
-    if(verbose) message_update(16, duration = duration)
+    if (verbose) message_update(16, duration = duration)
     return(all_data)
 }

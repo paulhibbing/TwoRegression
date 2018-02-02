@@ -4,7 +4,7 @@
 \alias{imu_filter_gyroscope}
 \title{Low-Pass filter the Gyroscope data at 35 Hz}
 \usage{
-imu_filter_gyroscope(AG, samp_rate)
+imu_filter_gyroscope(AG, samp_rate, verbose = FALSE)
 }
 \arguments{
 \item{AG}{a dataframe of IMU data}

@@ -4,7 +4,7 @@
 \alias{read_IMU}
 \title{File reading function for IMU files}
 \usage{
-read_IMU(file, output_window_secs = 1)
+read_IMU(file, output_window_secs = 1, verbose = FALSE)
 }
 \arguments{
 \item{file}{character scalar giving the path to the IMU file}

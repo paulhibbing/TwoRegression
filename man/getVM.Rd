@@ -4,7 +4,7 @@
 \alias{getVM}
 \title{Calculate vector magnitude}
 \usage{
-getVM(triaxial, verbose = T)
+getVM(triaxial, verbose = FALSE)
 }
 \arguments{
 \item{triaxial}{a dataframe of triaxial data on which to calculate vector magnitude}

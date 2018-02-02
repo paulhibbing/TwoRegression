@@ -6,7 +6,7 @@
 \usage{
 hibbing18_twoReg_process(RAW, IMU = NULL, Wear_Location = c("Hip",
   "Left Wrist", "Right Wrist", "Left Ankle", "Right Ankle"), PID,
-  Algorithm = 1, verbose = FALSE)
+  Algorithm = 1, verbose = FALSE, IMU_ignore_A1 = TRUE)
 }
 \arguments{
 \item{RAW}{A character scalar giving path to primary accelerometer data file}
@@ -18,6 +18,8 @@ hibbing18_twoReg_process(RAW, IMU = NULL, Wear_Location = c("Hip",
 \item{PID}{A character scalar giving the participant identification}
 
 \item{Algorithm}{A numeric vector giving the algorithm(s) to apply to the data from the primary accelerometer and (if applicable) IMU}
+
+\item{IMU_ignore_A1}{A logical scalar. If Algorithm = 1, should IMU files be ignored?}
 }
 \value{
 A data frame giving the data and predictions

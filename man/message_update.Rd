@@ -5,7 +5,7 @@
 \title{Print updates to console}
 \usage{
 message_update(message_number, file, vm_variables, duration, cvs, window_secs,
-  is_message = FALSE)
+  is_message = FALSE, n)
 }
 \arguments{
 \item{message_number}{the index of the message to print}

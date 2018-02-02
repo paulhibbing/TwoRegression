@@ -4,7 +4,7 @@
 \alias{get_cvPER}
 \title{Calculate coefficient of variation in sliding windows}
 \usage{
-get_cvPER(big_data, window_secs = 10, Algorithm, verbose = F)
+get_cvPER(big_data, window_secs = 10, Algorithm, verbose = FALSE)
 }
 \arguments{
 \item{big_data}{a numeric vector on which to perform the calculation}

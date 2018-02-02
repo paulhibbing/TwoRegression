@@ -4,7 +4,7 @@
 \alias{imu_collapse}
 \title{Collapse raw IMU data to a specified epoch}
 \usage{
-imu_collapse(AG, block_size)
+imu_collapse(AG, block_size, verbose = FALSE)
 }
 \arguments{
 \item{AG}{dataframe containing raw IMU data}

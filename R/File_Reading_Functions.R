@@ -5,10 +5,10 @@
 #'
 #' @return A dataframe giving processed raw data from the primary accelerometer in the specified epoch length
 #' @export
-read_AG_raw <- function(file, output_window = 1) {
+read_AG_raw <- function(file, output_window = 1, verbose = FALSE) {
   timer <- proc.time()
 
-  message_update(1, file = file)
+  if (verbose) message_update(1, file = file)
 
   meta <- get_raw_file_meta(file)
 
@@ -27,7 +27,7 @@ read_AG_raw <- function(file, output_window = 1) {
     diff(ENMO2[seq(1, length(ENMO), by = (meta$samp_freq * output_window))]) /
     (meta$samp_freq * output_window)
 
-  final_length = min(c(length(ENMO3), nrow(data)))
+  final_length <- min(c(length(ENMO3), nrow(data)))
   AG <- data.frame(AG$AG[1:final_length, ])
   ENMO3 <- ENMO3[1:final_length]
   AG$ENMO <- ENMO3 * 1000
@@ -37,8 +37,8 @@ read_AG_raw <- function(file, output_window = 1) {
       NULL
   }
 
-  AG$file_source <- basename(file)
-  AG$date_processed <- Sys.time()
+  AG$file_source_PrimaryAccel <- basename(file)
+  AG$date_processed_PrimaryAccel <- Sys.time()
 
   AG$day_of_year <-
     get_day_of_year(AG$Timestamp, format = "%Y-%m-%d %H:%M:%S")
@@ -46,8 +46,8 @@ read_AG_raw <- function(file, output_window = 1) {
     get_minute(AG$Timestamp, format = "%Y-%m-%d %H:%M:%S")
 
   order <-
-    c("file_source",
-      "date_processed",
+    c("file_source_PrimaryAccel",
+      "date_processed_PrimaryAccel",
       "Timestamp",
       "day_of_year",
       "minute_of_day",
@@ -57,7 +57,7 @@ read_AG_raw <- function(file, output_window = 1) {
   duration <-
     unname((proc.time() - timer)[3])
 
-  message_update(4, duration = duration)
+  if (verbose) message_update(4, duration = duration)
 
   return(AG)
 }
@@ -69,57 +69,57 @@ read_AG_raw <- function(file, output_window = 1) {
 #'
 #' @return A dataframe giving processed IMU data in the specified epoch length
 #' @export
-read_IMU <- function(file, output_window_secs = 1) {
+read_IMU <- function(file, output_window_secs = 1, verbose = FALSE) {
   timer <- proc.time()
-  message_update(1, file = file)
+  if (verbose) message_update(1, file = file)
 
   meta <- get_imu_file_meta(file, output_window_secs)
 
   AG <-
     suppressWarnings(try(data.table::fread(
       file,
-      stringsAsFactors = F,
+      stringsAsFactors = FALSE,
       skip = 10,
       #nrows = 25,
-      showProgress = F
+      showProgress = FALSE
     ))
     )
   if (sum(unlist(sapply(AG, function(x) sum(grepl("error", x, ignore.case = T))))) > 0) {
-    message("Error in file formatting. Returning NULL.")
+    message_update(18, is_message = TRUE)
     return(NULL)
   }
   AG <- data.frame(AG)
 
-  AG$file_source <- basename(file)
-  AG$date_processed <- Sys.time()
+  AG$file_source_IMU <- basename(file)
+  AG$date_processed_IMU <- Sys.time()
   AG$Timestamp <- meta$start_time + (0:(nrow(AG) - 1) / meta$samp_rate)
 
   AG <- check_second(AG)
-  AG <- imu_filter_gyroscope(AG, meta$samp_rate)
+  AG <- imu_filter_gyroscope(AG, meta$samp_rate, verbose = verbose)
 
   # Calculate vector magnitudes
-  message_update(7)
+  if (verbose) message_update(7)
 
   AG$mean_Accel_VM <-
-    getVM(AG[, grepl("accelerometer", names(AG), ignore.case = T)])
+    getVM(AG[, grepl("accelerometer", names(AG), ignore.case = T)], verbose = verbose)
 
   AG$Gyroscope_VM_DegPerS <-
-    getVM(AG[, grepl("gyroscope", names(AG), ignore.case = T)])
+    getVM(AG[, grepl("gyroscope", names(AG), ignore.case = T)], verbose = verbose)
 
   AG$Magnetometer_VM_MicroT <-
-    getVM(AG[, grepl("magnetometer", names(AG), ignore.case = T)])
+    getVM(AG[, grepl("magnetometer", names(AG), ignore.case = T)], verbose = verbose)
 
-  message_update(8)
+  if (verbose) message_update(8)
 
-  AG <- imu_collapse(AG, meta$block_size)
+  AG <- imu_collapse(AG, meta$block_size, verbose = verbose)
 
-  first_variables <- c("file_source", "date_processed", "Timestamp")
+  first_variables <- c("file_source_IMU", "date_processed_IMU", "Timestamp")
 
   AG <- AG[, c(first_variables, setdiff(names(AG), first_variables))]
 
   AG$epoch <- NULL
 
   duration <- unname((proc.time() - timer)[3])
-  message_update(4, duration = duration)
+  if (verbose) message_update(4, duration = duration)
   return(AG)
 }

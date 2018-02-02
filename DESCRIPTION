@@ -1,15 +1,13 @@
 Package: TwoRegression
 Type: Package
-Title: Process Accelerometer Data with Two-Regression Algorithms
+Title: Process Data from Research Wearables using Two-Regression Algorithms
 Version: 0.1
 Authors@R: person(c("Paul", "R."), "Hibbing", email = "paulhibbing@gmail.com",
 		  role = c("aut","cre"))
-Description: Application of Various Two-Regression Algorithms for Accelerometers.
-    It provides an easy way for users to read in their accelerometer data files
-    and apply an appropriate two-regression algorithm from the following:
-    Crouter et al. (2006, J Appl Physiol);
-    Crouter et al. (2010, Med Sci Sports Exerc);
-    Hibbing et al. (2018, Med Sci Sports Exerc).
+Description: Application of Various Two-Regression Algorithms for wearable
+    research devices. It provides an easy way for users to read in their
+    device data files and apply an appropriate two-regression algorithm
+    from Hibbing et al. (2018, Med Sci Sports Exerc).
 License: CC0
 Encoding: UTF-8
 LazyData: true

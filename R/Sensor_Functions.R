@@ -4,7 +4,7 @@
 #' @param verbose print information about variable search criteria?
 #'
 #' @return a vector of vector magnitude values
-getVM <- function(triaxial, verbose = T) {
+getVM <- function(triaxial, verbose = FALSE) {
   if (verbose) {
     vm_variables <-
       gsub("\"", "", substring(deparse(substitute(triaxial)), unlist(gregexpr(
@@ -14,7 +14,7 @@ getVM <- function(triaxial, verbose = T) {
           "\"", deparse(substitute(triaxial))
         ))[2]))
 
-    message_update(2, vm_variables = vm_variables)
+    if (verbose) message_update(2, vm_variables = vm_variables)
   }
   triaxial <- triaxial[, !grepl("VM", names(triaxial))]
   stopifnot(ncol(triaxial) == 3)
@@ -26,8 +26,8 @@ getVM <- function(triaxial, verbose = T) {
 #' @inheritParams check_second
 #'
 #' @keywords internal
-imu_filter_gyroscope <- function(AG, samp_rate) {
-  message_update(5)
+imu_filter_gyroscope <- function(AG, samp_rate, verbose = FALSE) {
+  if (verbose) message_update(5)
   AG[, grepl("gyroscope", names(AG), ignore.case = T)] <-
     sapply(AG[, grepl("gyroscope", names(AG),
       ignore.case = T)], function(x) {
@@ -38,7 +38,7 @@ imu_filter_gyroscope <- function(AG, samp_rate) {
           to = 35
         )
       })
-  message_update(6)
+  if (verbose) message_update(6)
   return(AG)
 }
 
@@ -53,14 +53,14 @@ imu_filter_gyroscope <- function(AG, samp_rate) {
 classify_magnetometer <- function(x = "Magnetometer X", y = "Magnetometer Y", z = "Magnetometer Z", orientation = "vertical") {
 
   if (length(x) != length(y)) {
-    message("Length of X and Y differ. Returning NULL.")
+    message_update(19, is_message = TRUE)
     return(NULL)
   }
   n <- length(x)
   if (length(x) > 1 | length(y) > 1) {
     x <- mean(x)
     y <- mean(y)
-    message(paste("Determining direction from mean values of x and y, replicating", n, "times."))
+    message_update(20, n = n, is_message = TRUE)
   }
 
   ## Calculate direction for vertical orientation

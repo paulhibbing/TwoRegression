@@ -14,7 +14,8 @@ message_update <-
     duration,
     cvs,
     window_secs,
-    is_message = FALSE) {
+    is_message = FALSE,
+    n) {
 
   note <-
     switch(
@@ -43,7 +44,13 @@ message_update <-
         round(duration / 60, 2),
         "minutes.\n"
       ),
-      "17"
+      "No IMU file detected, yet algorithm is not set to 1. Setting to 1.",
+      "Error in file formatting. Returning NULL.",
+      "Length of X and Y differ. Returning NULL.",
+      paste("Determining direction from mean values of x and y, replicating", n, "times."),
+      "Unable to detect sampling rate. Defaulting to 100",
+      "IMU file provided, but Algorithm 1 selected. Ignoring IMU file. Set IMU_ignore_A1 = FALSE to override.",
+      "23"
     )
   if (is_message) {
     message(note)

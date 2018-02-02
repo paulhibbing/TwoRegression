@@ -39,7 +39,7 @@ get_cv_vars <- function(Algorithm, verbose = FALSE) {
 #'
 #' @return a numeric vector of values, giving the lowest coefficient of variation among the sliding windows that correspond to each epoch of data
 #' @export
-get_cvPER <- function(big_data, window_secs = 10, Algorithm, verbose = F) {
+get_cvPER <- function(big_data, window_secs = 10, Algorithm, verbose = FALSE) {
     if (verbose) message_update(13, window_secs = window_secs)
 
   inds <-
