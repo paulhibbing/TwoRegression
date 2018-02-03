@@ -56,19 +56,19 @@ If you aren't familiar with r commands that enable batch processing, consider th
 The PID variable can be manually defined to establish a vector of PIDs that correspond to the data files in ``RAW`` and ``IMU``. Alternatively, you can use string functions (e.g. ``substring``) to identify PIDs automatically if your files have a consistent naming convention.
 
 ```{r}
-RAW <- list.files(pattern = "RAW.csv", full.names = TRUE)
-IMU <- list.files(pattern = "IMU.csv", full.names = TRUE)
-PID <- paste("Test", seq(RAW), sep = "_")
-
-test_data <-
-  mapply(
-  hibbing18_twoReg_process,
-  RAW = RAW,
-  IMU = IMU,
-  PID = PID,
-  MoreArgs = list(Wear_Location = "Left Wrist", Algorithm = c(1, 2)),
-  SIMPLIFY = FALSE
-  )
+# RAW <- list.files(pattern = "RAW.csv", full.names = TRUE)
+# IMU <- list.files(pattern = "IMU.csv", full.names = TRUE)
+# PID <- paste("Test", seq(RAW), sep = "_")
+# 
+# test_data <-
+#   mapply(
+#   hibbing18_twoReg_process,
+#   RAW = RAW,
+#   IMU = IMU,
+#   PID = PID,
+#   MoreArgs = list(Wear_Location = "Left Wrist", Algorithm = c(1, 2)),
+#   SIMPLIFY = FALSE
+#   )
 ```
 
 This returns your processed files as separate items in a list. To combine them, use ``combined_data <- do.call(rbind, test_data)``. You can then export your data in csv format if you prefer to deal with it in another platform. A good recommendation is to use the ``fwrite`` function from the data.table package, which is substantially faster than ``write.csv``.

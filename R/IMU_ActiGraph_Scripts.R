@@ -55,16 +55,16 @@ get_cvPER <- function(big_data, window_secs = 10, Algorithm, verbose = FALSE) {
       lapply(inds,
         function(x) {
             values <- sapply(data.frame(x), function(y) {
-              Y <- y[y > 0 & y <= length(big_data)]
-              if (length(y) != length(Y)) {
-                data.frame(CV = NA)
-              } else {
-                data.frame(CV = cv(big_data[Y]))
-              }
-            }, simplify = F)
+                Y <- y[y > 0 & y <= length(big_data)]
+                if (length(y) != length(Y)) {
+                  data.frame(CV = NA)
+                } else {
+                  data.frame(CV = cv(big_data[Y]))
+                }
+              }, simplify = F)
 
-                CV <- sapply(do.call(rbind, values), min, na.rm = TRUE)
-                return(CV)
+            CV <- sapply(do.call(rbind, values), min, na.rm = TRUE)
+            return(CV)
     }
     ))
 

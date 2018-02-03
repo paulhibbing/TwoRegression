@@ -44,13 +44,17 @@ message_update <-
         round(duration / 60, 2),
         "minutes.\n"
       ),
-      "No IMU file detected, yet algorithm is not set to 1. Setting to 1.",
+      "No IMU file detected, yet Algorithm is not set to 1. Setting to 1.",
       "Error in file formatting. Returning NULL.",
       "Length of X and Y differ. Returning NULL.",
       paste("Determining direction from mean values of x and y, replicating", n, "times."),
       "Unable to detect sampling rate. Defaulting to 100",
       "IMU file provided, but Algorithm 1 selected. Ignoring IMU file. Set IMU_ignore_A1 = FALSE to override.",
-      "23"
+      "Only algorithms 1-3 exist. Removing selections outside that range.",
+      "No valid algorithms specified. Setting Algorithm to 1.",
+      "Wear_Location must be one or more of c(\"Hip\", \"Left Wrist\", \"Right Wrist\", \"Left Ankle\", \"Right Ankle\").",
+      "No valid Wear_Location specified. Defaulting to Hip.",
+      "27"
     )
   if (is_message) {
     message(note)

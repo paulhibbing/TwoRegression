@@ -20,6 +20,7 @@ read_AG_raw <- function(file, output_window = 1, verbose = FALSE) {
   AG <- AG_collapse(AG, output_window, meta$samp_freq)
 
   ## Get ENMO
+  ## Adapted from code written by Vincent van Hees
   ENMO <- sqrt(AG$Gx^2 + AG$Gy^2 + AG$Gz^2) - 1
   ENMO[which(ENMO < 0)] <- 0
   ENMO2 <- cumsum(ENMO)
@@ -31,7 +32,8 @@ read_AG_raw <- function(file, output_window = 1, verbose = FALSE) {
   AG <- data.frame(AG$AG[1:final_length, ])
   ENMO3 <- ENMO3[1:final_length]
   AG$ENMO <- ENMO3 * 1000
-
+  ## /end adapted van Hees code
+  
   if(any(grepl('block', names(AG), ignore.case = TRUE))) {
     AG[ , grepl('block', names(AG), ignore.case = TRUE)] <-
       NULL

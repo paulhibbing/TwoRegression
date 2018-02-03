@@ -20,17 +20,11 @@ hibbing18_twoReg_process <-
 
     t <- proc.time()
 
-    if (all(is.null(IMU), sum(Algorithm) != 1)) {
-      message_update(17, is_message = TRUE)
-      Algorithm <- 1
-    }
+    Algorithm <- algorithm_verify(IMU, Algorithm)
+    IMU <- imu_verify(IMU, Algorithm, IMU_ignore_A1)
+    Wear_Location <- attachment_verify(Wear_Location)
 
-    if (all(!is.null(IMU), sum(Algorithm) == 1, IMU_ignore_A1)) {
-      message_update(22, is_message = TRUE)
-      IMU <- NULL
-    }
-
-    ## Read the data
+    ## Read the data, then merge if necessary
     raw_data <- read_AG_raw(RAW, verbose = verbose)
     raw_data$Timestamp <- as.character(raw_data$Timestamp)
 
@@ -67,7 +61,7 @@ hibbing18_twoReg_process <-
       sapply(cv_vars, function(x)
         get_cvPER(all_data[, x], Algorithm = Algorithm, verbose = verbose))
 
-    cvs <-
+    cv_names <-
       sapply(cv_vars, function(x)
         switch(
           x,
@@ -78,7 +72,7 @@ hibbing18_twoReg_process <-
 
     all_data <-
       cbind(all_data,
-        setNames(data.frame(CVS), cvs))
+        setNames(data.frame(CVS), cv_names))
 
     ## Calculate Direction Changes per 5s and add it to the data set
     if (!is.null(IMU)) {
