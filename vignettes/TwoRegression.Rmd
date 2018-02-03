@@ -37,8 +37,9 @@ Additionally, you can set ``verbose = TRUE`` to view updates during processing.
 By default, the function will ignore IMU files when Algorithm 1 is the only selection. If you want to use Algorithm 1, but still see the IMU varibles, set ``IMU_ignore_A1 = FALSE``.
 
 ```{r}
-RAW <- "TestID_LW_RAW.csv"
-IMU <- "TestID_LW_IMU.csv" #Set to NULL if no IMU file exists
+library(TwoRegression)
+RAW <- "TestID_LeftWrist_RAW.csv"
+IMU <- "TestID_LeftWrist_IMU.csv" #Set to NULL if no IMU file exists
 Wear_Location <- "Left Wrist"
 PID <- "Test"
 Algorithm <- 3 #Will be automatically set to 1 if no IMU file is present

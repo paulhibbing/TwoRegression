@@ -132,7 +132,7 @@ apply_two_regression_hibbing18 <-
           `Right Ankle` = "RA"
         ))
 
-    matched_Algorithm <- TwoRegression::Algorithms[[Site]]
+    matched_Algorithm <- Algorithms[[Site]]
     if (length(matched_Algorithm) == 0)
       stop("Didn't find a matching algorithm. This could take some work to figure out...")
     if (length(matched_Algorithm) != 7)

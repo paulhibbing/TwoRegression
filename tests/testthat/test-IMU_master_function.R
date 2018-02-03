@@ -34,8 +34,8 @@ testthat::test_that("One or more valid wear locations are selected", {
 })
 
 testthat::test_that("Master function successfully reads in data", {
-  RAW <- system.file("extdata", "TestID_LW_RAW.csv", package = "TwoRegression")
-  IMU <- system.file("extdata", "TestID_LW_IMU.csv", package = "TwoRegression")
+  RAW <- system.file("extdata", "TestID_LeftWrist_RAW.csv", package = "TwoRegression")
+  IMU <- system.file("extdata", "TestID_LeftWrist_IMU.csv", package = "TwoRegression")
 
   testthat::expect_true(!any(RAW=="", IMU==""))
 
