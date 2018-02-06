@@ -1,3 +1,13 @@
+#' Check if the primary accelerometer file is formatted correctly
+#'
+#' @inheritParams read_AG_raw
+#'
+#' @keywords internal
+check_columns <- function(file) {
+  test_read <- read.csv(file, nrows = 15)
+  if(ncol(test_read) == 1) FALSE else TRUE
+}
+
 #' Check if the AG data start on an exact second
 #'
 #' @param AG a dataframe of IMU data
@@ -91,17 +101,25 @@ get_imu_file_meta <- function(file, output_window_secs) {
 #'
 #' @keywords internal
 AG_collapse <- function(AG, output_window, samp_freq) {
-  blocksize <- samp_freq * output_window
-  Block <-
-    rep(seq(floor(nrow(AG) / blocksize)),
-      each = blocksize)
+  ## Get ENMO
+  ## Adapted from code written by Vincent van Hees
+  ENMO <-
+    sqrt(AG$`Accelerometer X` ^ 2 + AG$`Accelerometer Y` ^ 2 + AG$`Accelerometer Z` ^
+        2) - 1
+  ENMO[which(ENMO < 0)] <- 0
+  ENMO2 <- cumsum(ENMO)
+  ENMO3 <-
+    diff(ENMO2[seq(1, length(ENMO), by = (samp_freq * output_window))]) /
+    (samp_freq * output_window)
 
-  AG$Block <- Block
-  Gx = AG$`Accelerometer X`
-  Gy = AG$`Accelerometer Y`
-  Gz = AG$`Accelerometer Z`  ## For ENMO in next section
-  AG <- AG %>% dplyr::group_by(Block) %>% dplyr::summarise(Timestamp = first(Timestamp))
-  return(list(AG = AG, Gx = Gx, Gy = Gy, Gz = Gz))
+  # final_length <- min(c(length(ENMO3), nrow(data)))
+  # AG <- data.frame(AG$AG[1:final_length, ])
+  # ENMO3 <- ENMO3[1:final_length]
+  ENMO <- ENMO3 * 1000
+  ## /end adapted van Hees code
+
+  AG <- data.frame(Block = seq(ENMO), ENMO = ENMO)
+  return(AG)
 }
 
 #' Collapse raw IMU data to a specified epoch

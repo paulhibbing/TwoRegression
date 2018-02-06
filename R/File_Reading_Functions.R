@@ -12,32 +12,22 @@ read_AG_raw <- function(file, output_window = 1, verbose = FALSE) {
 
   meta <- get_raw_file_meta(file)
 
+  raw_data <- check_columns(RAW)
+  if (!raw_data) {
+    message_update(27, is_message = TRUE)
+    AG <- utils::read.csv(RAW, stringsAsFactors = FALSE, skip = 10)
+  } else {
   AG <-
-    data.table::fread(file, stringsAsFactors = F, showProgress = F, skip = 10)
-  AG$Timestamp <-
-    meta$start + ((seq(nrow(AG)) - 1) / meta$samp_freq)
+    data.table::fread(file, stringsAsFactors = FALSE, showProgress = FALSE, skip = 10)
+  }
+  names(AG) <- gsub("\\.", " ", names(AG))
 
   AG <- AG_collapse(AG, output_window, meta$samp_freq)
 
-  ## Get ENMO
-  ## Adapted from code written by Vincent van Hees
-  ENMO <- sqrt(AG$Gx^2 + AG$Gy^2 + AG$Gz^2) - 1
-  ENMO[which(ENMO < 0)] <- 0
-  ENMO2 <- cumsum(ENMO)
-  ENMO3 <-
-    diff(ENMO2[seq(1, length(ENMO), by = (meta$samp_freq * output_window))]) /
-    (meta$samp_freq * output_window)
+  AG$Timestamp <-
+    meta$start + seq(0, nrow(AG)-1, output_window)
 
-  final_length <- min(c(length(ENMO3), nrow(data)))
-  AG <- data.frame(AG$AG[1:final_length, ])
-  ENMO3 <- ENMO3[1:final_length]
-  AG$ENMO <- ENMO3 * 1000
-  ## /end adapted van Hees code
-  
-  if(any(grepl('block', names(AG), ignore.case = TRUE))) {
-    AG[ , grepl('block', names(AG), ignore.case = TRUE)] <-
-      NULL
-  }
+  AG$Block <- NULL
 
   AG$file_source_PrimaryAccel <- basename(file)
   AG$date_processed_PrimaryAccel <- Sys.time()

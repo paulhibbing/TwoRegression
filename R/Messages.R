@@ -54,7 +54,8 @@ message_update <-
       "No valid algorithms specified. Setting Algorithm to 1.",
       "Wear_Location must be one or more of c(\"Hip\", \"Left Wrist\", \"Right Wrist\", \"Left Ankle\", \"Right Ankle\").",
       "No valid Wear_Location specified. Defaulting to Hip.",
-      "27"
+      "Primary accelerometer file is formatted unexpectedly. Processing with read.csv() -- be prepared to wait.",
+      "28"
     )
   if (is_message) {
     message(note)
