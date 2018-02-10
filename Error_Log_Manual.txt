@@ -2,47 +2,14 @@
 
 R CMD check results
 0 errors | 2 warnings | 2 notes
-checking Rd \usage sections ... WARNING
-Undocumented arguments in documentation object 'get_cvPER'
-  'Algorithm'
-
-Undocumented arguments in documentation object 'hibbing18_twoReg_process'
-  'verbose'
-
-Undocumented arguments in documentation object 'read_AG_raw'
-  'verbose'
-
-Undocumented arguments in documentation object 'read_IMU'
-  'verbose'
-
-Functions with \usage entries need to have the appropriate \alias
-entries, and all their arguments documented.
-The \usage entries must correspond to syntactically valid R code.
-See chapter 'Writing R documentation files' in the 'Writing R
-Extensions' manual.
-
-checking R/sysdata.rda ... WARNING
-  Warning: package needs dependence on R (>= 2.10)
- WARNING
-'qpdf' is needed for checks on size reduction of PDFs
-
-checking dependencies in R code ... NOTE
-Namespaces in Imports field not imported from:
-  'datasets' 'grDevices' 'graphics' 'lubridate' 'methods' 'stats'
-  'utils'
-  All declared Imports should be used.
 
 checking R code for possible problems ... NOTE
-AG_collapse: no visible global function definition for 'first'
 AG_collapse: no visible binding for global variable 'Timestamp'
 imu_collapse: no visible binding for global variable 'epoch'
-imu_collapse: no visible global function definition for 'first'
-imu_collapse: no visible binding for global variable
-  'date_processed_IMU'
+imu_collapse: no visible binding for global variable 'date_processed_IMU'
 imu_collapse: no visible binding for global variable 'file_source_IMU'
 imu_collapse: no visible binding for global variable 'Timestamp'
-imu_collapse: no visible binding for global variable
-  'Gyroscope_VM_DegPerS'
+imu_collapse: no visible binding for global variable 'Gyroscope_VM_DegPerS'
 imu_collapse: no visible binding for global variable 'Gyroscope.X'
 imu_collapse: no visible binding for global variable 'Gyroscope.Y'
 imu_collapse: no visible binding for global variable 'Gyroscope.Z'

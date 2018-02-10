@@ -5,6 +5,7 @@
 #' @param Wear_Location A character scalar indicating the device's attachment site
 #' @param PID A character scalar giving the participant identification
 #' @param Algorithm A numeric vector giving the algorithm(s) to apply to the data from the primary accelerometer and (if applicable) IMU
+#' @param verbose A logical scalar: print progress updates?
 #' @param IMU_ignore_A1 A logical scalar. If Algorithm = 1, should IMU files be ignored?
 #'
 #' @return A data frame giving the data and predictions

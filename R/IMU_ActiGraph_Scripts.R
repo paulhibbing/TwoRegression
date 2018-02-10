@@ -35,7 +35,7 @@ get_cv_vars <- function(Algorithm, verbose = FALSE) {
 #'
 #' @param big_data a numeric vector on which to perform the calculation
 #' @param window_secs size of the sliding window, in seconds
-#' @param verbose a logical scalar: print progress updates?
+#' @inheritParams hibbing18_twoReg_process
 #'
 #' @return a numeric vector of values, giving the lowest coefficient of variation among the sliding windows that correspond to each epoch of data
 #' @export

@@ -4,6 +4,7 @@ Title: Process Data from Research Wearables using Two-Regression Algorithms
 Version: 0.1
 Authors@R: person(c("Paul", "R."), "Hibbing", email = "paulhibbing@gmail.com",
 		  role = c("aut","cre"))
+Depends: R (>= 2.10)
 Description: Application of Various Two-Regression Algorithms for wearable
     research devices. It provides an easy way for users to read in their
     device data files and apply an appropriate two-regression algorithm
@@ -14,14 +15,8 @@ LazyData: true
 Imports: data.table (>= 1.10.4),
     dplyr (>= 0.5.0),
     seewave (>= 2.0.5),
-    lubridate (>= 1.6.0),
     magrittr (>= 1.5),
-    stats (>= 3.2.4),
-    graphics (>= 3.2.4),
-    grDevices (>= 3.2.4),
     utils (>= 3.2.4),
-    datasets (>= 3.2.4),
-    methods (>= 3.2.4)
 RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown,
