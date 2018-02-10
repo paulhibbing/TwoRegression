@@ -4,12 +4,14 @@
 \alias{read_AG_raw}
 \title{File reading function for primary accelerometer files}
 \usage{
-read_AG_raw(file, output_window = 1, verbose = FALSE)
+read_AG_raw(file, output_window_secs = 1, verbose = FALSE)
 }
 \arguments{
 \item{file}{A character scalar giving path to primary accelerometer file}
 
-\item{output_window}{the desired epoch length; defaults to one second}
+\item{output_window_secs}{the desired epoch length; defaults to one second}
+
+\item{verbose}{A logical scalar: print progress updates?}
 }
 \value{
 A dataframe giving processed raw data from the primary accelerometer in the specified epoch length

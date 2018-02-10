@@ -4,10 +4,14 @@
 \alias{AG_collapse}
 \title{Collapse primary accelerometer data}
 \usage{
-AG_collapse(AG, output_window, samp_freq)
+AG_collapse(AG, output_window_secs, samp_freq)
 }
 \arguments{
 \item{AG}{a dataframe of raw primary accelerometer data}
+
+\item{output_window_secs}{the desired epoch length; defaults to one second}
+
+\item{samp_freq}{The sampling frequency}
 }
 \description{
 Collapse primary accelerometer data

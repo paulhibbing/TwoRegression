@@ -10,6 +10,8 @@ read_IMU(file, output_window_secs = 1, verbose = FALSE)
 \item{file}{character scalar giving the path to the IMU file}
 
 \item{output_window_secs}{the desired epoch length; defaults to one second}
+
+\item{verbose}{A logical scalar: print progress updates?}
 }
 \value{
 A dataframe giving processed IMU data in the specified epoch length

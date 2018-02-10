@@ -11,7 +11,9 @@ get_cvPER(big_data, window_secs = 10, Algorithm, verbose = FALSE)
 
 \item{window_secs}{size of the sliding window, in seconds}
 
-\item{verbose}{a logical scalar: print progress updates?}
+\item{Algorithm}{A numeric vector giving the algorithm(s) to apply to the data from the primary accelerometer and (if applicable) IMU}
+
+\item{verbose}{A logical scalar: print progress updates?}
 }
 \value{
 a numeric vector of values, giving the lowest coefficient of variation among the sliding windows that correspond to each epoch of data

@@ -31,15 +31,3 @@ get_day_of_year <- function(timestamp, format = "%Y-%m-%d %H:%M:%S") {
     day_of_year <- as.numeric(strftime(timestamp, format = "%j"))
     return(day_of_year)
 }
-
-#' Convert Excel Times.
-#'
-#' Converts serial times from Excel into POSIX format in GMT.
-#'
-#' @param numericTime The Excel serial time
-#' @param tz The desired timezone
-#'
-#' @keywords internal
-get.excel.time <- function(numericTime, tz = "GMT") {
-  as.POSIXct(numericTime * (60 * 60 * 24), origin = "1899-12-30", tz = tz)
-}

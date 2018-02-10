@@ -16,5 +16,5 @@ apply_two_regression_hibbing18(which_algorithm = data.frame(Wear_Location =
 a numeric vector of predicted energy expenditure values, expressed in metabolic equivalents
 }
 \description{
-Applies the specified two-regression algorithm from Hibbing et al. (2018, \emph{Med Sci Sports Exerc}) to data from the primary accelerometer and IMU (if applicable)
+Applies the specified two-regression algorithm from \href{https://www.ncbi.nlm.nih.gov/pubmed/29271847}{Hibbing et al. (2018, \emph{Med Sci Sports Exerc})} to data from the primary accelerometer and IMU (if applicable)
 }

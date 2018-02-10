@@ -19,6 +19,8 @@ hibbing18_twoReg_process(RAW, IMU = NULL, Wear_Location = c("Hip",
 
 \item{Algorithm}{A numeric vector giving the algorithm(s) to apply to the data from the primary accelerometer and (if applicable) IMU}
 
+\item{verbose}{A logical scalar: print progress updates?}
+
 \item{IMU_ignore_A1}{A logical scalar. If Algorithm = 1, should IMU files be ignored?}
 }
 \value{

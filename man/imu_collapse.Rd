@@ -10,6 +10,8 @@ imu_collapse(AG, block_size, verbose = FALSE)
 \item{AG}{dataframe containing raw IMU data}
 
 \item{block_size}{number of samples per epoch}
+
+\item{verbose}{A logical scalar: print progress updates?}
 }
 \value{
 dataframe of IMU data averaged over the specified epoch length
