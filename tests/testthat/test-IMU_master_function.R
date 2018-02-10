@@ -39,8 +39,11 @@ testthat::test_that("Master function successfully reads in data", {
 
   testthat::expect_true(!any(RAW=="", IMU==""))
 
-  tmp <- tempfile()
-  testthat::expect_equal_to_reference(hibbing18_twoReg_process(RAW, IMU, c("Left Wrist", "Left Ankle"), "Test", 1:3), tmp)
+  test_data <-
+    hibbing18_twoReg_process(RAW, IMU, c("Left Wrist", "Left Ankle"), "Test", 1:3)
+  test_data <- test_data[ ,!grepl("date_processed", names(test_data))]
+  tmp <- "IMU_Sample_Data.rds"
+  testthat::expect_equal_to_reference(test_data, tmp)
 })
 
 testthat::test_that("Data frame names are outputted as expected", {

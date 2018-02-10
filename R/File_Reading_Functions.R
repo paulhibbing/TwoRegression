@@ -23,10 +23,10 @@ read_AG_raw <- function(file, output_window_secs = 1, verbose = FALSE) {
   }
   names(AG) <- gsub("\\.", " ", names(AG))
 
-  AG <- AG_collapse(AG, output_window, meta$samp_freq)
+  AG <- AG_collapse(AG, output_window_secs, meta$samp_freq)
 
   AG$Timestamp <-
-    meta$start + seq(0, nrow(AG)-1, output_window)
+    meta$start + seq(0, nrow(AG)-1, output_window_secs)
 
   AG$Block <- NULL
 

@@ -2,17 +2,3 @@
 
 R CMD check results
 0 errors | 2 warnings | 2 notes
-
-checking R code for possible problems ... NOTE
-AG_collapse: no visible binding for global variable 'Timestamp'
-imu_collapse: no visible binding for global variable 'epoch'
-imu_collapse: no visible binding for global variable 'date_processed_IMU'
-imu_collapse: no visible binding for global variable 'file_source_IMU'
-imu_collapse: no visible binding for global variable 'Timestamp'
-imu_collapse: no visible binding for global variable 'Gyroscope_VM_DegPerS'
-imu_collapse: no visible binding for global variable 'Gyroscope.X'
-imu_collapse: no visible binding for global variable 'Gyroscope.Y'
-imu_collapse: no visible binding for global variable 'Gyroscope.Z'
-imu_collapse: no visible binding for global variable 'Magnetometer.X'
-imu_collapse: no visible binding for global variable 'Magnetometer.Y'
-imu_collapse: no visible binding for global variable 'Magnetometer.Z'

@@ -98,9 +98,11 @@ get_imu_file_meta <- function(file, output_window_secs) {
 #' Collapse primary accelerometer data
 #'
 #' @param AG a dataframe of raw primary accelerometer data
+#' @param output_window_secs the desired epoch length; defaults to one second
+#' @param samp_freq The sampling frequency
 #'
 #' @keywords internal
-AG_collapse <- function(AG, output_window, samp_freq) {
+AG_collapse <- function(AG, output_window_secs, samp_freq) {
   ## Get ENMO
   ## Adapted from code written by Vincent van Hees
   ENMO <-
@@ -109,8 +111,8 @@ AG_collapse <- function(AG, output_window, samp_freq) {
   ENMO[which(ENMO < 0)] <- 0
   ENMO2 <- cumsum(ENMO)
   ENMO3 <-
-    diff(ENMO2[seq(1, length(ENMO), by = (samp_freq * output_window))]) /
-    (samp_freq * output_window)
+    diff(ENMO2[seq(1, length(ENMO), by = (samp_freq * output_window_secs))]) /
+    (samp_freq * output_window_secs)
 
   # final_length <- min(c(length(ENMO3), nrow(data)))
   # AG <- data.frame(AG$AG[1:final_length, ])
@@ -126,6 +128,7 @@ AG_collapse <- function(AG, output_window, samp_freq) {
 #'
 #' @param AG dataframe containing raw IMU data
 #' @param block_size number of samples per epoch
+#' @inheritParams hibbing18_twoReg_process
 #'
 #' @return dataframe of IMU data averaged over the specified epoch length
 #' @keywords internal
