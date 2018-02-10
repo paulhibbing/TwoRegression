@@ -42,3 +42,65 @@ testthat::test_that("Master function successfully reads in data", {
   tmp <- tempfile()
   testthat::expect_equal_to_reference(hibbing18_twoReg_process(RAW, IMU, c("Left Wrist", "Left Ankle"), "Test", 1:3), tmp)
 })
+
+testthat::test_that("Data frame names are outputted as expected", {
+  RAW <- system.file("extdata", "TestID_LeftWrist_RAW.csv", package = "TwoRegression")
+  IMU <- system.file("extdata", "TestID_LeftWrist_IMU.csv", package = "TwoRegression")
+
+  testthat::expect_true(!any(RAW=="", IMU==""))
+
+  test_data <-
+    hibbing18_twoReg_process(RAW,
+      IMU,
+      c("Left Wrist", "Right Wrist", "Hip", "Left Ankle", "Right Ankle"),
+      "Test",
+      1:3)
+
+  required_names <-
+    c("PID",
+      "file_source_PrimaryAccel", "date_processed_PrimaryAccel",
+      "Timestamp", "day_of_year", "minute_of_day",
+      "ENMO")
+
+  constructed_names <-
+    expand.grid(
+      c(
+        "Hip",
+        "Left_Wrist",
+        "Right_Wrist",
+        "Left_Ankle",
+        "Right_Ankle"
+      ),
+      c(
+        "Algorithm1",
+        "Algorithm2",
+        "Algorithm3"
+      ),
+      c(
+        "Classification",
+        "METs"
+      )
+    )
+
+  constructed_names <-
+    apply(constructed_names, 1, paste, collapse = "_")
+
+
+
+  other_names <-
+    c("file_source_IMU", "date_processed_IMU",
+
+      "Gyroscope_VM_DegPerS",         "mean_abs_Gyroscope_x_DegPerS",
+      "mean_abs_Gyroscope_y_DegPerS", "mean_abs_Gyroscope_z_DegPerS",
+
+      "mean_magnetometer_direction", "Direction",
+
+      "ENMO_CV10s", "GVM_CV10s")
+
+
+  testthat::expect_true(all(
+    names(test_data) %in% c(required_names, other_names, constructed_names)
+  ))
+
+  testthat::expect_true(all(required_names %in% names(test_data)))
+})

@@ -12,10 +12,10 @@ read_AG_raw <- function(file, output_window = 1, verbose = FALSE) {
 
   meta <- get_raw_file_meta(file)
 
-  raw_data <- check_columns(RAW)
+  raw_data <- check_columns(file)
   if (!raw_data) {
     message_update(27, is_message = TRUE)
-    AG <- utils::read.csv(RAW, stringsAsFactors = FALSE, skip = 10)
+    AG <- utils::read.csv(file, stringsAsFactors = FALSE, skip = 10)
   } else {
   AG <-
     data.table::fread(file, stringsAsFactors = FALSE, showProgress = FALSE, skip = 10)

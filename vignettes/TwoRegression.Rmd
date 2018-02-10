@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 ## Vignette Info
 
-The TwoRegression package is designed to make it easy to quickly and accurately apply two-regression algorithms to data from wearable research devices. In conjunction with standard batch processing syntax in R (e.g. ``mapply`` or ``lapply``), the TwoRegression package presents a powerful tool for handling data from large studies. This vignette will demonstrate how to utilize the core features of the package, to set you on your way towards processing your data.
+The TwoRegression package is designed to make it easy to quickly and accurately apply two-regression algorithms to data from wearable research devices. In conjunction with common batch processing syntax in R (e.g. ``mapply`` or ``lapply``), the TwoRegression package presents a powerful tool for handling data from large studies. This vignette will demonstrate how to utilize the core features of the package, to set you on your way towards processing your data.
 
 
 ## The basics
@@ -39,7 +39,7 @@ By default, the function will ignore IMU files when Algorithm 1 is the only sele
 ```{r}
 library(TwoRegression)
 RAW <- "TestID_LeftWrist_RAW.csv"
-IMU <- "TestID_LeftWrist_IMU.csv" #Set to NULL if no IMU file exists
+IMU <- "TestID_LeftWrist_IMU.csv" #Set this to NULL if no IMU file exists
 Wear_Location <- "Left Wrist"
 PID <- "Test"
 Algorithm <- 3 #Will be automatically set to 1 if no IMU file is present
@@ -52,9 +52,9 @@ test_data <-
 print(head(test_data))
 ```
 
-If you aren't familiar with r commands that enable batch processing, consider the below hypothetical example. The ``RAW <-`` and ``IMU <-`` commands should give two vectors of equal lengths, containing paths to primary accelerometer and IMU files, respectively. It is also critical that the files at each index of both vectors correspond to one another (e.g. the data in the first file in ``RAW`` is concurrent with the data in the first file in ``IMU``, the second files of both vectors are also concurrent, and so on).
+If you aren't familiar with R commands that enable batch processing, consider the below hypothetical example. The ``RAW <-`` and ``IMU <-`` commands should give two vectors that contain paths to primary accelerometer and IMU files, respectively. The vectors should be the same length, and be index-matched, such that the first file in ``RAW`` corresponds with the first file in ``IMU``, and so on.
 
-The PID variable can be manually defined to establish a vector of PIDs that correspond to the data files in ``RAW`` and ``IMU``. Alternatively, you can use string functions (e.g. ``substring``) to identify PIDs automatically if your files have a consistent naming convention.
+The PID variable can be manually defined to establish a vector of PIDs to assign to the data files in ``RAW`` and ``IMU``. Alternatively, you can use string functions (e.g. ``substring``) to identify PIDs automatically if your files have a consistent naming convention.
 
 ```{r}
 # RAW <- list.files(pattern = "RAW.csv", full.names = TRUE)
