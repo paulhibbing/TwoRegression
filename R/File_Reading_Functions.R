@@ -1,12 +1,12 @@
 #' File reading function for primary accelerometer files
 #'
 #' @param file A character scalar giving path to primary accelerometer file
-#' @param output_window the desired epoch length; defaults to one second
+#' @param output_window_secs the desired epoch length; defaults to one second
 #' @inheritParams hibbing18_twoReg_process
 #'
 #' @return A dataframe giving processed raw data from the primary accelerometer in the specified epoch length
 #' @export
-read_AG_raw <- function(file, output_window = 1, verbose = FALSE) {
+read_AG_raw <- function(file, output_window_secs = 1, verbose = FALSE) {
   timer <- proc.time()
 
   if (verbose) message_update(1, file = file)
@@ -60,6 +60,7 @@ read_AG_raw <- function(file, output_window = 1, verbose = FALSE) {
 #' @param file character scalar giving the path to the IMU file
 #' @param output_window_secs the desired epoch length; defaults to one second
 #' @inheritParams hibbing18_twoReg_process
+#' @inheritParams read_AG_raw
 #'
 #' @return A dataframe giving processed IMU data in the specified epoch length
 #' @export

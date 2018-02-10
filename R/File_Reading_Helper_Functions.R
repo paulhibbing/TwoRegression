@@ -144,20 +144,20 @@ imu_collapse <- function(AG, block_size, verbose = FALSE) {
 
   if (verbose) message_update(10)
   AG <-
-    AG %>% dplyr::group_by(epoch) %>%
-    dplyr::summarise(
-      date_processed_IMU = dplyr::first(date_processed_IMU),
-      file_source_IMU = dplyr::first(file_source_IMU),
-      Timestamp = dplyr::first(Timestamp),
-      #Time = dplyr::first(Time),
-      Gyroscope_VM_DegPerS = mean(Gyroscope_VM_DegPerS),
-      mean_abs_Gyroscope_x_DegPerS = mean(abs(`Gyroscope.X`)),
-      mean_abs_Gyroscope_y_DegPerS = mean(abs(`Gyroscope.Y`)),
-      mean_abs_Gyroscope_z_DegPerS = mean(abs(`Gyroscope.Z`)),
-      mean_magnetometer_direction = classify_magnetometer(
-        mean(`Magnetometer.X`),
-        mean(`Magnetometer.Y`),
-        mean(`Magnetometer.Z`)
+    AG %>% dplyr::group_by_(~epoch) %>%
+    dplyr::summarise_(
+      date_processed_IMU = ~date_processed_IMU[1],
+      file_source_IMU = ~file_source_IMU[1],
+      Timestamp = ~Timestamp[1],
+      #Time = ~Time,
+      Gyroscope_VM_DegPerS = ~mean(Gyroscope_VM_DegPerS),
+      mean_abs_Gyroscope_x_DegPerS = ~mean(abs(Gyroscope.X)),
+      mean_abs_Gyroscope_y_DegPerS = ~mean(abs(Gyroscope.Y)),
+      mean_abs_Gyroscope_z_DegPerS = ~mean(abs(Gyroscope.Z)),
+      mean_magnetometer_direction = ~classify_magnetometer(
+        mean(Magnetometer.X),
+        mean(Magnetometer.Y),
+        mean(Magnetometer.Z)
       )
     )
 
