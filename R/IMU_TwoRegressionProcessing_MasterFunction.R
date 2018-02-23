@@ -1,5 +1,7 @@
 #' Process GT9X Files with Hibbing Two-Regression Algorithms
 #'
+#' Process GT9X primary accelerometer and (if applicable) IMU files using one or more of the algorithms from \href{https://www.ncbi.nlm.nih.gov/pubmed/29271847}{Hibbing et al. (2018, \emph{Med Sci Sports Exerc})}.
+#'
 #' @param RAW A character scalar giving path to primary accelerometer data file
 #' @param IMU A character scalar giving path to IMU data file
 #' @param Wear_Location A character scalar indicating the device's attachment site
@@ -78,7 +80,7 @@ hibbing18_twoReg_process <-
     ## Calculate Direction Changes per 5s and add it to the data set
     if (!is.null(IMU)) {
       all_data$Direction <-
-        get.directions(all_data$mean_magnetometer_direction)
+        get_directions(all_data$mean_magnetometer_direction)
     }
 
     ## Get the predictions

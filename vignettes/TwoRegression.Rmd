@@ -38,8 +38,9 @@ By default, the function will ignore IMU files when Algorithm 1 is the only sele
 
 ```{r}
 library(TwoRegression)
-RAW <- "TestID_LeftWrist_RAW.csv"
-IMU <- "TestID_LeftWrist_IMU.csv" #Set this to NULL if no IMU file exists
+RAW <- system.file("extdata", "TestID_LeftWrist_RAW.csv", package = "TwoRegression")
+IMU <- 
+  system.file("extdata", "TestID_LeftWrist_IMU.csv", package = "TwoRegression") #Set this to NULL if no IMU file exists
 Wear_Location <- "Left Wrist"
 PID <- "Test"
 Algorithm <- 3 #Will be automatically set to 1 if no IMU file is present

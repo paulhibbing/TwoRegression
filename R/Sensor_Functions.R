@@ -4,7 +4,7 @@
 #' @param verbose print information about variable search criteria?
 #'
 #' @return a vector of vector magnitude values
-getVM <- function(triaxial, verbose = FALSE) {
+get_VM <- function(triaxial, verbose = FALSE) {
   if (verbose) {
     vm_variables <-
       gsub("\"", "", substring(deparse(substitute(triaxial)), unlist(gregexpr(

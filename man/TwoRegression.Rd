@@ -6,7 +6,7 @@
 \alias{TwoRegression-package}
 \title{Process Data from Research Wearables using Two-Regression Algorithms}
 \description{
-The critical functions of the TwoRegression package are:
+The TwoRegression package is designed to make implementation of two-regression algorithms quick, easy, and accurate.
 }
 \section{Core functions}{
 

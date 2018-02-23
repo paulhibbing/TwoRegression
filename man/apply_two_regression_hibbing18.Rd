@@ -18,3 +18,4 @@ a numeric vector of predicted energy expenditure values, expressed in metabolic 
 \description{
 Applies the specified two-regression algorithm from \href{https://www.ncbi.nlm.nih.gov/pubmed/29271847}{Hibbing et al. (2018, \emph{Med Sci Sports Exerc})} to data from the primary accelerometer and IMU (if applicable)
 }
+\keyword{internal}

@@ -80,7 +80,7 @@ get_cvPER <- function(big_data, window_secs = 10, Algorithm, verbose = FALSE) {
 #'
 #' @return a numeric vector of values, giving the number of direction changes in the sliding window that corresponds to each epoch of data
 #' @export
-get.directions <- function(big_data, window_secs = 5) {
+get_directions <- function(big_data, window_secs = 5) {
     if (window_secs%%2 != 1)
         stop("window_secs must be an odd number, to look forward and backward of the observation by equal amounts.")
 
@@ -116,7 +116,7 @@ get.directions <- function(big_data, window_secs = 5) {
 #' @param all_data a dataframe providing the processed GT9X data on which to make the predictions
 #'
 #' @return a numeric vector of predicted energy expenditure values, expressed in metabolic equivalents
-#' @export
+#' @keywords internal
 apply_two_regression_hibbing18 <-
   function(which_algorithm = data.frame(Wear_Location = "Hip", Algorithm = 1),
     all_data) {

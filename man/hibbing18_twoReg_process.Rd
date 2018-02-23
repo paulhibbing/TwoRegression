@@ -27,5 +27,5 @@ hibbing18_twoReg_process(RAW, IMU = NULL, Wear_Location = c("Hip",
 A data frame giving the data and predictions
 }
 \description{
-Process GT9X Files with Hibbing Two-Regression Algorithms
+Process GT9X primary accelerometer and (if applicable) IMU files using one or more of the algorithms from \href{https://www.ncbi.nlm.nih.gov/pubmed/29271847}{Hibbing et al. (2018, \emph{Med Sci Sports Exerc})}.
 }

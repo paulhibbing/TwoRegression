@@ -96,13 +96,13 @@ read_IMU <- function(file, output_window_secs = 1, verbose = FALSE) {
   if (verbose) message_update(7)
 
   AG$mean_Accel_VM <-
-    getVM(AG[, grepl("accelerometer", names(AG), ignore.case = T)], verbose = verbose)
+    get_VM(AG[, grepl("accelerometer", names(AG), ignore.case = T)], verbose = verbose)
 
   AG$Gyroscope_VM_DegPerS <-
-    getVM(AG[, grepl("gyroscope", names(AG), ignore.case = T)], verbose = verbose)
+    get_VM(AG[, grepl("gyroscope", names(AG), ignore.case = T)], verbose = verbose)
 
   AG$Magnetometer_VM_MicroT <-
-    getVM(AG[, grepl("magnetometer", names(AG), ignore.case = T)], verbose = verbose)
+    get_VM(AG[, grepl("magnetometer", names(AG), ignore.case = T)], verbose = verbose)
 
   if (verbose) message_update(8)
 
