@@ -1,4 +1,4 @@
-#' Process Data From Wearable Research Devices Using Two-Regression Algorithms
+#' Process Data from Wearable Research Devices Using Two-Regression Algorithms
 #'
 #' The TwoRegression package is designed to make implementation of two-regression algorithms quick, easy, and accurate.
 #'
