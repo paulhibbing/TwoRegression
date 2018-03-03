@@ -4,7 +4,7 @@
 #'
 #' @keywords internal
 check_columns <- function(file) {
-  test_read <- read.csv(file, nrows = 15)
+  test_read <- utils::read.csv(file, nrows = 15)
   if(ncol(test_read) == 1) FALSE else TRUE
 }
 
@@ -66,7 +66,8 @@ get_raw_file_meta <- function(file) {
 #'
 #' @keywords internal
 get_imu_file_meta <- function(file, output_window_secs) {
-  header <- read.csv(file, nrow = 20, stringsAsFactors = F, header = F)
+  header <-
+    utils::read.csv(file, nrow = 20, stringsAsFactors = F, header = F)
 
   samp_rate <- unlist(strsplit(header[, 1], " "))
   samp_rate <-

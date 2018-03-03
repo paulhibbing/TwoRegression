@@ -1,3 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^Error_Log_Manual.txt$
+^README\.Rmd$
+^README-.*\.png$
+^\.travis\.yml$

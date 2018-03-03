@@ -75,7 +75,7 @@ hibbing18_twoReg_process <-
 
     all_data <-
       cbind(all_data,
-        setNames(data.frame(CVS), cv_names))
+        stats::setNames(data.frame(CVS), cv_names))
 
     ## Calculate Direction Changes per 5s and add it to the data set
     if (!is.null(IMU)) {

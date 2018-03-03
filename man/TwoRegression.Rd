@@ -4,7 +4,7 @@
 \name{TwoRegression}
 \alias{TwoRegression}
 \alias{TwoRegression-package}
-\title{Process Data from Research Wearables using Two-Regression Algorithms}
+\title{Process Data From Wearable Research Devices Using Two-Regression Algorithms}
 \description{
 The TwoRegression package is designed to make implementation of two-regression algorithms quick, easy, and accurate.
 }

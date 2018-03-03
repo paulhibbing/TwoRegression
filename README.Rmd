@@ -1,0 +1,21 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+
+``TwoRegression`` is a package designed to simplify the use of two-regression algorithms. The vignette ("TwoRegression") contains more specific information. To install the package and view the vignette, use:
+
+```{r}
+# install.packages("TwoRegression")
+# vignette("TwoRegression")
+```
