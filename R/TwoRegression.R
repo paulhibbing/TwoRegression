@@ -3,7 +3,6 @@
 #' The TwoRegression package is designed to make implementation of two-regression algorithms quick, easy, and accurate.
 #'
 #' @section Core functions:
-#' \code{\link{apply_two_regression_hibbing18}}
 #'
 #' \code{\link{get_cvPER}}
 #'
