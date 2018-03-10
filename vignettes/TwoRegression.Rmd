@@ -1,0 +1,76 @@
+---
+title: "The TwoRegression Package"
+author: "Paul R. Hibbing"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## Vignette Info
+
+The TwoRegression package is designed to make it easy to quickly and accurately apply two-regression algorithms to data from wearable research devices. In conjunction with common batch processing syntax in R (e.g. ``mapply`` or ``lapply``), the TwoRegression package presents a powerful tool for handling data from large studies. This vignette will demonstrate how to utilize the core features of the package, to set you on your way towards processing your data.
+
+
+## The basics
+
+To use the two-regression algorithms of [Hibbing et al. (2018)](https://www.ncbi.nlm.nih.gov/pubmed/29271847), you need to use the ``hibbing18_twoReg_process`` function, which requires:
+
+* A RAW.csv file generated from the GT9X primary accelerometer
+* An IMU.csv file generated from the GT9X IMU (not required if using Algorithm 1)
+* Wear location(s) to specify which algorithm site(s) to use
+* An ID with which to label the data
+* An algorithm selection (1, 2, and/or 3)
+
+Additionally, you can set ``verbose = TRUE`` to view updates during processing.
+
+By default, the function will ignore IMU files when Algorithm 1 is the only selection. If you want to use Algorithm 1, but still see the IMU varibles, set ``IMU_ignore_A1 = FALSE``.
+
+```{r}
+library(TwoRegression)
+RAW <- system.file("extdata", "TestID_LeftWrist_RAW.csv", package = "TwoRegression")
+IMU <- 
+  system.file("extdata", "TestID_LeftWrist_IMU.csv", package = "TwoRegression") #Set this to NULL if no IMU file exists
+Wear_Location <- "Left Wrist"
+PID <- "Test"
+Algorithm <- 3 #Will be automatically set to 1 if no IMU file is present
+verbose <- FALSE
+IMU_ignore_A1 <- TRUE
+
+test_data <-
+  hibbing18_twoReg_process(RAW, IMU, Wear_Location, PID, Algorithm, verbose, IMU_ignore_A1)
+
+print(head(test_data))
+```
+
+If you aren't familiar with R commands that enable batch processing, consider the below hypothetical example. The ``RAW <-`` and ``IMU <-`` commands should give two vectors that contain paths to primary accelerometer and IMU files, respectively. The vectors should be the same length, and be index-matched, such that the first file in ``RAW`` corresponds with the first file in ``IMU``, and so on.
+
+The PID variable can be manually defined to establish a vector of PIDs to assign to the data files in ``RAW`` and ``IMU``. Alternatively, you can use string functions (e.g. ``substring``) to identify PIDs automatically if your files have a consistent naming convention.
+
+```{r}
+# RAW <- list.files(pattern = "RAW.csv", full.names = TRUE)
+# IMU <- list.files(pattern = "IMU.csv", full.names = TRUE)
+# PID <- paste("Test", seq(RAW), sep = "_")
+# 
+# test_data <-
+#   mapply(
+#   hibbing18_twoReg_process,
+#   RAW = RAW,
+#   IMU = IMU,
+#   PID = PID,
+#   MoreArgs = list(Wear_Location = "Left Wrist", Algorithm = c(1, 2)),
+#   SIMPLIFY = FALSE
+#   )
+```
+
+This returns your processed files as separate items in a list. To combine them, use ``combined_data <- do.call(rbind, test_data)``. You can then export your data in csv format if you prefer to deal with it in another platform. A good recommendation is to use the ``fwrite`` function from the data.table package, which is substantially faster than ``write.csv``.
