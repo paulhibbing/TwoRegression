@@ -1,8 +1,29 @@
 * checking CRAN incoming feasibility ... NOTE
 Maintainer: 'Paul R. Hibbing <paulhibbing@gmail.com>'
-
 New submission
+Found the following (possibly) invalid URLs:
+  URL: http://github.com/paulhibbing/TwoRegression
+    From: DESCRIPTION
+    Status: Error
+    Message: libcurl error code 35
+    	error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version
+  URL: http://github.com/paulhibbing/TwoRegression/issues
+    From: DESCRIPTION
+    Status: Error
+    Message: libcurl error code 35
+    	error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version
+  URL: http://www.github.com/paulhibbing/TwoRegression/
+    From: inst/CITATION
+    Status: Error
+    Message: libcurl error code 35
+    	error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version
 
-Possibly mis-spelled words in DESCRIPTION:
-  Hibbing (12:10)
-  Wearables (3:35)
+
+
+* checking top-level files ... NOTE
+File README.md cannot be checked without 'pandoc' being installed.
+
+
+
+ WARNING
+'qpdf' is needed for checks on size reduction of PDFs

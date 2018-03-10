@@ -4,13 +4,12 @@
 \name{TwoRegression}
 \alias{TwoRegression}
 \alias{TwoRegression-package}
-\title{Process Data From Wearable Research Devices Using Two-Regression Algorithms}
+\title{Process Data from Wearable Research Devices Using Two-Regression Algorithms}
 \description{
 The TwoRegression package is designed to make implementation of two-regression algorithms quick, easy, and accurate.
 }
 \section{Core functions}{
 
-\code{\link{apply_two_regression_hibbing18}}
 
 \code{\link{get_cvPER}}
 
