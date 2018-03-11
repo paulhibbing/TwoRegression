@@ -9,5 +9,5 @@ citEntry(entry = "Misc",
   textVersion  =
   paste("Paul R. Hibbing (2018).",
         "Process Data from Wearable Research Devices Using Two-Regression Algorithms.",
-        "URL http://www.github.com/paulhibbing/TwoRegression/.")
+        "URL https://www.github.com/paulhibbing/TwoRegression/.")
 )

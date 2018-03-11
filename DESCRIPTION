@@ -23,5 +23,5 @@ Suggests: knitr,
     rmarkdown,
     testthat
 VignetteBuilder: knitr
-URL: http://github.com/paulhibbing/TwoRegression
-BugReports: http://github.com/paulhibbing/TwoRegression/issues
+URL: https://github.com/paulhibbing/TwoRegression
+BugReports: https://github.com/paulhibbing/TwoRegression/issues
