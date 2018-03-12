@@ -2,7 +2,7 @@
 % Please edit documentation in R/IMU_TwoRegressionProcessing_Helper_Functions.R
 \name{imu_verify}
 \alias{imu_verify}
-\title{Identify ignorable IMU files when Algorithm = 1}
+\title{Identify IMU files that can be ignored when Algorithm = 1}
 \usage{
 imu_verify(IMU, Algorithm, IMU_ignore_A1)
 }
@@ -14,6 +14,6 @@ imu_verify(IMU, Algorithm, IMU_ignore_A1)
 \item{IMU_ignore_A1}{A logical scalar. If Algorithm = 1, should IMU files be ignored?}
 }
 \description{
-Identify ignorable IMU files when Algorithm = 1
+Identify IMU files that can be ignored when Algorithm = 1
 }
 \keyword{internal}

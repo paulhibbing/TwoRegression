@@ -9,12 +9,12 @@ get_day_of_year(timestamp, format = "\%Y-\%m-\%d \%H:\%M:\%S")
 \arguments{
 \item{timestamp}{A character vector containing timestamp information}
 
-\item{format}{The posix format of the \code{timestamp} vector}
+\item{format}{The date-time format of the \code{timestamp} vector}
 }
 \value{
-A numeric vector of julian dates.
+A numeric vector of Julian dates.
 }
 \description{
-A POSIX wrapper to retrieve the julian date.
+A wrapper to retrieve the Julian date.
 }
 \keyword{internal}

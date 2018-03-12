@@ -9,7 +9,7 @@ get_minute(timestamp, format = "\%Y-\%m-\%d \%H:\%M:\%S", rational = FALSE)
 \arguments{
 \item{timestamp}{A character vector containing timestamp information}
 
-\item{format}{The posix format of the \code{timestamp} vector}
+\item{format}{The date-time format of the \code{timestamp} vector}
 
 \item{rational}{A logical scalar. Use rational number to represent seconds?}
 }
