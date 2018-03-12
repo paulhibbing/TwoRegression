@@ -22,7 +22,7 @@ algorithm_verify <- function(IMU, Algorithm) {
   return(Algorithm)
 }
 
-#' Identify ignorable IMU files when Algorithm = 1
+#' Identify IMU files that can be ignored when Algorithm = 1
 #'
 #' @inheritParams hibbing18_twoReg_process
 #'

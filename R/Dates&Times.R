@@ -4,7 +4,7 @@
 #' (23:59). Seconds can be represented using a rational decimal.
 #'
 #' @param timestamp A character vector containing timestamp information
-#' @param format The posix format of the \code{timestamp} vector
+#' @param format The date-time format of the \code{timestamp} vector
 #' @param rational A logical scalar. Use rational number to represent seconds?
 #' @keywords internal
 get_minute <- function(timestamp, format = "%Y-%m-%d %H:%M:%S", rational = FALSE) {
@@ -21,10 +21,10 @@ get_minute <- function(timestamp, format = "%Y-%m-%d %H:%M:%S", rational = FALSE
 
 #' Julian Date
 #'
-#' A POSIX wrapper to retrieve the julian date.
+#' A wrapper to retrieve the Julian date.
 #' @inheritParams get_minute
 #'
-#' @return A numeric vector of julian dates.
+#' @return A numeric vector of Julian dates.
 #' @keywords internal
 get_day_of_year <- function(timestamp, format = "%Y-%m-%d %H:%M:%S") {
     timestamp <- as.POSIXlt(timestamp, format = format)
