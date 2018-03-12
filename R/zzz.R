@@ -1,3 +1,3 @@
 .onAttach <- function(libname, pkgname) {
-  packageStartupMessage("package 'TwoRegression' was built under R version 3.2.4")
+  packageStartupMessage("package 'TwoRegression' was built under R version 3.4.3")
 }
