@@ -1,13 +1,13 @@
-citHeader("To cite TwoRegression in publications use:")
+citHeader("To cite package 'TwoRegression' in publications use:")
 
 citEntry(entry = "Misc",
-  title        = "Process Data from Wearable Research Devices Using Two-Regression Algorithms",
+  title        = "TwoRegression: Process Data from Wearable Research Devices Using Two-Regression Algorithms",
   author       = personList(as.person("Paul R. Hibbing")),
   year         = "2018",
   url          = "https://github.com/paulhibbing/TwoRegression/",
 
   textVersion  =
   paste("Paul R. Hibbing (2018).",
-        "Process Data from Wearable Research Devices Using Two-Regression Algorithms.",
+        "TwoRegression: Process Data from Wearable Research Devices Using Two-Regression Algorithms.",
         "URL https://github.com/paulhibbing/TwoRegression/.")
 )
