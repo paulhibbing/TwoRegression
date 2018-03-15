@@ -4,13 +4,7 @@
 #' @param verbose print information about variable search criteria?
 #'
 #' @examples
-#' imu_file <-
-#'     system.file("extdata",
-#'         "IMU Data to Collapse.csv",
-#'         package = "TwoRegression")
-#'
-#' imu <-
-#'     read.csv(imu_file)
+#' data(imu_to_collapse)
 #'
 #' vm_columns <-
 #'     grepl("accelerometer",
@@ -42,14 +36,7 @@ get_VM <- function(triaxial, verbose = FALSE) {
 #' @inheritParams check_second
 #'
 #' @examples
-#' imu_file <-
-#'     system.file("extdata",
-#'         "IMU Data to Collapse.csv",
-#'         package = "TwoRegression")
-#'
-#' imu <-
-#'     read.csv(imu_file)
-#'
+#' data(imu_to_collapse)
 #' imu_filter_gyroscope(imu)
 #'
 #' @keywords internal
@@ -78,18 +65,16 @@ imu_filter_gyroscope <- function(AG, samp_rate, verbose = FALSE) {
 #'   "horizontal")
 #'
 #' @examples
-#' imu_file <-
-#'     system.file("extdata",
-#'         "IMU Data to Collapse.csv",
-#'         package = "TwoRegression")
-#'
-#' imu <- read.csv(imu_file)
+#' data(imu_to_collapse)
 #'
 #' X <- mean(imu$Magnetometer.X)
 #' Y <- mean(imu$Magnetometer.Y)
 #' Z <- mean(imu$Magnetometer.Z)
 #'
 #' classify_magnetometer(X, Y, Z)
+#'
+#' @seealso
+#'   \url{http://s3.amazonaws.com/actigraphcorp.com/wp-content/uploads/2017/11/26205750/ActiGraph_IMU_White_Paper.pdf}
 #'
 #' @keywords internal
 classify_magnetometer <- function(x = "Magnetometer X", y = "Magnetometer Y", z = "Magnetometer Z", orientation = "vertical") {

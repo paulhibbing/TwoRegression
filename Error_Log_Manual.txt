@@ -23,9 +23,6 @@ See section 'Package structure' in the 'Writing R Extensions' manual.
   sub-directories of 1Mb or more:
     extdata   4.9Mb
 
-* checking DESCRIPTION meta-information ... NOTE
-Malformed Description field: should contain one or more complete sentences.
-
 * checking examples ...
 ** running examples for arch 'i386' ... ERROR
 Running examples in 'TwoRegression-Ex.R' failed

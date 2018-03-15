@@ -23,16 +23,8 @@ check_columns <- function(file) {
 #' @param AG a dataframe of IMU data
 #'
 #' @examples
-#' \dontrun{
-#' imu_file <-
-#'     system.file("extdata",
-#'     "TestID_LeftWrist_IMU.csv",
-#'     package = "TwoRegression")
-#'
-#' AG <- read_IMU(imu_file)
-#'
-#' check_second(AG)
-#' }
+#' data(imu_to_check)
+#' check_second(imu_to_check)
 #'
 #' @keywords internal
 check_second <- function(AG) {
@@ -139,15 +131,8 @@ get_imu_file_meta <- function(file, output_window_secs) {
 #' @param output_window_secs the desired epoch length; defaults to one second
 #' @param samp_freq The sampling frequency
 #'
-#' raw_file <-
-#'     system.file("extdata",
-#'         "Raw AG to Collapse.csv",
-#'         package = "TwoRegression")
-#' raw <-
-#'     read.csv(raw_file)
-#' names(raw) <-
-#'     gsub("\\.", " ", names(AG))AG_collapse(raw, 1, 80)
-#' AG_collapse(raw, 1, 80)
+#' data(raw_to_collapse)
+#' AG_collapse(raw_to_collapse, 1, 80)
 #'
 #' @keywords internal
 AG_collapse <- function(AG, output_window_secs, samp_freq) {
@@ -181,14 +166,8 @@ AG_collapse <- function(AG, output_window_secs, samp_freq) {
 #' @return dataframe of IMU data averaged over the specified epoch length
 #'
 #' @examples
-#' imu_file <-
-#'     system.file("extdata",
-#'         "IMU Data to Collapse.csv",
-#'         package = "TwoRegression")
-#'
-#' imu <- read.csv(imu_file)
-#'
-#' imu_collapse(imu, 100)
+#' data(imu_to_collapse)
+#' imu_collapse(imu_to_collapse, 100)
 #'
 #' @keywords internal
 imu_collapse <- function(AG, block_size, verbose = FALSE) {

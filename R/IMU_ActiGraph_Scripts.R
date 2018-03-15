@@ -54,15 +54,8 @@ get_cv_vars <- function(Algorithm, verbose = FALSE) {
 #' @return a numeric vector of values, giving the lowest coefficient of variation among the sliding windows that correspond to each epoch of data
 #'
 #' @examples
-#' raw_file <-
-#'     system.file("extdata",
-#'         "Raw AG to CV.csv",
-#'         package = "TwoRegression")
-#'
-#' raw <-
-#'     read.csv(raw_file)
-#'
-#' get_cvPER(raw$ENMO, Algorithm = 1)
+#' data(raw_for_cv)
+#' get_cvPER(raw_for_cv$ENMO, Algorithm = 1)
 #'
 #' @export
 get_cvPER <- function(big_data, window_secs = 10, Algorithm, verbose = FALSE) {
@@ -163,12 +156,7 @@ get_directions <- function(big_data, window_secs = 5) {
 #'
 #' @examples
 #' \dontrun{
-#' ex_file <-
-#'     system.file("extdata",
-#'         "Combined data example.csv",
-#'         package = "TwoRegression")
-#'
-#' all_data <- read.csv(ex_file)
+#' data(all_data)
 #' process  <-
 #'     data.frame(Wear_Location = "Left Wrist",
 #'         Algorithm = 2,
