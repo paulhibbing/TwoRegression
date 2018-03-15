@@ -25,7 +25,15 @@ Maintainer: 'Paul R. Hibbing <paulhibbing@gmail.com>'
 
 New submission
 
-This is the first submission of TwoRegression
+Possibly mis-spelled words in DESCRIPTION:
+  Crouter (15:43)
+  Hibbing (15:5)
+  Kaplan (15:30)
+  LaMunion (15:17)
+
+This is the first submission of TwoRegression. The "possibly mis-spelled words"
+    are author names pertaining to the newly-added reference in DECRIPTION
+    (see resubmission bullet 2 above).
 
 ## Downstream dependencies
 There are no reverse dependencies for TwoRegression.
