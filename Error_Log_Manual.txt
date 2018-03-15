@@ -1,29 +1,73 @@
 * checking CRAN incoming feasibility ... NOTE
 Maintainer: 'Paul R. Hibbing <paulhibbing@gmail.com>'
+
 New submission
-Found the following (possibly) invalid URLs:
-  URL: http://github.com/paulhibbing/TwoRegression
-    From: DESCRIPTION
-    Status: Error
-    Message: libcurl error code 35
-    	error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version
-  URL: http://github.com/paulhibbing/TwoRegression/issues
-    From: DESCRIPTION
-    Status: Error
-    Message: libcurl error code 35
-    	error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version
-  URL: http://www.github.com/paulhibbing/TwoRegression/
-    From: inst/CITATION
-    Status: Error
-    Message: libcurl error code 35
-    	error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version
+
+Possibly mis-spelled words in DESCRIPTION:
+  Crouter (15:43)
+  Hibbing (15:5)
+  Kaplan (15:30)
+  LaMunion (15:17)
+
+* checking for portable file names ... WARNING
+Found the following files with non-portable file names:
+  inst/extdata/Combined data example.csv
+  inst/extdata/IMU Data to Collapse.csv
+  inst/extdata/Raw AG to CV.csv
+  inst/extdata/Raw AG to Collapse.csv
+These are not fully portable file names.
+See section 'Package structure' in the 'Writing R Extensions' manual.
+
+* checking installed package size ... NOTE
+  installed size is  5.4Mb
+  sub-directories of 1Mb or more:
+    extdata   4.9Mb
+
+* checking DESCRIPTION meta-information ... NOTE
+Malformed Description field: should contain one or more complete sentences.
+
+* checking examples ...
+** running examples for arch 'i386' ... ERROR
+Running examples in 'TwoRegression-Ex.R' failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_columns
+> ### Title: Check if the primary accelerometer file is formatted correctly
+> ### Aliases: check_columns
+> ### Keywords: internal
+> 
+> ### ** Examples
+> 
+> raw_file <-
++     system.file("extdata",
++     "TestID_LeftWrist_RAW.csv",
++     package = "TwoRegression")
+> 
+> check_columns(file)
+Error in check_columns(file) : could not find function "check_columns"
+Execution halted
+
+** running examples for arch 'x64' ... ERROR
+Running examples in 'TwoRegression-Ex.R' failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_columns
+> ### Title: Check if the primary accelerometer file is formatted correctly
+> ### Aliases: check_columns
+> ### Keywords: internal
+> 
+> ### ** Examples
+> 
+> raw_file <-
++     system.file("extdata",
++     "TestID_LeftWrist_RAW.csv",
++     package = "TwoRegression")
+> 
+> check_columns(file)
+Error in check_columns(file) : could not find function "check_columns"
+Execution halted
 
 
-
-* checking top-level files ... NOTE
-File README.md cannot be checked without 'pandoc' being installed.
-
-
-
- WARNING
-'qpdf' is needed for checks on size reduction of PDFs
+Status: 2 ERRORs, 1 WARNING, 3 NOTEs
