@@ -16,9 +16,11 @@ coefficient of variation in sliding windows, depending on which
 two-regression algorithm(s) have been designated for application to the data.
 }
 \examples{
+\dontrun{
 get_cv_vars(1)
 get_cv_vars(2)
 get_cv_vars(c(1,2))
+}
 
 }
 \keyword{internal}

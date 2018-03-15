@@ -20,14 +20,10 @@ dataframe of IMU data averaged over the specified epoch length
 Collapse raw IMU data to a specified epoch
 }
 \examples{
-imu_file <-
-    system.file("extdata",
-        "IMU Data to Collapse.csv",
-        package = "TwoRegression")
-
-imu <- read.csv(imu_file)
-
-imu_collapse(imu, 100)
+\dontrun{
+data(imu_to_collapse)
+imu_collapse(imu_to_collapse, 100)
+}
 
 }
 \keyword{internal}

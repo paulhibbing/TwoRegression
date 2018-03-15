@@ -4,6 +4,7 @@
 #' @param verbose print information about variable search criteria?
 #'
 #' @examples
+#' \dontrun{
 #' data(imu_to_collapse)
 #'
 #' vm_columns <-
@@ -12,8 +13,10 @@
 #'         ignore.case = T)
 #'
 #' get_VM(imu[, vm_columns])
+#' }
 #'
 #' @return a vector of vector magnitude values
+#' @keywords internal
 get_VM <- function(triaxial, verbose = FALSE) {
   if (verbose) {
     vm_variables <-
@@ -36,8 +39,10 @@ get_VM <- function(triaxial, verbose = FALSE) {
 #' @inheritParams check_second
 #'
 #' @examples
+#' \dontrun{
 #' data(imu_to_collapse)
 #' imu_filter_gyroscope(imu)
+#' }
 #'
 #' @keywords internal
 imu_filter_gyroscope <- function(AG, samp_rate, verbose = FALSE) {
@@ -65,6 +70,7 @@ imu_filter_gyroscope <- function(AG, samp_rate, verbose = FALSE) {
 #'   "horizontal")
 #'
 #' @examples
+#' \dontrun{
 #' data(imu_to_collapse)
 #'
 #' X <- mean(imu$Magnetometer.X)
@@ -72,6 +78,7 @@ imu_filter_gyroscope <- function(AG, samp_rate, verbose = FALSE) {
 #' Z <- mean(imu$Magnetometer.Z)
 #'
 #' classify_magnetometer(X, Y, Z)
+#' }
 #'
 #' @seealso
 #'   \url{http://s3.amazonaws.com/actigraphcorp.com/wp-content/uploads/2017/11/26205750/ActiGraph_IMU_White_Paper.pdf}

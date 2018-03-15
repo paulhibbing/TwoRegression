@@ -3,8 +3,10 @@
 #' @param signal the variable on which to perform calculation
 #'
 #' @examples
+#' \dontrun{
 #' cv(rep(0, 10))
 #' cv(seq(1, 10))
+#' }
 #'
 #' @keywords internal
 #'
@@ -26,9 +28,11 @@ cv <- function(signal) {
 #'   data
 #'
 #' @examples
+#' \dontrun{
 #' get_cv_vars(1)
 #' get_cv_vars(2)
 #' get_cv_vars(c(1,2))
+#' }
 #'
 #' @keywords internal
 get_cv_vars <- function(Algorithm, verbose = FALSE) {

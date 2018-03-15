@@ -15,11 +15,14 @@ check_columns(file)
  indicates the test has passed, whereas FALSE indicates an issue.
 }
 \examples{
+\dontrun{
 raw_file <-
     system.file("extdata",
     "TestID_LeftWrist_RAW.csv",
     package = "TwoRegression")
 
 check_columns(file)
+}
+
 }
 \keyword{internal}

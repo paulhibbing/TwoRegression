@@ -20,12 +20,7 @@ Applies the specified two-regression algorithm from \href{https://www.ncbi.nlm.n
 }
 \examples{
 \dontrun{
-ex_file <-
-    system.file("extdata",
-        "Combined data example.csv",
-        package = "TwoRegression")
-
-all_data <- read.csv(ex_file)
+data(all_data)
 process  <-
     data.frame(Wear_Location = "Left Wrist",
         Algorithm = 2,

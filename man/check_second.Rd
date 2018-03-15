@@ -14,14 +14,8 @@ Check if the IMU data start on an exact second
 }
 \examples{
 \dontrun{
-imu_file <-
-    system.file("extdata",
-    "TestID_LeftWrist_IMU.csv",
-    package = "TwoRegression")
-
-AG <- read_IMU(imu_file)
-
-check_second(AG)
+data(imu_to_check)
+check_second(imu_to_check)
 }
 
 }

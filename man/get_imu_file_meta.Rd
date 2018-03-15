@@ -15,12 +15,14 @@ get_imu_file_meta(file, output_window_secs)
 Get file metadata (sampling frequency, start time, and samples per epoch) for primary accelerometer
 }
 \examples{
+\dontrun{
 imu_file <-
     system.file("extdata",
     "TestID_LeftWrist_IMU.csv",
     package = "TwoRegression")
 
 get_imu_file_meta(file, 1)
+}
 
 }
 \keyword{internal}

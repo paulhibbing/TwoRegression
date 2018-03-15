@@ -13,15 +13,10 @@ imu_filter_gyroscope(AG, samp_rate, verbose = FALSE)
 Low-Pass filter the Gyroscope data at 35 Hz
 }
 \examples{
-imu_file <-
-    system.file("extdata",
-        "IMU Data to Collapse.csv",
-        package = "TwoRegression")
-
-imu <-
-    read.csv(imu_file)
-
+\dontrun{
+data(imu_to_collapse)
 imu_filter_gyroscope(imu)
+}
 
 }
 \keyword{internal}
