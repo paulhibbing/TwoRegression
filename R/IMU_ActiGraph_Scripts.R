@@ -2,6 +2,10 @@
 #'
 #' @param signal the variable on which to perform calculation
 #'
+#' @examples
+#' cv(rep(0, 10))
+#' cv(seq(1, 10))
+#'
 #' @keywords internal
 #'
 cv <- function(signal) {
@@ -14,7 +18,17 @@ cv <- function(signal) {
 
 #' Determine which variable(s) to calculate coefficient of variation on
 #'
-#' @param Algorithm the algorithm(s) selected to process the accelerometer/IMU data
+#' \code{get_cv_vars} returns the name(s) of variables on which to calculate the
+#' coefficient of variation in sliding windows, depending on which
+#' two-regression algorithm(s) have been designated for application to the data.
+#'
+#' @param Algorithm the algorithm(s) selected to process the accelerometer/IMU
+#'   data
+#'
+#' @examples
+#' get_cv_vars(1)
+#' get_cv_vars(2)
+#' get_cv_vars(c(1,2))
 #'
 #' @keywords internal
 get_cv_vars <- function(Algorithm, verbose = FALSE) {
@@ -38,6 +52,18 @@ get_cv_vars <- function(Algorithm, verbose = FALSE) {
 #' @inheritParams hibbing18_twoReg_process
 #'
 #' @return a numeric vector of values, giving the lowest coefficient of variation among the sliding windows that correspond to each epoch of data
+#'
+#' @examples
+#' raw_file <-
+#'     system.file("extdata",
+#'         "Raw AG to CV.csv",
+#'         package = "TwoRegression")
+#'
+#' raw <-
+#'     read.csv(raw_file)
+#'
+#' get_cvPER(raw$ENMO, Algorithm = 1)
+#'
 #' @export
 get_cvPER <- function(big_data, window_secs = 10, Algorithm, verbose = FALSE) {
     if (verbose) message_update(13, window_secs = window_secs)
@@ -79,6 +105,24 @@ get_cvPER <- function(big_data, window_secs = 10, Algorithm, verbose = FALSE) {
 #' @inheritParams get_cvPER
 #'
 #' @return a numeric vector of values, giving the number of direction changes in the sliding window that corresponds to each epoch of data
+#'
+#' @examples
+#' \dontrun{
+#' ##All possible directions
+#' directions <-
+#'   c("N", "NNE", "NE", "ENE",
+#'     "E", "ESE", "SE", "SSE",
+#'     "S", "SSW", "SW", "WSW",
+#'     "W", "WNW", "NW", "NNW")
+#'
+#' ##Reproducible results
+#' set.seed(55)
+#' direction_vector <- sample(directions, 50, replace = TRUE)
+#'
+#' ##Vector of direction changes per 5-s. First and last two values are always NA
+#' get_directions(direction_vector)
+#' }
+#'
 #' @export
 get_directions <- function(big_data, window_secs = 5) {
     if (window_secs%%2 != 1)
@@ -116,6 +160,22 @@ get_directions <- function(big_data, window_secs = 5) {
 #' @param all_data a dataframe providing the processed GT9X data on which to make the predictions
 #'
 #' @return a numeric vector of predicted energy expenditure values, expressed in metabolic equivalents
+#'
+#' @examples
+#' \dontrun{
+#' ex_file <-
+#'     system.file("extdata",
+#'         "Combined data example.csv",
+#'         package = "TwoRegression")
+#'
+#' all_data <- read.csv(ex_file)
+#' process  <-
+#'     data.frame(Wear_Location = "Left Wrist",
+#'         Algorithm = 2,
+#'         stringsAsFactors = FALSE)
+#'
+#' apply_two_regression_hibbing18(process, all_data)
+#' }
 #' @keywords internal
 apply_two_regression_hibbing18 <-
   function(which_algorithm = data.frame(Wear_Location = "Hip", Algorithm = 1),

@@ -29,3 +29,22 @@ A data frame giving the data and predictions
 \description{
 Process GT9X primary accelerometer and (if applicable) IMU files using one or more of the algorithms from \href{https://www.ncbi.nlm.nih.gov/pubmed/29271847}{Hibbing et al. (2018, \emph{Med Sci Sports Exerc})}.
 }
+\examples{
+\dontrun{
+raw_file <-
+    system.file("extdata",
+        "TestID_LeftWrist_RAW.csv",
+        package = "TwoRegression")
+
+imu_file <-
+    system.file("extdata",
+        "TestID_LeftWrist_IMU.csv",
+        package = "TwoRegression")
+
+wear <- "Left Wrist"
+id <- "Test"
+alg <- 1:2
+
+hibbing18_twoReg_process(raw_file, imu_file, wear, id, alg)
+}
+}

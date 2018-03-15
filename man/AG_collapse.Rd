@@ -11,7 +11,17 @@ AG_collapse(AG, output_window_secs, samp_freq)
 
 \item{output_window_secs}{the desired epoch length; defaults to one second}
 
-\item{samp_freq}{The sampling frequency}
+\item{samp_freq}{The sampling frequency
+
+raw_file <-
+    system.file("extdata",
+        "Raw AG to Collapse.csv",
+        package = "TwoRegression")
+raw <-
+    read.csv(raw_file)
+names(raw) <-
+    gsub("\\.", " ", names(AG))AG_collapse(raw, 1, 80)
+AG_collapse(raw, 1, 80)}
 }
 \description{
 Collapse primary accelerometer data

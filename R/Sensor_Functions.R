@@ -3,6 +3,22 @@
 #' @param triaxial a dataframe of triaxial data on which to calculate vector magnitude
 #' @param verbose print information about variable search criteria?
 #'
+#' @examples
+#' imu_file <-
+#'     system.file("extdata",
+#'         "IMU Data to Collapse.csv",
+#'         package = "TwoRegression")
+#'
+#' imu <-
+#'     read.csv(imu_file)
+#'
+#' vm_columns <-
+#'     grepl("accelerometer",
+#'         names(imu),
+#'         ignore.case = T)
+#'
+#' get_VM(imu[, vm_columns])
+#'
 #' @return a vector of vector magnitude values
 get_VM <- function(triaxial, verbose = FALSE) {
   if (verbose) {
@@ -24,6 +40,17 @@ get_VM <- function(triaxial, verbose = FALSE) {
 #' Low-Pass filter the Gyroscope data at 35 Hz
 #'
 #' @inheritParams check_second
+#'
+#' @examples
+#' imu_file <-
+#'     system.file("extdata",
+#'         "IMU Data to Collapse.csv",
+#'         package = "TwoRegression")
+#'
+#' imu <-
+#'     read.csv(imu_file)
+#'
+#' imu_filter_gyroscope(imu)
 #'
 #' @keywords internal
 imu_filter_gyroscope <- function(AG, samp_rate, verbose = FALSE) {
@@ -47,7 +74,22 @@ imu_filter_gyroscope <- function(AG, samp_rate, verbose = FALSE) {
 #' @param x x-axis magnetometer data
 #' @param y y-axis magnetometer data
 #' @param z z-axis magnetometer data
-#' @param orientation the conversion scheme to use, from c("vertical", "horizontal")
+#' @param orientation the conversion scheme to use, from c("vertical",
+#'   "horizontal")
+#'
+#' @examples
+#' imu_file <-
+#'     system.file("extdata",
+#'         "IMU Data to Collapse.csv",
+#'         package = "TwoRegression")
+#'
+#' imu <- read.csv(imu_file)
+#'
+#' X <- mean(imu$Magnetometer.X)
+#' Y <- mean(imu$Magnetometer.Y)
+#' Z <- mean(imu$Magnetometer.Z)
+#'
+#' classify_magnetometer(X, Y, Z)
 #'
 #' @keywords internal
 classify_magnetometer <- function(x = "Magnetometer X", y = "Magnetometer Y", z = "Magnetometer Z", orientation = "vertical") {

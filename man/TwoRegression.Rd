@@ -24,3 +24,23 @@ energy expenditure with ActiGraph GT9X Inertial Measurement Unit.
 doi: 10.1249/MSS.0000000000001532
 }
 
+\examples{
+\dontrun{
+raw_file <-
+    system.file("extdata",
+        "TestID_LeftWrist_RAW.csv",
+        package = "TwoRegression")
+
+imu_file <-
+    system.file("extdata",
+        "TestID_LeftWrist_IMU.csv",
+        package = "TwoRegression")
+
+wear <- "Left Wrist"
+id <- "Test"
+alg <- 1:2
+
+hibbing18_twoReg_process(raw_file, imu_file, wear, id, alg)
+}
+
+}

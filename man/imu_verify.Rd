@@ -16,4 +16,16 @@ imu_verify(IMU, Algorithm, IMU_ignore_A1)
 \description{
 Identify IMU files that can be ignored when Algorithm = 1
 }
+\examples{
+\dontrun{
+imu_file <-
+    system.file("extdata",
+        "TestID_LeftWrist_IMU.csv",
+        package = "TwoRegression")
+
+imu_verify(imu_file, 1, TRUE)
+imu_verify(imu_file, 1, FALSE)
+}
+
+}
 \keyword{internal}

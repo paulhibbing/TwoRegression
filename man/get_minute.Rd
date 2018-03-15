@@ -17,4 +17,16 @@ get_minute(timestamp, format = "\%Y-\%m-\%d \%H:\%M:\%S", rational = FALSE)
 Converts a timestamp to a numerical value between 0 (midnight) and 1439
 (23:59). Seconds can be represented using a rational decimal.
 }
+\examples{
+key_times <-
+    paste("2018-03-15",
+          c("00:00:00",
+            "01:00:00",
+            "12:00:00",
+            "23:59:59"))
+
+get_minute(key_times)
+get_minute(key_times, rational = TRUE)
+
+}
 \keyword{internal}

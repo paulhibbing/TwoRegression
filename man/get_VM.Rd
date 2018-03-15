@@ -17,3 +17,20 @@ a vector of vector magnitude values
 \description{
 Calculate vector magnitude
 }
+\examples{
+imu_file <-
+    system.file("extdata",
+        "IMU Data to Collapse.csv",
+        package = "TwoRegression")
+
+imu <-
+    read.csv(imu_file)
+
+vm_columns <-
+    grepl("accelerometer",
+        names(imu),
+        ignore.case = T)
+
+get_VM(imu[, vm_columns])
+
+}

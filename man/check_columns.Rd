@@ -10,6 +10,16 @@ check_columns(file)
 \item{file}{A character scalar giving path to primary accelerometer file}
 }
 \description{
-Check if the primary accelerometer file is formatted correctly
+\code{check_columns} returns a logical scalar indicating whether there is a
+ formatting issue with the file passed as the argument. A value of TRUE
+ indicates the test has passed, whereas FALSE indicates an issue.
+}
+\examples{
+raw_file <-
+    system.file("extdata",
+    "TestID_LeftWrist_RAW.csv",
+    package = "TwoRegression")
+
+check_columns(file)
 }
 \keyword{internal}

@@ -18,4 +18,20 @@ a numeric vector of predicted energy expenditure values, expressed in metabolic 
 \description{
 Applies the specified two-regression algorithm from \href{https://www.ncbi.nlm.nih.gov/pubmed/29271847}{Hibbing et al. (2018, \emph{Med Sci Sports Exerc})} to data from the primary accelerometer and IMU (if applicable)
 }
+\examples{
+\dontrun{
+ex_file <-
+    system.file("extdata",
+        "Combined data example.csv",
+        package = "TwoRegression")
+
+all_data <- read.csv(ex_file)
+process  <-
+    data.frame(Wear_Location = "Left Wrist",
+        Algorithm = 2,
+        stringsAsFactors = FALSE)
+
+apply_two_regression_hibbing18(process, all_data)
+}
+}
 \keyword{internal}

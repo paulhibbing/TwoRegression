@@ -7,9 +7,18 @@
 get_cv_vars(Algorithm, verbose = FALSE)
 }
 \arguments{
-\item{Algorithm}{the algorithm(s) selected to process the accelerometer/IMU data}
+\item{Algorithm}{the algorithm(s) selected to process the accelerometer/IMU
+data}
 }
 \description{
-Determine which variable(s) to calculate coefficient of variation on
+\code{get_cv_vars} returns the name(s) of variables on which to calculate the
+coefficient of variation in sliding windows, depending on which
+two-regression algorithm(s) have been designated for application to the data.
+}
+\examples{
+get_cv_vars(1)
+get_cv_vars(2)
+get_cv_vars(c(1,2))
+
 }
 \keyword{internal}

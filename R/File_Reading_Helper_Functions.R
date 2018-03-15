@@ -1,16 +1,38 @@
 #' Check if the primary accelerometer file is formatted correctly
 #'
-#' @inheritParams read_AG_raw
+#' \code{check_columns} returns a logical scalar indicating whether there is a
+#'  formatting issue with the file passed as the argument. A value of TRUE
+#'  indicates the test has passed, whereas FALSE indicates an issue.
 #'
+#' @inheritParams read_AG_raw
+#' @examples
+#' raw_file <-
+#'     system.file("extdata",
+#'     "TestID_LeftWrist_RAW.csv",
+#'     package = "TwoRegression")
+#'
+#' check_columns(file)
 #' @keywords internal
 check_columns <- function(file) {
   test_read <- utils::read.csv(file, nrows = 15)
   if(ncol(test_read) == 1) FALSE else TRUE
 }
 
-#' Check if the AG data start on an exact second
+#' Check if the IMU data start on an exact second
 #'
 #' @param AG a dataframe of IMU data
+#'
+#' @examples
+#' \dontrun{
+#' imu_file <-
+#'     system.file("extdata",
+#'     "TestID_LeftWrist_IMU.csv",
+#'     package = "TwoRegression")
+#'
+#' AG <- read_IMU(imu_file)
+#'
+#' check_second(AG)
+#' }
 #'
 #' @keywords internal
 check_second <- function(AG) {
@@ -26,6 +48,13 @@ check_second <- function(AG) {
 #'
 #' @param file character scalar giving path to primary accelerometer file
 #'
+#' @examples
+#' raw_file <-
+#'     system.file("extdata",
+#'     "TestID_LeftWrist_RAW.csv",
+#'     package = "TwoRegression")
+#'
+#' get_raw_file_meta(file)
 #' @keywords internal
 get_raw_file_meta <- function(file) {
   file_meta <-
@@ -63,6 +92,14 @@ get_raw_file_meta <- function(file) {
 #'
 #' @param file character scalar giving path to IMU file
 #' @param output_window_secs the desired epoch length, over which to average IMU data
+#'
+#' @examples
+#' imu_file <-
+#'     system.file("extdata",
+#'     "TestID_LeftWrist_IMU.csv",
+#'     package = "TwoRegression")
+#'
+#' get_imu_file_meta(file, 1)
 #'
 #' @keywords internal
 get_imu_file_meta <- function(file, output_window_secs) {
@@ -102,6 +139,16 @@ get_imu_file_meta <- function(file, output_window_secs) {
 #' @param output_window_secs the desired epoch length; defaults to one second
 #' @param samp_freq The sampling frequency
 #'
+#' raw_file <-
+#'     system.file("extdata",
+#'         "Raw AG to Collapse.csv",
+#'         package = "TwoRegression")
+#' raw <-
+#'     read.csv(raw_file)
+#' names(raw) <-
+#'     gsub("\\.", " ", names(AG))AG_collapse(raw, 1, 80)
+#' AG_collapse(raw, 1, 80)
+#'
 #' @keywords internal
 AG_collapse <- function(AG, output_window_secs, samp_freq) {
   ## Get ENMO
@@ -132,6 +179,17 @@ AG_collapse <- function(AG, output_window_secs, samp_freq) {
 #' @inheritParams hibbing18_twoReg_process
 #'
 #' @return dataframe of IMU data averaged over the specified epoch length
+#'
+#' @examples
+#' imu_file <-
+#'     system.file("extdata",
+#'         "IMU Data to Collapse.csv",
+#'         package = "TwoRegression")
+#'
+#' imu <- read.csv(imu_file)
+#'
+#' imu_collapse(imu, 100)
+#'
 #' @keywords internal
 imu_collapse <- function(AG, block_size, verbose = FALSE) {
 

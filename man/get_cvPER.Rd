@@ -21,3 +21,15 @@ a numeric vector of values, giving the lowest coefficient of variation among the
 \description{
 Calculates coefficient of variation using the approach of Crouter et al. (2010, \emph{Med Sci Sports Exerc})
 }
+\examples{
+raw_file <-
+    system.file("extdata",
+        "Raw AG to CV.csv",
+        package = "TwoRegression")
+
+raw <-
+    read.csv(raw_file)
+
+get_cvPER(raw$ENMO, Algorithm = 1)
+
+}

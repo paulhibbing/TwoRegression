@@ -11,6 +11,25 @@
 #' @param IMU_ignore_A1 A logical scalar. If Algorithm = 1, should IMU files be ignored?
 #'
 #' @return A data frame giving the data and predictions
+#'
+#' @examples
+#' \dontrun{
+#' raw_file <-
+#'     system.file("extdata",
+#'         "TestID_LeftWrist_RAW.csv",
+#'         package = "TwoRegression")
+#'
+#' imu_file <-
+#'     system.file("extdata",
+#'         "TestID_LeftWrist_IMU.csv",
+#'         package = "TwoRegression")
+#'
+#' wear <- "Left Wrist"
+#' id <- "Test"
+#' alg <- 1:2
+#'
+#' hibbing18_twoReg_process(raw_file, imu_file, wear, id, alg)
+#' }
 #' @export
 #'
 hibbing18_twoReg_process <-

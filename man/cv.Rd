@@ -12,4 +12,9 @@ cv(signal)
 \description{
 Calculate coefficient of variation
 }
+\examples{
+cv(rep(0, 10))
+cv(seq(1, 10))
+
+}
 \keyword{internal}

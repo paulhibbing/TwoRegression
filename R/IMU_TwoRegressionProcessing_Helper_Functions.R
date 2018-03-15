@@ -2,6 +2,12 @@
 #'
 #' @inheritParams hibbing18_twoReg_process
 #'
+#' @examples
+#' \dontrun{
+#' algorithm_verify(NULL, 4)
+#' algorithm_verify(NULL, NULL)
+#' }
+#'
 #' @keywords internal
 algorithm_verify <- function(IMU, Algorithm) {
   if (!all(Algorithm %in% 1:3)) {
@@ -26,6 +32,17 @@ algorithm_verify <- function(IMU, Algorithm) {
 #'
 #' @inheritParams hibbing18_twoReg_process
 #'
+#' @examples
+#' \dontrun{
+#' imu_file <-
+#'     system.file("extdata",
+#'         "TestID_LeftWrist_IMU.csv",
+#'         package = "TwoRegression")
+#'
+#' imu_verify(imu_file, 1, TRUE)
+#' imu_verify(imu_file, 1, FALSE)
+#' }
+#'
 #' @keywords internal
 imu_verify <- function(IMU, Algorithm, IMU_ignore_A1) {
   if (all(!is.null(IMU), sum(Algorithm) == 1, IMU_ignore_A1)) {
@@ -38,6 +55,13 @@ imu_verify <- function(IMU, Algorithm, IMU_ignore_A1) {
 #' Identify mis-specified Hibbing 2018 attachment site
 #'
 #' @inheritParams hibbing18_twoReg_process
+#'
+#' @examples
+#' \dontrun{
+#' attachment_verify("Left Wrist")
+#' attachment_verify(c("Left Wirst", "Right Wrist"))
+#' attachment_verify("Left Wirst")
+#' }
 #'
 #' @keywords internal
 attachment_verify <- function(Wear_Location) {

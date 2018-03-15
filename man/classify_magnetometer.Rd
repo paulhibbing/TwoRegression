@@ -14,9 +14,25 @@ classify_magnetometer(x = "Magnetometer X", y = "Magnetometer Y",
 
 \item{z}{z-axis magnetometer data}
 
-\item{orientation}{the conversion scheme to use, from c("vertical", "horizontal")}
+\item{orientation}{the conversion scheme to use, from c("vertical",
+"horizontal")}
 }
 \description{
 Convert magnetometer signal to cardinal direction
+}
+\examples{
+imu_file <-
+    system.file("extdata",
+        "IMU Data to Collapse.csv",
+        package = "TwoRegression")
+
+imu <- read.csv(imu_file)
+
+X <- mean(imu$Magnetometer.X)
+Y <- mean(imu$Magnetometer.Y)
+Z <- mean(imu$Magnetometer.Z)
+
+classify_magnetometer(X, Y, Z)
+
 }
 \keyword{internal}

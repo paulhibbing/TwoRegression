@@ -14,4 +14,11 @@ algorithm_verify(IMU, Algorithm)
 \description{
 Identify mis-specified Hibbing 2018 algorithms, based on files provided
 }
+\examples{
+\dontrun{
+algorithm_verify(NULL, 4)
+algorithm_verify(NULL, NULL)
+}
+
+}
 \keyword{internal}

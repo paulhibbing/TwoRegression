@@ -19,3 +19,14 @@ A dataframe giving processed IMU data in the specified epoch length
 \description{
 File reading function for IMU files
 }
+\examples{
+\dontrun{
+imu_file <-
+    system.file("extdata",
+        "TestID_LeftWrist_IMU.csv",
+        package = "TwoRegression")
+
+read_IMU(imu_file)
+}
+
+}

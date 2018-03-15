@@ -8,6 +8,25 @@
 #'
 #' \code{\link{hibbing18_twoReg_process}}
 #'
+#' @examples
+#' \dontrun{
+#' raw_file <-
+#'     system.file("extdata",
+#'         "TestID_LeftWrist_RAW.csv",
+#'         package = "TwoRegression")
+#'
+#' imu_file <-
+#'     system.file("extdata",
+#'         "TestID_LeftWrist_IMU.csv",
+#'         package = "TwoRegression")
+#'
+#' wear <- "Left Wrist"
+#' id <- "Test"
+#' alg <- 1:2
+#'
+#' hibbing18_twoReg_process(raw_file, imu_file, wear, id, alg)
+#' }
+#'
 #' @section Associated References:
 #' Hibbing PR, LaMunion SR, Kaplan AS, & Crouter SE (2017). Estimating
 #' energy expenditure with ActiGraph GT9X Inertial Measurement Unit.

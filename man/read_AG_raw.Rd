@@ -19,3 +19,12 @@ A dataframe giving processed raw data from the primary accelerometer in the spec
 \description{
 File reading function for primary accelerometer files
 }
+\examples{
+raw_file <-
+    system.file("extdata",
+    "TestID_LeftWrist_RAW.csv",
+    package = "TwoRegression")
+
+read_AG_raw(raw_file)
+
+}

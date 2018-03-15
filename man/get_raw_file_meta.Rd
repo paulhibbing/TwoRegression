@@ -12,4 +12,12 @@ get_raw_file_meta(file)
 \description{
 Get file metadata (sampling frequency and timestamps) for primary accelerometer
 }
+\examples{
+raw_file <-
+    system.file("extdata",
+    "TestID_LeftWrist_RAW.csv",
+    package = "TwoRegression")
+
+get_raw_file_meta(file)
+}
 \keyword{internal}

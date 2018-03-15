@@ -5,6 +5,15 @@
 #' @inheritParams hibbing18_twoReg_process
 #'
 #' @return A dataframe giving processed raw data from the primary accelerometer in the specified epoch length
+#'
+#' @examples
+#' raw_file <-
+#'     system.file("extdata",
+#'     "TestID_LeftWrist_RAW.csv",
+#'     package = "TwoRegression")
+#'
+#' read_AG_raw(raw_file)
+#'
 #' @export
 read_AG_raw <- function(file, output_window_secs = 1, verbose = FALSE) {
   timer <- proc.time()
@@ -63,6 +72,17 @@ read_AG_raw <- function(file, output_window_secs = 1, verbose = FALSE) {
 #' @inheritParams read_AG_raw
 #'
 #' @return A dataframe giving processed IMU data in the specified epoch length
+#'
+#' @examples
+#' \dontrun{
+#' imu_file <-
+#'     system.file("extdata",
+#'         "TestID_LeftWrist_IMU.csv",
+#'         package = "TwoRegression")
+#'
+#' read_IMU(imu_file)
+#' }
+#'
 #' @export
 read_IMU <- function(file, output_window_secs = 1, verbose = FALSE) {
   timer <- proc.time()

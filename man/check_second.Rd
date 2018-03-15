@@ -2,7 +2,7 @@
 % Please edit documentation in R/File_Reading_Helper_Functions.R
 \name{check_second}
 \alias{check_second}
-\title{Check if the AG data start on an exact second}
+\title{Check if the IMU data start on an exact second}
 \usage{
 check_second(AG)
 }
@@ -10,6 +10,19 @@ check_second(AG)
 \item{AG}{a dataframe of IMU data}
 }
 \description{
-Check if the AG data start on an exact second
+Check if the IMU data start on an exact second
+}
+\examples{
+\dontrun{
+imu_file <-
+    system.file("extdata",
+    "TestID_LeftWrist_IMU.csv",
+    package = "TwoRegression")
+
+AG <- read_IMU(imu_file)
+
+check_second(AG)
+}
+
 }
 \keyword{internal}
