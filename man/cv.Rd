@@ -14,8 +14,8 @@ Calculate coefficient of variation
 }
 \examples{
 \dontrun{
-cv(rep(0, 10))
-cv(seq(1, 10))
+TwoRegression:::cv(rep(0, 10))
+TwoRegression:::cv(seq(1, 10))
 }
 
 }

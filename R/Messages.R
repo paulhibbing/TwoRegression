@@ -6,12 +6,6 @@
 #' @param duration the duration of processing
 #' @param is_Message print update as a message?
 #'
-#' @examples
-#' \dontrun{
-#' message_update(3)
-#' message_update(3, is_message = TRUE)
-#' }
-#'
 #' @keywords internal
 message_update <-
   function(message_number,

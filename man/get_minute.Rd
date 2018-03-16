@@ -26,8 +26,8 @@ key_times <-
             "12:00:00",
             "23:59:59"))
 
-get_minute(key_times)
-get_minute(key_times, rational = TRUE)
+TwoRegression:::get_minute(key_times)
+TwoRegression:::get_minute(key_times, rational = TRUE)
 }
 
 }

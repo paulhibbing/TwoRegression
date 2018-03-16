@@ -28,7 +28,7 @@ X <- mean(imu$Magnetometer.X)
 Y <- mean(imu$Magnetometer.Y)
 Z <- mean(imu$Magnetometer.Z)
 
-classify_magnetometer(X, Y, Z)
+TwoRegression:::classify_magnetometer(X, Y, Z)
 }
 
 }

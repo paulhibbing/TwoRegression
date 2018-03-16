@@ -14,9 +14,9 @@ Identify mis-specified Hibbing 2018 attachment site
 }
 \examples{
 \dontrun{
-attachment_verify("Left Wrist")
-attachment_verify(c("Left Wirst", "Right Wrist"))
-attachment_verify("Left Wirst")
+TwoRegression:::attachment_verify("Left Wrist")
+TwoRegression:::attachment_verify(c("Left Wirst", "Right Wrist"))
+TwoRegression:::attachment_verify("Left Wirst")
 }
 
 }

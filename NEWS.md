@@ -1,3 +1,10 @@
+#TwoRegression 0.1.2
+##Summary
+    This is a resubmission of the initial version
+##Changes
+* For internal functions, corrected examples by prepending with
+    TwoRegression:::, or by removing the example(s)
+
 #TwoRegression 0.1.1
 ##Summary
     This is a resubmission of the initial version

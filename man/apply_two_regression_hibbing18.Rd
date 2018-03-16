@@ -26,7 +26,7 @@ process  <-
         Algorithm = 2,
         stringsAsFactors = FALSE)
 
-apply_two_regression_hibbing18(process, all_data)
+TwoRegression:::apply_two_regression_hibbing18(process, all_data)
 }
 }
 \keyword{internal}

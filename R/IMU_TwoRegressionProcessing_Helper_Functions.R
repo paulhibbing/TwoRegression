@@ -4,8 +4,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' algorithm_verify(NULL, 4)
-#' algorithm_verify(NULL, NULL)
+#' TwoRegression:::algorithm_verify(NULL, 4)
+#' TwoRegression:::algorithm_verify(NULL, NULL)
 #' }
 #'
 #' @keywords internal
@@ -39,8 +39,8 @@ algorithm_verify <- function(IMU, Algorithm) {
 #'         "TestID_LeftWrist_IMU.csv",
 #'         package = "TwoRegression")
 #'
-#' imu_verify(imu_file, 1, TRUE)
-#' imu_verify(imu_file, 1, FALSE)
+#' TwoRegression:::imu_verify(imu_file, 1, TRUE)
+#' TwoRegression:::imu_verify(imu_file, 1, FALSE)
 #' }
 #'
 #' @keywords internal
@@ -58,9 +58,9 @@ imu_verify <- function(IMU, Algorithm, IMU_ignore_A1) {
 #'
 #' @examples
 #' \dontrun{
-#' attachment_verify("Left Wrist")
-#' attachment_verify(c("Left Wirst", "Right Wrist"))
-#' attachment_verify("Left Wirst")
+#' TwoRegression:::attachment_verify("Left Wrist")
+#' TwoRegression:::attachment_verify(c("Left Wirst", "Right Wrist"))
+#' TwoRegression:::attachment_verify("Left Wirst")
 #' }
 #'
 #' @keywords internal

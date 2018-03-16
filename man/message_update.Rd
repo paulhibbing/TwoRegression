@@ -21,11 +21,4 @@ message_update(message_number, file, vm_variables, duration, cvs, window_secs,
 \description{
 Print updates to console
 }
-\examples{
-\dontrun{
-message_update(3)
-message_update(3, is_message = TRUE)
-}
-
-}
 \keyword{internal}

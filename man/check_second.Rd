@@ -15,7 +15,7 @@ Check if the IMU data start on an exact second
 \examples{
 \dontrun{
 data(imu_to_check)
-check_second(imu_to_check)
+TwoRegression:::check_second(imu_to_check)
 }
 
 }

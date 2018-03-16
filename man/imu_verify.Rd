@@ -23,8 +23,8 @@ imu_file <-
         "TestID_LeftWrist_IMU.csv",
         package = "TwoRegression")
 
-imu_verify(imu_file, 1, TRUE)
-imu_verify(imu_file, 1, FALSE)
+TwoRegression:::imu_verify(imu_file, 1, TRUE)
+TwoRegression:::imu_verify(imu_file, 1, FALSE)
 }
 
 }

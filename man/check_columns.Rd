@@ -21,7 +21,7 @@ raw_file <-
     "TestID_LeftWrist_RAW.csv",
     package = "TwoRegression")
 
-check_columns(file)
+TwoRegression:::check_columns(file)
 }
 
 }

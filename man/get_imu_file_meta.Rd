@@ -21,7 +21,7 @@ imu_file <-
     "TestID_LeftWrist_IMU.csv",
     package = "TwoRegression")
 
-get_imu_file_meta(file, 1)
+TwoRegression:::get_imu_file_meta(file, 1)
 }
 
 }

@@ -12,7 +12,7 @@
 #'     "TestID_LeftWrist_RAW.csv",
 #'     package = "TwoRegression")
 #'
-#' check_columns(file)
+#' TwoRegression:::check_columns(file)
 #' }
 #'
 #' @keywords internal
@@ -28,7 +28,7 @@ check_columns <- function(file) {
 #' @examples
 #' \dontrun{
 #' data(imu_to_check)
-#' check_second(imu_to_check)
+#' TwoRegression:::check_second(imu_to_check)
 #' }
 #'
 #' @keywords internal
@@ -52,7 +52,7 @@ check_second <- function(AG) {
 #'     "TestID_LeftWrist_RAW.csv",
 #'     package = "TwoRegression")
 #'
-#' get_raw_file_meta(file)
+#' TwoRegression:::get_raw_file_meta(file)
 #' }
 #'
 #' @keywords internal
@@ -100,7 +100,7 @@ get_raw_file_meta <- function(file) {
 #'     "TestID_LeftWrist_IMU.csv",
 #'     package = "TwoRegression")
 #'
-#' get_imu_file_meta(file, 1)
+#' TwoRegression:::get_imu_file_meta(file, 1)
 #' }
 #'
 #' @keywords internal
@@ -144,7 +144,7 @@ get_imu_file_meta <- function(file, output_window_secs) {
 #' @examples
 #' \dontrun{
 #' data(raw_to_collapse)
-#' AG_collapse(raw_to_collapse, 1, 80)
+#' TwoRegression:::AG_collapse(raw_to_collapse, 1, 80)
 #' }
 #'
 #' @keywords internal
@@ -181,7 +181,7 @@ AG_collapse <- function(AG, output_window_secs, samp_freq) {
 #' @examples
 #' \dontrun{
 #' data(imu_to_collapse)
-#' imu_collapse(imu_to_collapse, 100)
+#' TwoRegression:::imu_collapse(imu_to_collapse, 100)
 #' }
 #'
 #' @keywords internal

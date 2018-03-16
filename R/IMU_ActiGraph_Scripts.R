@@ -4,8 +4,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' cv(rep(0, 10))
-#' cv(seq(1, 10))
+#' TwoRegression:::cv(rep(0, 10))
+#' TwoRegression:::cv(seq(1, 10))
 #' }
 #'
 #' @keywords internal
@@ -29,9 +29,9 @@ cv <- function(signal) {
 #'
 #' @examples
 #' \dontrun{
-#' get_cv_vars(1)
-#' get_cv_vars(2)
-#' get_cv_vars(c(1,2))
+#' TwoRegression:::get_cv_vars(1)
+#' TwoRegression:::get_cv_vars(2)
+#' TwoRegression:::get_cv_vars(c(1,2))
 #' }
 #'
 #' @keywords internal
@@ -166,7 +166,7 @@ get_directions <- function(big_data, window_secs = 5) {
 #'         Algorithm = 2,
 #'         stringsAsFactors = FALSE)
 #'
-#' apply_two_regression_hibbing18(process, all_data)
+#' TwoRegression:::apply_two_regression_hibbing18(process, all_data)
 #' }
 #' @keywords internal
 apply_two_regression_hibbing18 <-

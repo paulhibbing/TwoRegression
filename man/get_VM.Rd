@@ -26,7 +26,7 @@ vm_columns <-
         names(imu),
         ignore.case = T)
 
-get_VM(imu[, vm_columns])
+TwoRegression:::get_VM(imu[, vm_columns])
 }
 
 }

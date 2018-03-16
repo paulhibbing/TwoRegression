@@ -17,9 +17,9 @@ two-regression algorithm(s) have been designated for application to the data.
 }
 \examples{
 \dontrun{
-get_cv_vars(1)
-get_cv_vars(2)
-get_cv_vars(c(1,2))
+TwoRegression:::get_cv_vars(1)
+TwoRegression:::get_cv_vars(2)
+TwoRegression:::get_cv_vars(c(1,2))
 }
 
 }

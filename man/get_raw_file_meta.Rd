@@ -19,7 +19,7 @@ raw_file <-
     "TestID_LeftWrist_RAW.csv",
     package = "TwoRegression")
 
-get_raw_file_meta(file)
+TwoRegression:::get_raw_file_meta(file)
 }
 
 }

@@ -1,14 +1,10 @@
 ## Resubmission:
 This is a resubmission, which has incorporated the following changes:
 
-* Listed Vincent van Hees as a contributor in the DESCRIPTION file
+* For internal functions, corrected examples by prepending with
+    TwoRegression:::, or by removing the example(s)
 
-* Added a reference to Hibbing et al. (2017)
-    <10.1249/MSS.0000000000001532> in the DESCRIPTION file
-
-* Added executable examples to function documentation
-
-* Incremented version from 0.1.0 to 0.1.1, for clarity
+* Incremented version number from 0.1.1 to 0.1.2, for clarity
 
 ## Test environments
 * local Windows 10 install, R 3.4.3
@@ -32,8 +28,7 @@ Possibly mis-spelled words in DESCRIPTION:
   LaMunion (15:17)
 
 This is the first submission of TwoRegression. The "possibly mis-spelled words"
-    are author names pertaining to the newly-added reference in DECRIPTION
-    (see resubmission bullet 2 above).
+    are author names pertaining to the reference in DECRIPTION.
 
 ## Downstream dependencies
 There are no reverse dependencies for TwoRegression.

@@ -15,7 +15,7 @@ Low-Pass filter the Gyroscope data at 35 Hz
 \examples{
 \dontrun{
 data(imu_to_collapse)
-imu_filter_gyroscope(imu)
+TwoRegression:::imu_filter_gyroscope(imu)
 }
 
 }

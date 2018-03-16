@@ -12,7 +12,7 @@
 #'         names(imu),
 #'         ignore.case = T)
 #'
-#' get_VM(imu[, vm_columns])
+#' TwoRegression:::get_VM(imu[, vm_columns])
 #' }
 #'
 #' @return a vector of vector magnitude values
@@ -41,7 +41,7 @@ get_VM <- function(triaxial, verbose = FALSE) {
 #' @examples
 #' \dontrun{
 #' data(imu_to_collapse)
-#' imu_filter_gyroscope(imu)
+#' TwoRegression:::imu_filter_gyroscope(imu)
 #' }
 #'
 #' @keywords internal
@@ -77,7 +77,7 @@ imu_filter_gyroscope <- function(AG, samp_rate, verbose = FALSE) {
 #' Y <- mean(imu$Magnetometer.Y)
 #' Z <- mean(imu$Magnetometer.Z)
 #'
-#' classify_magnetometer(X, Y, Z)
+#' TwoRegression:::classify_magnetometer(X, Y, Z)
 #' }
 #'
 #' @seealso
