@@ -1,7 +1,7 @@
 Package: TwoRegression
 Type: Package
 Title: Process Data from Wearable Research Devices Using Two-Regression Algorithms
-Version: 0.1.2
+Version: 0.1.2.9000
 Authors@R: c(
     person(c("Paul", "R."), "Hibbing", email = "paulhibbing@gmail.com",
 		  role = c("aut","cre")),
