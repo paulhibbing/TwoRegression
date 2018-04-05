@@ -43,5 +43,5 @@ NULL
 #' @importFrom stats predict sd setNames
 NULL
 
-#' @importFrom utils read.csv
+#' @importFrom utils read.csv data
 NULL
