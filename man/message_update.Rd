@@ -4,7 +4,7 @@
 \alias{message_update}
 \title{Print updates to console}
 \usage{
-message_update(message_number, file, vm_variables, duration, cvs, window_secs,
+message_update(message_number, file, vm_variables, duration, cvs, window_size,
   is_message = FALSE, n)
 }
 \arguments{

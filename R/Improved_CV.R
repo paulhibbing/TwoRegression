@@ -13,19 +13,19 @@
 #' get_cvPER(raw_for_cv$ENMO, Algorithm = 1)
 #'
 #' @export
-get_cvPER <- function(BigData, window_size = 10, Algorithm, verbose = FALSE) {
+get_cvPER <- function(big_data , window_size = 10, Algorithm, verbose = FALSE) {
   if (verbose) message_update(13, window_size = window_size)
 
   indices <-
-    sapply(seq(length(BigData) - (window_size - 1)),
+    sapply(seq(length(big_data ) - (window_size - 1)),
       function(x) x + (seq(window_size) - 1),
       simplify = FALSE)
 
   stopifnot(min(unlist(indices)) == 1,
-    max(unlist(indices)) == length(BigData))
+    max(unlist(indices)) == length(big_data ))
 
   cvs <-
-    sapply(indices, function(x) cv(BigData[x]))
+    sapply(indices, function(x) cv(big_data [x]))
 
   cvs <-
     c(rep(NA, window_size - 1),
@@ -33,7 +33,7 @@ get_cvPER <- function(BigData, window_size = 10, Algorithm, verbose = FALSE) {
       rep(NA, window_size - 1))
 
   cvs <-
-    sapply(seq(length(BigData)),
+    sapply(seq(length(big_data )),
       function(x) {
         indices <- x:(x + (window_size - 1))
         min(cvs[indices], na.rm = TRUE)

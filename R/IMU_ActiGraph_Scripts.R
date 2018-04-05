@@ -58,9 +58,11 @@ get_cv_vars <- function(Algorithm, verbose = FALSE) {
 #' @return a numeric vector of values, giving the lowest coefficient of variation among the sliding windows that correspond to each epoch of data
 #'
 #' @examples
+#' \dontrun{
 #' data(raw_for_cv)
-#' get_cvPER_old(raw_for_cv$ENMO, Algorithm = 1)
-#'
+#' TwoRegression:::get_cvPER_old(raw_for_cv$ENMO, Algorithm = 1)
+#' }
+#' 
 #' @keywords internal
 get_cvPER_old <- function(big_data, window_secs = 10, Algorithm, verbose = FALSE) {
     # if (verbose) message_update(13, window_secs = window_secs)
@@ -99,7 +101,7 @@ get_cvPER_old <- function(big_data, window_secs = 10, Algorithm, verbose = FALSE
 
 #' Calculate direction changes per five seconds in sliding windows
 #'
-#' @inheritParams get_cvPER
+#' @inheritParams get_cvPER_old
 #'
 #' @return a numeric vector of values, giving the number of direction changes in the sliding window that corresponds to each epoch of data
 #'
