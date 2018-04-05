@@ -13,7 +13,7 @@ message_update <-
     vm_variables,
     duration,
     cvs,
-    window_secs,
+    window_size,
     is_message = FALSE,
     n) {
 
@@ -36,7 +36,7 @@ message_update <-
       "\n-- Collapsing data. This could take awhile...",
       paste("\nCalculating CV per 10s for:", paste(cvs, collapse = " and ")),
       "\nThis could take awhile. Be patient...",
-      paste("\n... Getting ", window_secs, "s CVs", sep = ""),
+      paste("\n... Getting ", window_size, "s CVs", sep = ""),
       "\n\n",
       "All two-regression processing complete.",
       paste(

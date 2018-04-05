@@ -49,7 +49,7 @@ get_cv_vars <- function(Algorithm, verbose = FALSE) {
 
 #' Calculate coefficient of variation in sliding windows
 #'
-#' Calculates coefficient of variation using the approach of Crouter et al. (2010, \emph{Med Sci Sports Exerc})
+#' Calculates coefficient of variation using the approach of Crouter et al. (2010, \emph{Med Sci Sports Exerc}). Function speedup available using \code{\link{get_cvPER}}
 #'
 #' @param big_data a numeric vector on which to perform the calculation
 #' @param window_secs size of the sliding window, in seconds
@@ -59,11 +59,11 @@ get_cv_vars <- function(Algorithm, verbose = FALSE) {
 #'
 #' @examples
 #' data(raw_for_cv)
-#' get_cvPER(raw_for_cv$ENMO, Algorithm = 1)
+#' get_cvPER_old(raw_for_cv$ENMO, Algorithm = 1)
 #'
-#' @export
-get_cvPER <- function(big_data, window_secs = 10, Algorithm, verbose = FALSE) {
-    if (verbose) message_update(13, window_secs = window_secs)
+#' @keywords internal
+get_cvPER_old <- function(big_data, window_secs = 10, Algorithm, verbose = FALSE) {
+    # if (verbose) message_update(13, window_secs = window_secs)
 
   inds <-
     sapply(seq(big_data),
@@ -93,7 +93,7 @@ get_cvPER <- function(big_data, window_secs = 10, Algorithm, verbose = FALSE) {
 
   stopifnot(ncol(CVS)==1 | is.vector(CVS))
   CVS <- as.vector(CVS)
-  if (verbose) message_update(6)
+  # if (verbose) message_update(6)
   return(CVS)
 }
 
