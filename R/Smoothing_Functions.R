@@ -50,13 +50,9 @@ AG_smooth <- function(AG, timestamps, epoch = 60, class_summary = FALSE, verbose
     return(AG)
   }
 
-  lengths <-
-    tapply(AG$minute_of_day, AG$minute_of_day, length)
-  lengths <- lengths[lengths == 60]
-
-  AG <- AG[AG$minute_of_day %in% names(lengths), ]
+  minutes <- setdiff(minutes, names(excess))
   indices <-
-    rep(seq(rows_per_block), length(unique(AG$minute_of_day)))
+    rep(seq(rows_per_block), length(unique(minutes)))
   block_number <-
     cumsum(indices == 1)
 
