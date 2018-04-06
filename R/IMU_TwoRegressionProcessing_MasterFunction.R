@@ -138,16 +138,17 @@ hibbing18_twoReg_process <-
     ## Final formatting and output of the data
     all_data <- cbind(all_data, all_predictions)
 
-    if (verbose) message_update(14)
-    if (verbose) message_update(15)
-
-    duration <-
-      unname((proc.time() - t)[3])
-
     if (smooth) all_data <-
       AG_smooth(AG = all_data,
         timestamps = as.POSIXlt(all_data$Timestamp),
       verbose = verbose, ...)
+
+    duration <-
+      unname((proc.time() - t)[3])
+    
+    if (verbose) message_update(14)
+    if (verbose) message_update(15)
+    
     if (verbose) message_update(16, duration = duration)
     return(all_data)
 }
