@@ -9,6 +9,8 @@
 #' @param Algorithm A numeric vector giving the algorithm(s) to apply to the data from the primary accelerometer and (if applicable) IMU
 #' @param verbose A logical scalar: print progress updates?
 #' @param IMU_ignore_A1 A logical scalar. If Algorithm = 1, should IMU files be ignored?
+#' @param smooth A logical scalar. Should data be averaged over a longer time period after processing?
+#' @param ... Further arguments passed to AG_smooth
 #'
 #' @return A data frame giving the data and predictions
 #'
@@ -38,7 +40,8 @@ hibbing18_twoReg_process <-
     Wear_Location = c("Hip", "Left Wrist", "Right Wrist", "Left Ankle",
       "Right Ankle"),
     PID,
-    Algorithm = 1, verbose = FALSE, IMU_ignore_A1 = TRUE) {
+    Algorithm = 1, verbose = FALSE,
+    IMU_ignore_A1 = TRUE, smooth = FALSE, ...) {
 
     t <- proc.time()
 
@@ -141,6 +144,8 @@ hibbing18_twoReg_process <-
     duration <-
       unname((proc.time() - t)[3])
 
+    if (smooth) all_data <- AG_smooth(all_data, as.POSIXlt(all_data$Timestamp),
+      verbose = verbose, ...)
     if (verbose) message_update(16, duration = duration)
     return(all_data)
 }

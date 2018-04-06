@@ -4,6 +4,11 @@
 #' @param file the name of the file being processed
 #' @param vm_variables variables being used to calculate vector magnitude
 #' @param duration the duration of processing
+#' @param cvs the variable(s) on which coefficient of variation is being calculated
+#' @param window_size the number of data points in each sliding window for coefficient of variation
+#' @param start_epoch the starting epoch of data passed to \code{\link{AG_smooth}}
+#' @param epoch the ending epoch length for data passed to \code{\link{AG_smooth}}
+#' @param missing_vars vector of variable names for which no collapsing method is defined in \code{\link{AG_smooth}}
 #' @param is_Message print update as a message?
 #'
 #' @keywords internal
@@ -14,6 +19,9 @@ message_update <-
     duration,
     cvs,
     window_size,
+    start_epoch,
+    epoch,
+    missing_vars,
     is_message = FALSE,
     n) {
 
@@ -55,7 +63,13 @@ message_update <-
       "Wear_Location must be one or more of c(\"Hip\", \"Left Wrist\", \"Right Wrist\", \"Left Ankle\", \"Right Ankle\").",
       "No valid Wear_Location specified. Defaulting to Hip.",
       "Primary accelerometer file is formatted unexpectedly. Processing with read.csv() -- be prepared to wait.",
-      "28"
+      "Aborting AG_smooth because minute_of_day variable not found",
+      paste("Aborting AG_smooth because ending epoch length (",
+        epoch, "-s) is not a multiple of starting epoch length (",
+        start_epoch, "-s)", sep = ""),
+      paste("Aborting AG_smooth because there is currently no support for collapsing the following variable(s):\n ",
+        paste(missing_vars, collapse = "\n  ")),
+      "31"
     )
   if (is_message) {
     message(note)

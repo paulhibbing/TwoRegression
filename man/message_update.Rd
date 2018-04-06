@@ -5,7 +5,7 @@
 \title{Print updates to console}
 \usage{
 message_update(message_number, file, vm_variables, duration, cvs, window_size,
-  is_message = FALSE, n)
+  start_epoch, epoch, missing_vars, is_message = FALSE, n)
 }
 \arguments{
 \item{message_number}{the index of the message to print}
@@ -15,6 +15,16 @@ message_update(message_number, file, vm_variables, duration, cvs, window_size,
 \item{vm_variables}{variables being used to calculate vector magnitude}
 
 \item{duration}{the duration of processing}
+
+\item{cvs}{the variable(s) on which coefficient of variation is being calculated}
+
+\item{window_size}{the number of data points in each sliding window for coefficient of variation}
+
+\item{start_epoch}{the starting epoch of data passed to \code{\link{AG_smooth}}}
+
+\item{epoch}{the ending epoch length for data passed to \code{\link{AG_smooth}}}
+
+\item{missing_vars}{vector of variable names for which no collapsing method is defined in \code{\link{AG_smooth}}}
 
 \item{is_Message}{print update as a message?}
 }
