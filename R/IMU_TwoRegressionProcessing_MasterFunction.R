@@ -144,7 +144,9 @@ hibbing18_twoReg_process <-
     duration <-
       unname((proc.time() - t)[3])
 
-    if (smooth) all_data <- AG_smooth(all_data, as.POSIXlt(all_data$Timestamp),
+    if (smooth) all_data <-
+      AG_smooth(AG = all_data,
+        timestamps = as.POSIXlt(all_data$Timestamp),
       verbose = verbose, ...)
     if (verbose) message_update(16, duration = duration)
     return(all_data)
