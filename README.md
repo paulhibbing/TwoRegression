@@ -20,10 +20,18 @@ Status](https://travis-ci.org/paulhibbing/TwoRegression.svg?branch=master)](http
 # Overview
 
 `TwoRegression` is a package designed to simplify the use of
-two-regression algorithms. The vignette (“TwoRegression”) contains more
-specific information. To install the package and view the vignette, use:
+two-regression algorithms. The vignette called “TwoRegression” contains
+more specific information. To install v0.1.2 from CRAN and view the
+vignette, use:
 
 ``` r
-# install.packages("TwoRegression")
-# vignette("TwoRegression")
+install.packages("TwoRegression")
+vignette("TwoRegression")
+```
+
+You can also install the development version from GitHub using:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("paulhibbing/TwoRegression")
 ```
