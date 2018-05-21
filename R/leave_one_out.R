@@ -80,14 +80,16 @@ DualCP_LOSO <- function(model, subject_var = "id", data,
               predict(cvmodel2, newdata = cvdata))
           )
           )
-        return(within(data.frame(id = cvdata$id,
-          Activity = cvdata[ ,activity_var],
-          SedVar = cvdata[,model$sed_variable],
-          AmbVar = cvdata[,model$cwr_variable],
-          Actual = cvdata[ ,MET_var], Predicted = Predicted),
-          {Error = Predicted - Actual
-          AbsPercErr = abs(Error/Actual)*100}))
-      }))
+
+      LOSO_Data <- data.frame(id = cvdata$id,
+        Activity = cvdata[ ,activity_var],
+        SedVar = cvdata[,model$sed_variable],
+        AmbVar = cvdata[,model$cwr_variable],
+        Actual = cvdata[ ,MET_var], Predicted = Predicted)
+      LOSO_Data$Error <- LOSO_Data$Predicted - LOSO_Data$Actual
+      LOSO_Data$AbsPercErr <- abs(LOSO_Data$Error/LOSO_Data$Actual)*100
+    return(LOSO_Data)
+    }))
 
   LOSO_Data$category = ifelse(LOSO_Data$SedVar<=model$sed_cutpoint, 'Sedentary',
     ifelse(LOSO_Data$AmbVar<=model$cwr_cutpoint, 'Ambulation', 'Lifestyle'))

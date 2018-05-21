@@ -40,7 +40,7 @@ NULL
 #' @importFrom magrittr %>%
 NULL
 
-#' @importFrom stats predict sd setNames
+#' @importFrom stats predict sd setNames lm
 NULL
 
 #' @importFrom utils read.csv data

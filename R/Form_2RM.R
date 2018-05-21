@@ -23,9 +23,11 @@
 #' @return An object of class `TwoRegression`
 #' @export
 #'
-#' @seealso \code{\link{predict.TwoRegression}}
+#' @seealso Links to methods for `TwoRegression` should go here (predict, plot,
+#'   summary)
 #'
 #' @examples
+#' \dontrun{
 #' data(ag_metabolic_s1, package = "FLPAYr")
 #' test_data <- subset(ag_metabolic_s1, site == "hip")
 #' form_2rm(
@@ -42,6 +44,7 @@
 #' cwr_formula = "MET_RMR ~ ENMO",
 #' ila_formula = "MET_RMR ~ I(ENMO)+I(ENMO^2)+I(ENMO^3)"
 #' )
+#' }
 form_2rm <- function(data, activity_var, sed_cp_activities, sed_activities, sed_cp_var, sed_METs, cwr_activities, cwr_cp_var, met_var, cwr_formula, ila_formula) {
 
   # data(ag_metabolic_s1, package = "FLPAYr")
