@@ -1,6 +1,24 @@
 #' Develop a two-regression algorithm
 #'
 #' @param data The data with which to develop the algorithm
+#' @param activity_var Character scalar. Name of the variable defining which
+#'   activity is being performed
+#' @param sed_cp_activities Character vector. Activities to be included in the
+#'   process of forming the sedentary classifier
+#' @param sed_activities Character vector. Actual sedentary activities
+#' @param sed_cp_var Character scalar. Name of the variable on which the
+#'   sedentary cut-point is defined
+#' @param sed_METs Numeric scalar. Metabolic equivalent value to apply to
+#'   sedentary activities
+#' @param cwr_activities Character vector. Actual ambulatory activities
+#' @param cwr_cp_var Character scalar. Name of the variable on which the
+#'   walk/run cut-point is defined
+#' @param met_var Character scalar. Name of the variable giving actual energy
+#'   expenditure (in metabolic equivalents)
+#' @param cwr_formula Character scalar. Formula to use for developing the
+#'   walk/run regression model
+#' @param ila_formula Character scalar. Formula to use for developing the
+#'   intermittent activity regression model
 #'
 #' @return An object of class `TwoRegression`
 #' @export
@@ -8,7 +26,23 @@
 #' @seealso \code{\link{predict.TwoRegression}}
 #'
 #' @examples
-form_2rm <- function(data, activity_var, sed_cp_activities, sed_activities, sed_cp_var, sed_METs, cwr_activities, cwr_cp_var, met_var, cwr_formula) {
+#' data(ag_metabolic_s1, package = "FLPAYr")
+#' test_data <- subset(ag_metabolic_s1, site == "hip")
+#' form_2rm(
+#' data = test_data,
+#' activity_var = "Behavior",
+#' sed_cp_activities = c("Internet", "Reclining",
+#' "Sweep", "Book", "Games", "Lying", "Dust"),
+#' sed_activities = c("Internet", "Reclining", "Book", "Games", "Lying"),
+#' sed_cp_var = "ENMO",
+#' sed_METs = 1.25,
+#' cwr_activities = c("Run", "Walk_Slow", "Walk_Brisk"),
+#' cwr_cp_var = "ENMO_CV10s",
+#' met_var = "MET_RMR",
+#' cwr_formula = "MET_RMR ~ ENMO",
+#' ila_formula = "MET_RMR ~ I(ENMO)+I(ENMO^2)+I(ENMO^3)"
+#' )
+form_2rm <- function(data, activity_var, sed_cp_activities, sed_activities, sed_cp_var, sed_METs, cwr_activities, cwr_cp_var, met_var, cwr_formula, ila_formula) {
 
   # data(ag_metabolic_s1, package = "FLPAYr")
   # data <- subset(ag_metabolic_s1, site == "hip")
@@ -67,7 +101,22 @@ form_2rm <- function(data, activity_var, sed_cp_activities, sed_activities, sed_
   ila_data <- data[is_ila_data, ]
   ila_model <- lm(ila_formula, data = ila_data)
 
+  # Form object
 
+  final_algorithm <- list(
+    sed_cutpoint = sb_cp,
+    cwr_cutpoint = cwr_cp,
+    sed_variable = sed_cp_var,
+    cwr_variable = cwr_cp_var,
+    sed_METs = sed_METs,
+    cwr_model = cwr_model,
+    ila_model = ila_model,
+    cwr_formula = cwr_formula,
+    ila_formula = ila_formula
+  )
+  class(final_algorithm) <- "TwoRegression"
+
+  return(final_algorithm)
 }
 
 

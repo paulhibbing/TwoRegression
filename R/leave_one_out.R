@@ -1,42 +1,32 @@
 #' Perform leave-one-participant-out-cross-validation on a two-regression
 #' algorithm
 #'
-#' @param model1 The continuous walk/run model
-#' @param model2 The intermittent activity model
+#' @param model A \code{TwoRegression} object formed with \code{\link{form_2rm}}
+#'   on which to perform the cross-validation
 #' @param subject_var The variable that distinguishes between participants
 #'   (i.e., the fold-defining variable)
 #' @param data The full data set to cross-validate
-#' @param sed_cp The algorithm's sedentary cut-point
-#' @param ambulation_cp The algorithm's ambulation cut-point
-#' @param sed_cpvar The variable on which the sedentary cut-point is based
-#' @param ambulation_cpvar The variable on which the ambulation cut-point is
-#'   based
 #' @param MET_var The outcome variable (in metabolic equivalents)
 #' @param activity_var The activity being performed
-#' @param sed_METs The value (in metabolic equivalents) to assign for sedentary
-#'   behaviors
 #' @param verbose Logical. Print updates?
 #' @param trace Logical. Print information about each iteration?
 #'
 #' @return A data frame with predictions obtained from
 #'   leave-one-participant-out-cross-validation
+#'
+#' @note This function will not work for \code{TwoRegression} objects formed
+#'   from previously-published research. The \code{TwoRegression} object needs
+#'   to have more information than is available in those cases in order to
+#'   perform cross-validation, and this is sensible, since there is no reason or
+#'   way to re-perform cross-validation on an already-finalized algorithm.
+#'
 #' @keywords internal
 #'
-DualCP_LOSO <- function(model1, model2, subject_var = "id", data,
-  sed_cp = 0, ambulation_cp = 0, sed_cpvar = "ENMO",
-  ambulation_cpvar = "ENMO_meancv", MET_var = "MET_RMR",
-  activity_var = "Behavior", sed_METs = 1.25, verbose = FALSE,
-  trace = FALSE){
+DualCP_LOSO <- function(model, subject_var = "id", data,
+  MET_var = "MET_RMR", activity_var = "Behavior",
+  verbose = FALSE, trace = FALSE){
 
-  # model1 <- cwr_model
-  # model2 <- ila_model
   # subject_var <- "id"
-  # sed_cp <- sb_cp
-  # ambulation_cp <- cwr_cp
-  # sed_cpvar <- sed_cp_var
-  # ambulation_cpvar <- cwr_cp_var
-  # remove <- TRUE
-  # sed_METs <- 1.25
   # verbose <- TRUE
   # trace <- TRUE
   # MET_var <- "MET_RMR"
@@ -67,42 +57,40 @@ DualCP_LOSO <- function(model1, model2, subject_var = "id", data,
         if(trace) cat('\tTrain values:',nrow(temp_env$data), '\n')
 
         temp_env$data <- classify_validation_data(temp_env$data,
-          sed_cp,
-          ambulation_cp,
-          sed_cpvar,
-          ambulation_cpvar)
+          model$sed_cutpoint,
+          model$cwr_cutpoint,
+          model$sed_variable,
+          model$cwr_variable)
 
         # Models
         cvmodel1 <-
-          lm(eval(parse(text = model1$call$formula)),
-            data = temp_env$data[temp_env$data$classification == "CWR",
-              names(model1$model)])
+          lm(eval(parse(text = model$cwr_formula)),
+            data = temp_env$data[temp_env$data$classification == "CWR",])
         cvmodel2 <-
-          lm(eval(parse(text = model2$call$formula)),
+          lm(eval(parse(text = model$ila_formula)),
             data =
-              temp_env$data[temp_env$data$classification == "ILA",
-                names(model1$model)])
+              temp_env$data[temp_env$data$classification == "ILA",])
 
         # Predictions
         Predicted <-
-          with(cvdata, ifelse(eval(parse(text=sed_cpvar))<=sed_cp,
-            sed_METs,
-            ifelse(eval(parse(text=ambulation_cpvar))<=ambulation_cp,
+          with(cvdata, ifelse(eval(parse(text=model$sed_variable))<=model$sed_cutpoint,
+            model$sed_METs,
+            ifelse(eval(parse(text=model$cwr_variable))<=model$cwr_cutpoint,
               predict(cvmodel1, newdata = cvdata),
               predict(cvmodel2, newdata = cvdata))
           )
           )
         return(within(data.frame(id = cvdata$id,
           Activity = cvdata[ ,activity_var],
-          SedVar = cvdata[,sed_cpvar],
-          AmbVar = cvdata[,ambulation_cpvar],
+          SedVar = cvdata[,model$sed_variable],
+          AmbVar = cvdata[,model$cwr_variable],
           Actual = cvdata[ ,MET_var], Predicted = Predicted),
           {Error = Predicted - Actual
           AbsPercErr = abs(Error/Actual)*100}))
       }))
 
-  LOSO_Data$category = ifelse(LOSO_Data$SedVar<=sed_cp, 'Sedentary',
-    ifelse(LOSO_Data$AmbVar<=ambulation_cp, 'Ambulation', 'Lifestyle'))
+  LOSO_Data$category = ifelse(LOSO_Data$SedVar<=model$sed_cutpoint, 'Sedentary',
+    ifelse(LOSO_Data$AmbVar<=model$cwr_cutpoint, 'Ambulation', 'Lifestyle'))
   LOSO_Data$Category = with(LOSO_Data, paste(category, Activity))
 
   return(LOSO_Data)
@@ -121,13 +109,13 @@ classify_validation_data <- function(data, sed_cp = 0, ambulation_cp = 0,
   sed_cpvar = "ENMO", ambulation_cpvar = "ENMO_meancv"){
   data$classification <- NA
   data$classification <-
-    ifelse(data[ ,sed_cp_var] <= sed_cp, "SB", data$classification)
+    ifelse(data[ ,sed_cpvar] <= sed_cp, "SB", data$classification)
   data$classification <-
-    ifelse((data[ ,sed_cp_var] > sed_cp) &
-        (data[ ,cwr_cp_var] <= cwr_cp), "CWR", data$classification)
+    ifelse((data[ ,sed_cpvar] > sed_cp) &
+        (data[ ,ambulation_cpvar] <= ambulation_cp), "CWR", data$classification)
   data$classification <-
-    ifelse((data[ ,sed_cp_var] > sed_cp) &
-        (data[ ,cwr_cp_var] > cwr_cp), "ILA", data$classification)
+    ifelse((data[ ,sed_cpvar] > sed_cp) &
+        (data[ ,ambulation_cpvar] > ambulation_cp), "ILA", data$classification)
   stopifnot(!any(is.na(data$classification)))
   return(data)
 }
