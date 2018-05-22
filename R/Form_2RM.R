@@ -68,9 +68,7 @@ form_2rm <- function(data, activity_var, sed_cp_activities, sed_activities, sed_
       sed_cp_activities,
       sed_activities,
       sed_cp_var)
-        ##AUC as.numeric(roc_sedentary$auc)
-        ##Plot plot(roc_sedentary)
-        ##Diagnostics pROC::coords(roc_sedentary, "best", best.method = "closest.topleft")
+
   sb_cp <- round(
     pROC::coords(roc_sb, "best",
       best.method = 'closest.topleft')[1],
@@ -100,7 +98,7 @@ form_2rm <- function(data, activity_var, sed_cp_activities, sed_activities, sed_
   # intermittent Model
 
   is_intermittent_data <-
-    (data[ ,sed_cp_var] > sb_cp) & (data[ ,walkrun_cp] > walkrun_cp)
+    (data[ ,sed_cp_var] > sb_cp) & (data[ ,walkrun_cp_var] > walkrun_cp)
   intermittent_data <- data[is_intermittent_data, ]
   intermittent_model <- lm(intermittent_formula, data = intermittent_data)
 

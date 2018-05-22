@@ -32,3 +32,4 @@ message_update(message_number, file, vm_variables, duration, cvs, window_size,
 Print updates to console
 }
 \keyword{internal}
+

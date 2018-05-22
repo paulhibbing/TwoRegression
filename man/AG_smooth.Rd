@@ -39,3 +39,4 @@ full_data <-
 AG_smooth(full_data, as.POSIXlt(full_data$Timestamp))
 }
 }
+

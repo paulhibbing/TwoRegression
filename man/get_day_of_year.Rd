@@ -26,3 +26,4 @@ TwoRegression:::get_day_of_year(key_dates, "\%Y-\%m-\%d")
 
 }
 \keyword{internal}
+
