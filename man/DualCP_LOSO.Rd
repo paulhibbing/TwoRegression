@@ -36,7 +36,7 @@ algorithm
 \note{
 This function will not work for \code{TwoRegression} objects formed
   from previously-published research. The \code{TwoRegression} object needs
-  to have more information than is available in those cases in order to
+  to have more information than is avaintermittentble in those cases in order to
   perform cross-validation, and this is sensible, since there is no reason or
   way to re-perform cross-validation on an already-finalized algorithm.
 }
