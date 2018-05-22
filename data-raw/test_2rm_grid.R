@@ -31,6 +31,7 @@ test_2rm_grid <- function(x, test_data = globalenv()$ag_metabolic_s1,
   object_summary <- summary(object)
 
   data.frame(
+    site = x$site,
     sed_cut_point_variable = x$sed_cp_var,
     walkrun_cut_point_variable = x$walkrun_cp_var,
     sed_cut_point = t(object_summary$cut_points[[1]]),
