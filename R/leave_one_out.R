@@ -16,7 +16,7 @@
 #'
 #' @note This function will not work for \code{TwoRegression} objects formed
 #'   from previously-published research. The \code{TwoRegression} object needs
-#'   to have more information than is available in those cases in order to
+#'   to have more information than is avaintermittentble in those cases in order to
 #'   perform cross-validation, and this is sensible, since there is no reason or
 #'   way to re-perform cross-validation on an already-finalized algorithm.
 #'
@@ -58,24 +58,24 @@ DualCP_LOSO <- function(model, subject_var = "id", data,
 
         temp_env$data <- classify_validation_data(temp_env$data,
           model$sed_cutpoint,
-          model$cwr_cutpoint,
+          model$walkrun_cutpoint,
           model$sed_variable,
-          model$cwr_variable)
+          model$walkrun_variable)
 
         # Models
         cvmodel1 <-
-          lm(eval(parse(text = model$cwr_formula)),
-            data = temp_env$data[temp_env$data$classification == "CWR",])
+          lm(eval(parse(text = model$walkrun_formula)),
+            data = temp_env$data[temp_env$data$classification == "walkrun",])
         cvmodel2 <-
-          lm(eval(parse(text = model$ila_formula)),
+          lm(eval(parse(text = model$intermittent_formula)),
             data =
-              temp_env$data[temp_env$data$classification == "ILA",])
+              temp_env$data[temp_env$data$classification == "intermittent",])
 
         # Predictions
         Predicted <-
           with(cvdata, ifelse(eval(parse(text=model$sed_variable))<=model$sed_cutpoint,
             model$sed_METs,
-            ifelse(eval(parse(text=model$cwr_variable))<=model$cwr_cutpoint,
+            ifelse(eval(parse(text=model$walkrun_variable))<=model$walkrun_cutpoint,
               predict(cvmodel1, newdata = cvdata),
               predict(cvmodel2, newdata = cvdata))
           )
@@ -84,7 +84,7 @@ DualCP_LOSO <- function(model, subject_var = "id", data,
       LOSO_Data <- data.frame(id = cvdata$id,
         Activity = cvdata[ ,activity_var],
         SedVar = cvdata[,model$sed_variable],
-        AmbVar = cvdata[,model$cwr_variable],
+        AmbVar = cvdata[,model$walkrun_variable],
         Actual = cvdata[ ,MET_var], Predicted = Predicted)
       LOSO_Data$Error <- LOSO_Data$Predicted - LOSO_Data$Actual
       LOSO_Data$AbsPercErr <- abs(LOSO_Data$Error/LOSO_Data$Actual)*100
@@ -92,7 +92,7 @@ DualCP_LOSO <- function(model, subject_var = "id", data,
     }))
 
   LOSO_Data$category = ifelse(LOSO_Data$SedVar<=model$sed_cutpoint, 'Sedentary',
-    ifelse(LOSO_Data$AmbVar<=model$cwr_cutpoint, 'Ambulation', 'Lifestyle'))
+    ifelse(LOSO_Data$AmbVar<=model$walkrun_cutpoint, 'Ambulation', 'Lifestyle'))
   LOSO_Data$Category = with(LOSO_Data, paste(category, Activity))
 
   return(LOSO_Data)
@@ -114,10 +114,10 @@ classify_validation_data <- function(data, sed_cp = 0, ambulation_cp = 0,
     ifelse(data[ ,sed_cpvar] <= sed_cp, "SB", data$classification)
   data$classification <-
     ifelse((data[ ,sed_cpvar] > sed_cp) &
-        (data[ ,ambulation_cpvar] <= ambulation_cp), "CWR", data$classification)
+        (data[ ,ambulation_cpvar] <= ambulation_cp), "walkrun", data$classification)
   data$classification <-
     ifelse((data[ ,sed_cpvar] > sed_cp) &
-        (data[ ,ambulation_cpvar] > ambulation_cp), "ILA", data$classification)
+        (data[ ,ambulation_cpvar] > ambulation_cp), "intermittent", data$classification)
   stopifnot(!any(is.na(data$classification)))
   return(data)
 }

@@ -10,14 +10,14 @@
 #'   sedentary cut-point is defined
 #' @param sed_METs Numeric scalar. Metabolic equivalent value to apply to
 #'   sedentary activities
-#' @param cwr_activities Character vector. Actual ambulatory activities
-#' @param cwr_cp_var Character scalar. Name of the variable on which the
+#' @param walkrun_activities Character vector. Actual ambulatory activities
+#' @param walkrun_cp_var Character scalar. Name of the variable on which the
 #'   walk/run cut-point is defined
 #' @param met_var Character scalar. Name of the variable giving actual energy
 #'   expenditure (in metabolic equivalents)
-#' @param cwr_formula Character scalar. Formula to use for developing the
+#' @param walkrun_formula Character scalar. Formula to use for developing the
 #'   walk/run regression model
-#' @param ila_formula Character scalar. Formula to use for developing the
+#' @param intermittent_formula Character scalar. Formula to use for developing the
 #'   intermittent activity regression model
 #'
 #' @return An object of class `TwoRegression`
@@ -38,14 +38,14 @@
 #' sed_activities = c("Internet", "Reclining", "Book", "Games", "Lying"),
 #' sed_cp_var = "ENMO",
 #' sed_METs = 1.25,
-#' cwr_activities = c("Run", "Walk_Slow", "Walk_Brisk"),
-#' cwr_cp_var = "ENMO_CV10s",
+#' walkrun_activities = c("Run", "Walk_Slow", "Walk_Brisk"),
+#' walkrun_cp_var = "ENMO_CV10s",
 #' met_var = "MET_RMR",
-#' cwr_formula = "MET_RMR ~ ENMO",
-#' ila_formula = "MET_RMR ~ I(ENMO)+I(ENMO^2)+I(ENMO^3)"
+#' walkrun_formula = "MET_RMR ~ ENMO",
+#' intermittent_formula = "MET_RMR ~ I(ENMO)+I(ENMO^2)+I(ENMO^3)"
 #' )
 #' }
-form_2rm <- function(data, activity_var, sed_cp_activities, sed_activities, sed_cp_var, sed_METs, cwr_activities, cwr_cp_var, met_var, cwr_formula, ila_formula) {
+form_2rm <- function(data, activity_var, sed_cp_activities, sed_activities, sed_cp_var, sed_METs, walkrun_activities, walkrun_cp_var, met_var, walkrun_formula, intermittent_formula) {
 
   # data(ag_metabolic_s1, package = "FLPAYr")
   # data <- subset(ag_metabolic_s1, site == "hip")
@@ -55,11 +55,11 @@ form_2rm <- function(data, activity_var, sed_cp_activities, sed_activities, sed_
   # sed_activities <- c("Internet", "Reclining", "Book", "Games", "Lying")
   # sed_cp_var <- "ENMO"
   # sed_METs <- 1.25
-  # cwr_activities <- c("Run", "Walk_Slow", "Walk_Brisk")
-  # cwr_cp_var <- "ENMO_CV10s"
+  # walkrun_activities <- c("Run", "Walk_Slow", "Walk_Brisk")
+  # walkrun_cp_var <- "ENMO_CV10s"
   # met_var <- "MET_RMR"
-  # cwr_formula <- "MET_RMR ~ ENMO"
-  # ila_formula <- "MET_RMR ~ I(ENMO)+I(ENMO^2)+I(ENMO^3)"
+  # walkrun_formula <- "MET_RMR ~ ENMO"
+  # intermittent_formula <- "MET_RMR ~ I(ENMO)+I(ENMO^2)+I(ENMO^3)"
 
   # SB Cut-Point
   roc_sb <-
@@ -76,50 +76,68 @@ form_2rm <- function(data, activity_var, sed_cp_activities, sed_activities, sed_
       best.method = 'closest.topleft')[1],
     2)
 
-  # CWR Cut-Point
+  # walkrun Cut-Point
 
-  roc_cwr <-
+  roc_walkrun <-
     get_cut_point(data[data[ ,sed_cp_var] > sb_cp, ],
       activity_var,
       unique(data[ ,activity_var]),
-      cwr_activities,
-      cwr_cp_var)
+      walkrun_activities,
+      walkrun_cp_var)
 
-  cwr_cp <- round(
-    pROC::coords(roc_cwr, "best",
+  walkrun_cp <- round(
+    pROC::coords(roc_walkrun, "best",
       best.method = 'closest.topleft')[1],
     2)
 
-  # CWR Model
+  # walkrun Model
 
-  is_cwr_data <-
-    (data[ ,sed_cp_var] > sb_cp) & (data[ ,cwr_cp_var] <= cwr_cp)
-  cwr_data <- data[is_cwr_data, ]
-  cwr_model <- lm(cwr_formula, data = cwr_data)
+  is_walkrun_data <-
+    (data[ ,sed_cp_var] > sb_cp) & (data[ ,walkrun_cp_var] <= walkrun_cp)
+  walkrun_data <- data[is_walkrun_data, ]
+  walkrun_model <- lm(walkrun_formula, data = walkrun_data)
 
-  # ILA Model
+  # intermittent Model
 
-  is_ila_data <-
-    (data[ ,sed_cp_var] > sb_cp) & (data[ ,cwr_cp] > cwr_cp)
-  ila_data <- data[is_ila_data, ]
-  ila_model <- lm(ila_formula, data = ila_data)
+  is_intermittent_data <-
+    (data[ ,sed_cp_var] > sb_cp) & (data[ ,walkrun_cp] > walkrun_cp)
+  intermittent_data <- data[is_intermittent_data, ]
+  intermittent_model <- lm(intermittent_formula, data = intermittent_data)
 
   # Form object
 
   final_algorithm <- list(
-    sed_cutpoint = sb_cp,
-    cwr_cutpoint = cwr_cp,
-    sed_variable = sed_cp_var,
-    cwr_variable = cwr_cp_var,
     sed_METs = sed_METs,
-    cwr_model = cwr_model,
-    ila_model = ila_model,
-    cwr_formula = cwr_formula,
-    ila_formula = ila_formula
+    sed_roc = roc_sb,
+    sed_cutpoint = sb_cp,
+    sed_variable = sed_cp_var,
+    walkrun_roc = roc_walkrun,
+    walkrun_cutpoint = walkrun_cp,
+    walkrun_variable = walkrun_cp_var,
+    walkrun_model = walkrun_model,
+    walkrun_formula = walkrun_formula,
+    walkrun_data = walkrun_data,
+    intermittent_model = intermittent_model,
+    intermittent_formula = intermittent_formula,
+    intermittent_data = intermittent_data,
+    all_data = data
   )
   class(final_algorithm) <- "TwoRegression"
 
   return(final_algorithm)
+}
+
+
+#' Check if an object has class TwoRegression
+#'
+#' @rdname form_2rm
+#'
+#' @param x object to be tested
+#'
+#' @export
+#'
+is.TwoRegression <- function(x) {
+  inherits(x, "TwoRegression")
 }
 
 

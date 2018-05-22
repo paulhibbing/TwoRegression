@@ -2,10 +2,13 @@
 % Please edit documentation in R/Form_2RM.R
 \name{form_2rm}
 \alias{form_2rm}
+\alias{is.TwoRegression}
 \title{Develop a two-regression algorithm}
 \usage{
 form_2rm(data, activity_var, sed_cp_activities, sed_activities, sed_cp_var,
   sed_METs, cwr_activities, cwr_cp_var, met_var, cwr_formula, ila_formula)
+
+is.TwoRegression(x)
 }
 \arguments{
 \item{data}{The data with which to develop the algorithm}
@@ -37,12 +40,16 @@ walk/run regression model}
 
 \item{ila_formula}{Character scalar. Formula to use for developing the
 intermittent activity regression model}
+
+\item{x}{object to be tested}
 }
 \value{
 An object of class `TwoRegression`
 }
 \description{
 Develop a two-regression algorithm
+
+Check if an object has class TwoRegression
 }
 \examples{
 \dontrun{
