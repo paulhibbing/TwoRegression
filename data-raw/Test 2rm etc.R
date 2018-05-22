@@ -18,7 +18,7 @@ object <- form_2rm(
   )
 
 model_summary <- summary(object)
-model_plot <- plot(object,
+model_plot <- plot(object = object,
   sed_cp_activities = c("Internet", "Reclining",
     "Sweep", "Book", "Games", "Lying", "Dust"),
   sed_activities = c("Internet", "Reclining", "Book", "Games", "Lying"),

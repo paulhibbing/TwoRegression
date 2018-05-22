@@ -21,11 +21,14 @@ library(gridExtra)
 #' Four plots are generated: a threshold plot for both cut-points, and a model
 #' plot for both regression models
 #'
+#' @param x passed from generic function but not used in the method
 #' @param object the TwoRegression object
 #' @inheritParams form_2rm
+#' @param walkrun_cpVar character scalar giving the name of the variable on
+#'   which the walk/run cut-point is based
 #' @param sed_cpVar character scalar. The name of the variable on which the
 #'   cut-point is based
-#' @param MET_var character scalar. The name of the variable containing energy
+#' @param met_var character scalar. The name of the variable containing energy
 #'   expenditure values, in metabolic equivalents
 #' @param x_sed numeric scalar giving x coordinate for label placement in
 #'   sedentary cut-point plot
@@ -44,7 +47,7 @@ library(gridExtra)
 #'
 #' @examples
 #'
-plot.TwoRegression <- function(object, sed_cp_activities,
+plot.TwoRegression <- function(x = NULL, object, sed_cp_activities,
   sed_activities, sed_cpVar = NULL, activity_var, met_var,
   walkrun_activities, walkrun_cpVar,
   x_sed = NULL, y_sed = NULL,
@@ -103,10 +106,13 @@ plot.TwoRegression <- function(object, sed_cp_activities,
     scale_y_continuous(name = eval(met_var)) +
     ggtitle("Intermittent Activity Model")
 
-  if (print) return(grid.arrange(plot1, plot2, plot3, plot4))
+  if (print) {
+    return(gridExtra::grid.arrange(plot1, plot2, plot3, plot4))
+  } else {
   return(list(sed_cut_point = plot1,
     walkrun_cut_point = plot2,
     walkrun_regression = plot3,
-    intermittent_regression = plot4)
-  )
+    intermittent_regression = plot4))
+  }
+
 }

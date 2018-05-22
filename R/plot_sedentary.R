@@ -28,7 +28,7 @@ plot_sed <- function(object, sed_cp_activities, sed_activities,
   fig <-
     ggplot(AG, aes(eval(parse(text = sed_cpVar)),
       eval(parse(text = met_var)),
-      shape = Class)) +
+      shape = AG$Class)) +
     geom_point(alpha = .8, size = 2.4) +
     .set_Theme +
     scale_shape_manual('', values = c(16,17)) +

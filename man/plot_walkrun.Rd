@@ -4,24 +4,25 @@
 \alias{plot_walkrun}
 \title{Plot behaviors for visualizing a walk/run cut-point}
 \usage{
-plot_walkrun(object, activity_var, walkrun_activities, cpVar, MET_var, ...)
+plot_walkrun(object, activity_var, walkrun_activities, walkrun_cpVar, met_var,
+  ...)
 }
 \arguments{
 \item{object}{the \code{TwoRegression} object to plot from}
 
-\item{activity_var}{character scalar. The name of the variable that indicates
-the activity being performed}
+\item{activity_var}{Character scalar. Name of the variable defining which
+activity is being performed}
 
 \item{walkrun_activities}{character vector giving values of
 \code{activity_var} that are walk/run activities}
 
-\item{cpVar}{character scalar. The name of the variable on which the
-cut-point is based}
+\item{walkrun_cpVar}{character scalar giving the name of the variable on
+which the walk/run cut-point is based}
 
-\item{MET_var}{character scalar. The name of the variable containing energy
+\item{met_var}{character scalar. The name of the variable containing energy
 expenditure values, in metabolic equivalents}
 
-\item{...}{additional arguments passed to \code{\link{plotCP}}}
+\item{...}{further arguments passed to plotting calls}
 }
 \description{
 Plot behaviors for visualizing a walk/run cut-point

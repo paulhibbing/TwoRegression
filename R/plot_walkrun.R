@@ -31,7 +31,7 @@ plot_walkrun <- function(object, activity_var,
 
   fig <-
     ggplot(AG, aes(eval(parse(text = walkrun_cpVar)),
-      eval(parse(text = met_var)), shape = Class)) +
+      eval(parse(text = met_var)), shape = AG$Class)) +
     geom_point(alpha = .8, size = 1.4) +
     scale_shape_manual('', values = c(16,17)) +
     .set_Theme +

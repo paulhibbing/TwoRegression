@@ -4,23 +4,23 @@
 \alias{plot_sed}
 \title{Plot behaviors for visualizing a sedentary cut-point}
 \usage{
-plot_sed(object, sed_cp_activities, sed_activities, activity_var, cpVar,
-  MET_var, ...)
+plot_sed(object, sed_cp_activities, sed_activities, activity_var, sed_cpVar,
+  met_var, ...)
 }
 \arguments{
 \item{object}{TwoRegression object to plot}
 
 \item{sed_cp_activities}{activities to include in a subset of \code{AG}}
 
-\item{sed_activities}{activities that are sedentary (i.e., positive class)}
+\item{sed_activities}{Character vector. Actual sedentary activities}
 
-\item{activity_var}{character scalar. The name of the variable that indicates
-the activity being performed}
+\item{activity_var}{Character scalar. Name of the variable defining which
+activity is being performed}
 
-\item{cpVar}{character scalar. The name of the variable on which the
+\item{sed_cpVar}{character scalar. The name of the variable on which the
 cut-point is based}
 
-\item{MET_var}{character scalar. The name of the variable containing energy
+\item{met_var}{character scalar. The name of the variable containing energy
 expenditure values, in metabolic equivalents}
 
 \item{...}{additional arguments passed to \code{\link{plotCP}}}
