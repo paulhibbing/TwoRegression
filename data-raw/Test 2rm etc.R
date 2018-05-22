@@ -17,7 +17,17 @@ object <- form_2rm(
   intermittent_formula = "MET_RMR ~ I(ENMO)+I(ENMO^2)+I(ENMO^3)"
   )
 
-summary(object)
+model_summary <- summary(object)
+model_plot <- plot(object,
+  sed_cp_activities = c("Internet", "Reclining",
+    "Sweep", "Book", "Games", "Lying", "Dust"),
+  sed_activities = c("Internet", "Reclining", "Book", "Games", "Lying"),
+  activity_var = "Behavior",
+  sed_cpVar = "ENMO",
+  met_var = "MET_RMR",
+  walkrun_activities = c("Run", "Walk_Slow", "Walk_Brisk",
+  x_walkrun = 35, y_walkrun = 9),
+  print = FALSE)
 
 # model1 = test_object$cwr_model
 # model2 = test_object$intermittent_model

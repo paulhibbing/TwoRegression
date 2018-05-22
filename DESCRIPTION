@@ -21,6 +21,8 @@ Imports: data.table (>= 1.10.4),
     seewave (>= 2.0.5),
     magrittr (>= 1.5),
     pROC (>= 1.12.0),
+    ggplot2 (>= 2.2.0),
+    gridExtra (>= 2.3),
     utils,
     stats
 Remotes: Rdatatable/data.table

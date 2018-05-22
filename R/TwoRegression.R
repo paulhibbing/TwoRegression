@@ -37,6 +37,9 @@
 #' @name TwoRegression
 NULL
 
+#' @import ggplot2
+NULL
+
 #' @importFrom magrittr %>%
 NULL
 
