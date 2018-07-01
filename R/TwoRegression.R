@@ -28,9 +28,9 @@
 #' }
 #'
 #' @section Associated References:
-#' Hibbing PR, LaMunion SR, Kaplan AS, & Crouter SE (2017). Estimating
+#' Hibbing PR, LaMunion SR, Kaplan AS, & Crouter SE (2018). Estimating
 #' energy expenditure with ActiGraph GT9X Inertial Measurement Unit.
-#' \emph{Medicine and Science in Sports and Exercise}. Advance online publication.
+#' \emph{Medicine and Science in Sports and Exercise}. 50(5), 1093-1102.
 #' doi: 10.1249/MSS.0000000000001532
 #'
 #' @docType package

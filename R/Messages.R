@@ -23,7 +23,7 @@ message_update <-
     epoch,
     missing_vars,
     is_message = FALSE,
-    n) {
+    n = 1) {
 
   note <-
     switch(
