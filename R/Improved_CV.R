@@ -36,6 +36,7 @@ get_cvPER <- function(big_data , window_size = 10, Algorithm, verbose = FALSE) {
     sapply(seq(length(big_data )),
       function(x) {
         indices <- x:(x + (window_size - 1))
+        if(all(is.na(cvs[indices]))) return(NA)
         min(cvs[indices], na.rm = TRUE)
       },
       simplify = FALSE)

@@ -11,6 +11,7 @@
 #' @keywords internal
 #'
 cv <- function(signal) {
+  if (any(is.na(signal))) return(NA)
   if (mean(signal) == 0) {
     0
   } else {
@@ -62,7 +63,7 @@ get_cv_vars <- function(Algorithm, verbose = FALSE) {
 #' data(raw_for_cv)
 #' TwoRegression:::get_cvPER_old(raw_for_cv$ENMO, Algorithm = 1)
 #' }
-#' 
+#'
 #' @keywords internal
 get_cvPER_old <- function(big_data, window_secs = 10, Algorithm, verbose = FALSE) {
     # if (verbose) message_update(13, window_secs = window_secs)
