@@ -25,5 +25,5 @@ Predict metabolic equivalents from a TwoRegression object
 data(all_data, package = "TwoRegression")
 newdata <- all_data
 
-predict(Algorithms$Hip$Hibbing18_Hip_A1, newdata)
+predict(TwoRegression:::Algorithms$Hip$Hibbing18_Hip_A1, newdata)
 }
