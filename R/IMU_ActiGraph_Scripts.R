@@ -188,80 +188,20 @@ apply_two_regression_hibbing18 <-
         ))
 
     matched_Algorithm <- Algorithms[[Site]]
-    if (length(matched_Algorithm) == 0)
-      stop("Didn't find a matching algorithm. This could take some work to figure out...")
-    if (length(matched_Algorithm) != 7)
-      stop(
-        "Found too many matching algorithms. This could take some work to figure out... Make sure there's only one wear
-        location/algorithm passed to the function."
+    matched_Algorithm <- matched_Algorithm[[which_algorithm$Algorithm]]
 
-      )
-
-    which_sed_cutpoint <-
-      switch(which_algorithm$Algorithm,
-        "accelSedCut",
-        "VM_gyroSedCut",
-        "VM_gyroSedCut")
-
-    which_cwr_cutpoint <-
-      switch(
-        which_algorithm$Algorithm,
-        "accelAmbulationCut",
-        "VM_gyroAmbulationCut",
-        "VM_gyroAmbulationCut"
-      )
-
-    which_sed_variable <-
-      switch(which_algorithm$Algorithm,
-        "ENMO",
-        "Gyroscope_VM_DegPerS",
-        "Gyroscope_VM_DegPerS"
-      )
-
-    which_cwr_variable <-
-      switch(which_algorithm$Algorithm,
-        "ENMO_CV10s",
-        "GVM_CV10s",
-        "GVM_CV10s"
-      )
-
-    all_data$Classification <-
-      ifelse(
-        all_data[, which_sed_variable] <= matched_Algorithm[[which_sed_cutpoint]],
-        "SED",
-        ifelse(all_data[, which_cwr_variable] <= matched_Algorithm[[which_cwr_cutpoint]], "CWR", "ILA")
-      )
-
-    all_data$Orig_index <- seq(nrow(all_data))
-
-    models <- switch(which_algorithm$Algorithm, "A1", "A2", "A3")
-
-    ##Make predictions after initializing a MET variable to NA
-    all_data$METs <- NA
-
-    ##Predict sedentary METs
-    SED <- all_data[all_data$Classification == "SED", ]
-    if(nrow(SED) > 0) {
-      SED$METs <- 1.25
+    if (length(matched_Algorithm) == 0) {
+      stop(paste("Didn't find a matching algorithm.",
+        "This could take some work to figure out..."))
     }
 
-    ##Predict CWR METs
-    CWR <- all_data[all_data$Classification == "CWR", ]
-    if(nrow(CWR) > 0) {
-      CWR$METs <-
-        predict(matched_Algorithm[[models]]$CWR, newdata = CWR)
+    if (length(matched_Algorithm) != 7) {
+      stop(paste("Found too many matching algorithms.",
+        "This could take some work to figure out...",
+        "Make sure there's only one wear",
+        "location/algorithm passed to the function."
+      ))
     }
 
-    ##Predict ILA METs
-    ILA <- all_data[all_data$Classification == "ILA", ]
-    if(nrow(ILA) > 0) {
-      ILA$METs <-
-        predict(matched_Algorithm[[models]]$ILA, newdata = ILA)
-    }
-
-    all_data <- rbind(SED, CWR, ILA)
-    all_data <- all_data[order(all_data$Orig_index), ]
-
-    stopifnot(sum(is.na(all_data$METs)) == 0)
-    return(all_data[ , c("Classification", "METs")])
+    predict(matched_Algorithm, all_data)
 }
