@@ -5,7 +5,8 @@
 \title{Print updates to console}
 \usage{
 message_update(message_number, file, vm_variables, duration, cvs, window_size,
-  start_epoch, epoch, missing_vars, is_message = FALSE, n)
+  start_epoch, epoch, missing_vars, is_message = FALSE, n,
+  method = "unspecified")
 }
 \arguments{
 \item{message_number}{the index of the message to print}
@@ -25,6 +26,9 @@ message_update(message_number, file, vm_variables, duration, cvs, window_size,
 \item{epoch}{the ending epoch length for data passed to \code{\link{AG_smooth}}}
 
 \item{missing_vars}{vector of variable names for which no collapsing method is defined in \code{\link{AG_smooth}}}
+
+\item{method}{character description of a two-regression algorithm being
+applied}
 
 \item{is_Message}{print update as a message?}
 }

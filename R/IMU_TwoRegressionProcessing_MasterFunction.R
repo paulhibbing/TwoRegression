@@ -84,7 +84,7 @@ hibbing18_twoReg_process <-
     cv_vars <- get_cv_vars(Algorithm, verbose)
     CVS <-
       sapply(cv_vars, function(x)
-        get_cvPER(all_data[, x], Algorithm = Algorithm, verbose = verbose))
+        get_cvPER(all_data[, x], verbose = verbose))
 
     cv_names <-
       sapply(cv_vars, function(x)
