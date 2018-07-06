@@ -158,6 +158,7 @@ get_directions <- function(big_data, window_secs = 5) {
 #' Applies the specified two-regression algorithm from \href{https://www.ncbi.nlm.nih.gov/pubmed/29271847}{Hibbing et al. (2018, \emph{Med Sci Sports Exerc})} to data from the primary accelerometer and IMU (if applicable)
 #' @param which_algorithm a dataframe specifying which algorithm to use, based on \code{Wear_Location} and \code{Algorithm}
 #' @param all_data a dataframe providing the processed GT9X data on which to make the predictions
+#' @param verbose logical. Print processing updates?
 #'
 #' @return a numeric vector of predicted energy expenditure values, expressed in metabolic equivalents
 #'
@@ -174,7 +175,7 @@ get_directions <- function(big_data, window_secs = 5) {
 #' @keywords internal
 apply_two_regression_hibbing18 <-
   function(which_algorithm = data.frame(Wear_Location = "Hip", Algorithm = 1),
-    all_data) {
+    all_data, verbose) {
 
     Site <-
       sapply(which_algorithm$Wear_Location, function(x)
@@ -195,7 +196,7 @@ apply_two_regression_hibbing18 <-
         "This could take some work to figure out..."))
     }
 
-    if (length(matched_Algorithm) != 7) {
+    if (length(matched_Algorithm) != 8) {
       stop(paste("Found too many matching algorithms.",
         "This could take some work to figure out...",
         "Make sure there's only one wear",
@@ -203,5 +204,5 @@ apply_two_regression_hibbing18 <-
       ))
     }
 
-    predict(matched_Algorithm, all_data)
+    predict(matched_Algorithm, all_data, verbose)
 }

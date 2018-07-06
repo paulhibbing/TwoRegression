@@ -4,7 +4,7 @@
 \alias{predict.TwoRegression}
 \title{Predict metabolic equivalents from a TwoRegression object}
 \usage{
-\method{predict}{TwoRegression}(object, newdata, verbose, ...)
+\method{predict}{TwoRegression}(object, newdata, verbose = FALSE, ...)
 }
 \arguments{
 \item{object}{the TwoRegression object}

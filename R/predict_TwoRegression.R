@@ -15,7 +15,7 @@
 #' newdata <- all_data
 #'
 #' predict(TwoRegression:::Algorithms$Hip$Hibbing18_Hip_A1, newdata)
-predict.TwoRegression <- function (object, newdata, verbose, ...) {
+predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
 
   if (verbose) message_update(32, method = object$method)
 
@@ -62,7 +62,7 @@ predict.TwoRegression <- function (object, newdata, verbose, ...) {
         object$cwr_model(CWR[ ,object$cwr_eq_vars])
     } else {
       CWR$METs <-
-        predict(object$cwr_model, newdata = CWR)
+        predict(object$cwr_model, newdata = CWR, verbose)
     }
   }
 
@@ -74,7 +74,7 @@ predict.TwoRegression <- function (object, newdata, verbose, ...) {
         object$ila_model(ILA[ ,object$ila_eq_vars])
     } else {
       ILA$METs <-
-        predict(object$ila_model, newdata = ILA)
+        predict(object$ila_model, newdata = ILA, verbose)
     }
   }
 

@@ -118,7 +118,8 @@ hibbing18_twoReg_process <-
         do.call(cbind,
                 lapply(split(all_processes, seq(nrow(all_processes))),
                        apply_two_regression_hibbing18,
-                       all_data = all_data
+                       all_data = all_data,
+                        verbose = verbose
                       )
                     ),
         stringsAsFactors = F
