@@ -27,4 +27,3 @@ TwoRegression:::imu_collapse(imu_to_collapse, 100)
 
 }
 \keyword{internal}
-

@@ -17,4 +17,3 @@ A partially-processed primary accelerometer dataset ready to calculate the
 coefficient of variation per 10-s
 }
 \keyword{datasets}
-

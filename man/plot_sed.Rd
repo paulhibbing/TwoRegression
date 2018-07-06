@@ -29,4 +29,3 @@ expenditure values, in metabolic equivalents}
 Plot behaviors for visualizing a sedentary cut-point
 }
 \keyword{internal}
-

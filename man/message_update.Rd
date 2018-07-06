@@ -5,7 +5,7 @@
 \title{Print updates to console}
 \usage{
 message_update(message_number, file, vm_variables, duration, cvs, window_size,
-  start_epoch, epoch, missing_vars, is_message = FALSE, n,
+  start_epoch, epoch, missing_vars, is_message = FALSE, n = 1,
   method = "unspecified")
 }
 \arguments{
@@ -36,4 +36,3 @@ applied}
 Print updates to console
 }
 \keyword{internal}
-

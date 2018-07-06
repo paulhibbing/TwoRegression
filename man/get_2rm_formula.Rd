@@ -15,4 +15,3 @@ Convert an object of class TwoRegression to a textual representation of the
 algorithm
 }
 \keyword{internal}
-

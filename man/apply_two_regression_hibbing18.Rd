@@ -32,4 +32,3 @@ TwoRegression:::apply_two_regression_hibbing18(process, all_data)
 }
 }
 \keyword{internal}
-

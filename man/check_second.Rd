@@ -20,4 +20,3 @@ TwoRegression:::check_second(imu_to_check)
 
 }
 \keyword{internal}
-

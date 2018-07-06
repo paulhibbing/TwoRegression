@@ -32,4 +32,3 @@ TwoRegression:::get_minute(key_times, rational = TRUE)
 
 }
 \keyword{internal}
-

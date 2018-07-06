@@ -18,4 +18,3 @@ A vector of data collapsed according to the specified rule for \code{col_name}
 Rules to collapse columns of data passed to \code{\link{AG_smooth}}
 }
 \keyword{internal}
-

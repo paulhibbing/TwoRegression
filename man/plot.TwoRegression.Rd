@@ -60,4 +60,3 @@ plot for both regression models
 \examples{
 
 }
-

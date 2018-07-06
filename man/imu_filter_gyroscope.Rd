@@ -20,4 +20,3 @@ TwoRegression:::imu_filter_gyroscope(imu)
 
 }
 \keyword{internal}
-

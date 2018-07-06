@@ -24,4 +24,3 @@ TwoRegression:::get_cv_vars(c(1,2))
 
 }
 \keyword{internal}
-

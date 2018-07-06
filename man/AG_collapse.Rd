@@ -24,4 +24,3 @@ TwoRegression:::AG_collapse(raw_to_collapse, 1, 80)
 
 }
 \keyword{internal}
-

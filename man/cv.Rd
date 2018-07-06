@@ -20,4 +20,3 @@ TwoRegression:::cv(seq(1, 10))
 
 }
 \keyword{internal}
-

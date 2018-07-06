@@ -38,4 +38,3 @@ A dataset with pre-processed primary accelerometer and IMU data that is ready
 for applying a two-regression algorithm.
 }
 \keyword{datasets}
-

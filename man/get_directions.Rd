@@ -35,4 +35,3 @@ get_directions(direction_vector)
 }
 
 }
-

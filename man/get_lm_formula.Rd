@@ -13,4 +13,3 @@ get_lm_formula(model)
 Convert a linear model to a text representation of the prediction equation
 }
 \keyword{internal}
-

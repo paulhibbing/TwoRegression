@@ -53,4 +53,3 @@ alg <- 1:2
 hibbing18_twoReg_process(raw_file, imu_file, wear, id, alg)
 }
 }
-

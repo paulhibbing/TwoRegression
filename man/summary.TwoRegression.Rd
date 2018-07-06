@@ -23,4 +23,3 @@ Summary method for TwoRegression objects
 \examples{
 
 }
-

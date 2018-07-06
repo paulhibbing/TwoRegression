@@ -18,11 +18,12 @@ The TwoRegression package is designed to make implementation of two-regression a
 
 \section{Associated References}{
 
-Hibbing PR, LaMunion SR, Kaplan AS, & Crouter SE (2017). Estimating
+Hibbing PR, LaMunion SR, Kaplan AS, & Crouter SE (2018). Estimating
 energy expenditure with ActiGraph GT9X Inertial Measurement Unit.
-\emph{Medicine and Science in Sports and Exercise}. Advance online publication.
+\emph{Medicine and Science in Sports and Exercise}. 50(5), 1093-1102.
 doi: 10.1249/MSS.0000000000001532
 }
+
 \examples{
 \dontrun{
 raw_file <-
@@ -43,4 +44,3 @@ hibbing18_twoReg_process(raw_file, imu_file, wear, id, alg)
 }
 
 }
-
