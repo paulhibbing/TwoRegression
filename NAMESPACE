@@ -2,6 +2,7 @@
 
 S3method(plot,TwoRegression)
 S3method(summary,TwoRegression)
+S3method(predict,TwoRegression)
 export(AG_smooth)
 export(form_2rm)
 export(get_cvPER)

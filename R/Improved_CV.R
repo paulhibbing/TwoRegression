@@ -4,16 +4,22 @@
 #'
 #' @param big_data a numeric vector on which to perform the calculation
 #' @param window_size width of the sliding window, in data points
-#' @inheritParams hibbing18_twoReg_process
+#' @param verbose logical. Print progress updates?
+#' @param sliding logical. Make calculations using a sliding window approach?
 #'
-#' @return a numeric vector of values, giving the lowest coefficient of variation among the sliding windows that correspond to each epoch of data
+#' @return a numeric vector of values, giving the lowest coefficient of
+#'   variation among the sliding windows that correspond to each epoch of data
+#'   (if \code{sliding} is \code{TRUE}), or giving the static coefficient of
+#'   variation within each grouping of data (if \code{sliding} is \code{FALSE}).
 #'
 #' @examples
 #' data(raw_for_cv)
-#' get_cvPER(raw_for_cv$ENMO, Algorithm = 1)
+#' get_cvPER(raw_for_cv$ENMO)
 #'
 #' @export
-get_cvPER <- function(big_data , window_size = 10, Algorithm, verbose = FALSE) {
+get_cvPER <- function(big_data, window_size = 10, verbose = FALSE,
+  sliding = TRUE) {
+  if (!sliding) return(get_cv_static(big_data, window_size, verbose))
   if (verbose) message_update(13, window_size = window_size)
 
   indices <-
@@ -36,6 +42,7 @@ get_cvPER <- function(big_data , window_size = 10, Algorithm, verbose = FALSE) {
     sapply(seq(length(big_data )),
       function(x) {
         indices <- x:(x + (window_size - 1))
+        if(all(is.na(cvs[indices]))) return(NA)
         min(cvs[indices], na.rm = TRUE)
       },
       simplify = FALSE)

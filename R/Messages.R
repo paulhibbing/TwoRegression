@@ -10,6 +10,8 @@
 #' @param epoch the ending epoch length for data passed to \code{\link{AG_smooth}}
 #' @param missing_vars vector of variable names for which no collapsing method is defined in \code{\link{AG_smooth}}
 #' @param is_Message print update as a message?
+#' @param method character description of a two-regression algorithm being
+#'   applied
 #'
 #' @keywords internal
 message_update <-
@@ -23,7 +25,8 @@ message_update <-
     epoch,
     missing_vars,
     is_message = FALSE,
-    n = 1) {
+    n = 1,
+    method = "unspecified") {
 
   note <-
     switch(
@@ -44,7 +47,7 @@ message_update <-
       "\n-- Collapsing data. This could take awhile...",
       paste("\nCalculating CV per 10s for:", paste(cvs, collapse = " and ")),
       "\nThis could take awhile. Be patient...",
-      paste("\n... Getting ", window_size, "s CVs", sep = ""),
+      paste("\n... Calculating CVs using sliding windows of size", window_size),
       "\n\n",
       "All two-regression processing complete.",
       paste(
@@ -69,7 +72,9 @@ message_update <-
         start_epoch, "-s)", sep = ""),
       paste("Aborting AG_smooth because there is currently no support for collapsing the following variable(s):\n ",
         paste(missing_vars, collapse = "\n  ")),
-      "31"
+      paste("... Calculating CVs using non-overlapping blocks of size", window_size),
+      paste("Calculating EE using the", method, "two-regression algorithm"),
+      "33"
     )
   if (is_message) {
     message(note)

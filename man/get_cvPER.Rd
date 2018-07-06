@@ -4,25 +4,28 @@
 \alias{get_cvPER}
 \title{Calculate coefficient of variation in sliding windows}
 \usage{
-get_cvPER(big_data, window_size = 10, Algorithm, verbose = FALSE)
+get_cvPER(big_data, window_size = 10, verbose = FALSE, sliding = TRUE)
 }
 \arguments{
 \item{big_data}{a numeric vector on which to perform the calculation}
 
 \item{window_size}{width of the sliding window, in data points}
 
-\item{Algorithm}{A numeric vector giving the algorithm(s) to apply to the data from the primary accelerometer and (if applicable) IMU}
+\item{verbose}{logical. Print progress updates?}
 
-\item{verbose}{A logical scalar: print progress updates?}
+\item{sliding}{logical. Make calculations using a sliding window approach?}
 }
 \value{
-a numeric vector of values, giving the lowest coefficient of variation among the sliding windows that correspond to each epoch of data
+a numeric vector of values, giving the lowest coefficient of
+  variation among the sliding windows that correspond to each epoch of data
+  (if \code{sliding} is \code{TRUE}), or giving the static coefficient of
+  variation within each grouping of data (if \code{sliding} is \code{FALSE}).
 }
 \description{
 Calculates coefficient of variation using the approach of Crouter et al. (2010, \emph{Med Sci Sports Exerc})
 }
 \examples{
 data(raw_for_cv)
-get_cvPER(raw_for_cv$ENMO, Algorithm = 1)
+get_cvPER(raw_for_cv$ENMO)
 
 }

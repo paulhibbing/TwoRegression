@@ -5,12 +5,14 @@
 \title{Apply a Hibbing 2018 two-regression algorithm}
 \usage{
 apply_two_regression_hibbing18(which_algorithm = data.frame(Wear_Location =
-  "Hip", Algorithm = 1), all_data)
+  "Hip", Algorithm = 1), all_data, verbose)
 }
 \arguments{
 \item{which_algorithm}{a dataframe specifying which algorithm to use, based on \code{Wear_Location} and \code{Algorithm}}
 
 \item{all_data}{a dataframe providing the processed GT9X data on which to make the predictions}
+
+\item{verbose}{logical. Print processing updates?}
 }
 \value{
 a numeric vector of predicted energy expenditure values, expressed in metabolic equivalents

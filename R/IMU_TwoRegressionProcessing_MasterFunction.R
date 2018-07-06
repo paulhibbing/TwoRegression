@@ -50,11 +50,11 @@ hibbing18_twoReg_process <-
     Wear_Location <- attachment_verify(Wear_Location)
 
     ## Read the data, then merge if necessary
-    raw_data <- read_AG_raw(RAW, verbose = verbose)
+    raw_data <- read_AG_raw(RAW, verbose = verbose) # Deprecate here
     raw_data$Timestamp <- as.character(raw_data$Timestamp)
 
     if (!is.null(IMU)) {
-      imu_data <- read_IMU(IMU, verbose = verbose)
+      imu_data <- read_IMU(IMU, verbose = verbose) # Deprecate here
       imu_data$Timestamp <- as.character(imu_data$Timestamp)
       all_data <- merge(raw_data, imu_data, "Timestamp")
     } else {
@@ -84,7 +84,7 @@ hibbing18_twoReg_process <-
     cv_vars <- get_cv_vars(Algorithm, verbose)
     CVS <-
       sapply(cv_vars, function(x)
-        get_cvPER(all_data[, x], Algorithm = Algorithm, verbose = verbose))
+        get_cvPER(all_data[, x], verbose = verbose))
 
     cv_names <-
       sapply(cv_vars, function(x)
@@ -118,7 +118,8 @@ hibbing18_twoReg_process <-
         do.call(cbind,
                 lapply(split(all_processes, seq(nrow(all_processes))),
                        apply_two_regression_hibbing18,
-                       all_data = all_data
+                       all_data = all_data,
+                        verbose = verbose
                       )
                     ),
         stringsAsFactors = F
@@ -145,10 +146,10 @@ hibbing18_twoReg_process <-
 
     duration <-
       unname((proc.time() - t)[3])
-    
+
     if (verbose) message_update(14)
     if (verbose) message_update(15)
-    
+
     if (verbose) message_update(16, duration = duration)
     return(all_data)
 }
