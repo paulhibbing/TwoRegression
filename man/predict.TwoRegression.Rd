@@ -4,12 +4,14 @@
 \alias{predict.TwoRegression}
 \title{Predict metabolic equivalents from a TwoRegression object}
 \usage{
-\method{predict}{TwoRegression}(object, newdata, ...)
+\method{predict}{TwoRegression}(object, newdata, verbose, ...)
 }
 \arguments{
 \item{object}{the TwoRegression object}
 
 \item{newdata}{the data on which to predict metabolic equivalents}
+
+\item{verbose}{logical. Print processing updates?}
 
 \item{...}{further arguments passed to or from other methods}
 }

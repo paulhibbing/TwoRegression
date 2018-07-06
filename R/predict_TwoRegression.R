@@ -2,6 +2,7 @@
 #'
 #' @param object the TwoRegression object
 #' @param newdata the data on which to predict metabolic equivalents
+#' @param verbose logical. Print processing updates?
 #' @param ... further arguments passed to or from other methods
 #'
 #' @return A two-column data frame giving the activity classification
@@ -14,20 +15,38 @@
 #' newdata <- all_data
 #'
 #' predict(TwoRegression:::Algorithms$Hip$Hibbing18_Hip_A1, newdata)
-predict.TwoRegression <- function(object, newdata, ...) {
+predict.TwoRegression <- function (object, newdata, verbose, ...) {
+
+  if (verbose) message_update(32, method = object$method)
 
   # Classify each observation and manually keep track of order
-  newdata$Classification <- ifelse(
-    newdata[, object$sed_variable] <= object$sed_cutpoint,
-    "SED", ifelse(newdata[, object$cwr_variable] <= object$sed_cutpoint,
-      "CWR",
-      "ILA")
-  )
+  sed_test <- newdata[, object$sed_variable] <= object$sed_cutpoint
+  cwr_test <- newdata[, object$cwr_variable] <= object$cwr_cutpoint
+  if (!object$CV_zero_cwr) {
+    cwr_test <-
+      newdata[, object$cwr_variable] <= object$cwr_cutpoint &
+      newdata[, object$cwr_variable] != 0
+  }
+
+  newdata$Classification <-
+    ifelse(
+      sed_test,
+      "SED",
+      ifelse(
+        cwr_test,
+        "CWR",
+        "ILA"
+      )
+    )
 
   newdata$Orig_index <- seq(nrow(newdata))
 
   ##Make predictions after initializing a MET variable to NA
   newdata$METs <- NA
+
+  ##Separate missing entries
+  class_NA <- newdata[is.na(newdata$Classification),  ]
+  newdata  <- newdata[!is.na(newdata$Classification), ]
 
   ##Predict sedentary METs
   SED <- newdata[newdata$Classification == "SED", ]
@@ -38,20 +57,44 @@ predict.TwoRegression <- function(object, newdata, ...) {
   ##Predict CWR METs
   CWR <- newdata[newdata$Classification == "CWR", ]
   if(nrow(CWR) > 0) {
-    CWR$METs <-
-      predict(object$cwr_model, newdata = CWR)
+    if (any("repro_TwoRegression" %in% class(object))) {
+      CWR$METs <-
+        object$cwr_model(CWR[ ,object$cwr_eq_vars])
+    } else {
+      CWR$METs <-
+        predict(object$cwr_model, newdata = CWR)
+    }
   }
 
   ##Predict ILA METs
   ILA <- newdata[newdata$Classification == "ILA", ]
   if(nrow(ILA) > 0) {
-    ILA$METs <-
-      predict(object$ila_model, newdata = ILA)
+    if (any("repro_TwoRegression" %in% class(object))) {
+      ILA$METs <-
+        object$ila_model(ILA[ ,object$ila_eq_vars])
+    } else {
+      ILA$METs <-
+        predict(object$ila_model, newdata = ILA)
+    }
   }
 
-  newdata <- rbind(SED, CWR, ILA)
+  newdata <- rbind(class_NA, SED, CWR, ILA)
   newdata <- newdata[order(newdata$Orig_index), ]
 
-  stopifnot(all(!is.na(newdata$METs)))
+  # Test for missing MET values
+  test_original <-
+    apply(newdata[ ,setdiff(names(newdata),
+      c("Classification", "METs"))],
+      1, anyNA)
+  test_new <-
+    apply(newdata[ ,c("Classification", "METs")],
+      1, anyNA)
+  stopifnot(all(
+    ifelse(!test_new, # If prediction is not missing
+      TRUE, # Give TRUE
+      test_original # Otherwise give FALSE unless the
+                    # original data were also missing
+    )
+  ))
   return(newdata[ , c("Classification", "METs")])
 }
