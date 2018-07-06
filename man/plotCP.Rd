@@ -19,3 +19,4 @@ plotCP(fig, cutPoint, x = NULL, y = NULL)
 Add a cut-point to a plot
 }
 \keyword{internal}
+

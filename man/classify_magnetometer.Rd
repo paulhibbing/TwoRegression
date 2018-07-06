@@ -36,3 +36,4 @@ TwoRegression:::classify_magnetometer(X, Y, Z)
 \url{http://s3.amazonaws.com/actigraphcorp.com/wp-content/uploads/2017/11/26205750/ActiGraph_IMU_White_Paper.pdf}
 }
 \keyword{internal}
+

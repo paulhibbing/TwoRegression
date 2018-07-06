@@ -23,7 +23,6 @@ energy expenditure with ActiGraph GT9X Inertial Measurement Unit.
 \emph{Medicine and Science in Sports and Exercise}. Advance online publication.
 doi: 10.1249/MSS.0000000000001532
 }
-
 \examples{
 \dontrun{
 raw_file <-
@@ -44,3 +43,4 @@ hibbing18_twoReg_process(raw_file, imu_file, wear, id, alg)
 }
 
 }
+

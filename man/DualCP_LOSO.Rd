@@ -41,3 +41,4 @@ This function will not work for \code{TwoRegression} objects formed
   way to re-perform cross-validation on an already-finalized algorithm.
 }
 \keyword{internal}
+

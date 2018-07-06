@@ -76,3 +76,4 @@ intermittent_formula = "MET_RMR ~ I(ENMO)+I(ENMO^2)+I(ENMO^3)"
 Links to methods for `TwoRegression` should go here (predict, plot,
   summary)
 }
+

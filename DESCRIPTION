@@ -16,7 +16,8 @@ Description: Application of two-regression algorithms for wearable
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: data.table (>= 1.10.4),
+Imports:
+    data.table (>= 1.10.4),
     dplyr (>= 0.5.0),
     seewave (>= 2.0.5),
     magrittr (>= 1.5),
@@ -32,4 +33,4 @@ Suggests: knitr,
     testthat
 VignetteBuilder: knitr
 URL: https://github.com/paulhibbing/TwoRegression
-BugReports: https://github.com/paulhibbing/TwoRegression/issues
+BugReports: https://github.com/paulhibbing/TwoRegression/issues

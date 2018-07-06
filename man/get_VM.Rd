@@ -31,3 +31,4 @@ TwoRegression:::get_VM(imu[, vm_columns])
 
 }
 \keyword{internal}
+
