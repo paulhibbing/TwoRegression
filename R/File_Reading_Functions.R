@@ -12,10 +12,28 @@
 #'     "TestID_LeftWrist_RAW.csv",
 #'     package = "TwoRegression")
 #'
-#' read_AG_raw(raw_file)
+#' \dontrun{
+#' # Gives warning about deprecation
+#'   read_AG_raw(raw_file)
+#'
+#' # Use the following instead
+#'   AGread::read_AG_raw(raw_file)
+#' }
+#' @name read_AG_raw-deprecated
+#' @usage read_AG_raw(file, output_window_secs = 1, verbose = FALSE)
+#' @seealso \code{\link{TwoRegression-deprecated}}
+#' @keywords internal
+NULL
+
+#' @rdname TwoRegression-deprecated
+#' @section \code{read_AG_raw}:
+#' For \code{read_AG_raw}, use \code{\link[AGread]{read_AG_raw}}
 #'
 #' @export
 read_AG_raw <- function(file, output_window_secs = 1, verbose = FALSE) {
+
+  .Deprecated("AGread::read_AG_raw")
+
   timer <- proc.time()
 
   if (verbose) message_update(1, file = file)
@@ -43,9 +61,9 @@ read_AG_raw <- function(file, output_window_secs = 1, verbose = FALSE) {
   AG$date_processed_PrimaryAccel <- Sys.time()
 
   AG$day_of_year <-
-    get_day_of_year(AG$Timestamp, format = "%Y-%m-%d %H:%M:%S")
+    AGread::get_day_of_year(AG$Timestamp, format = "%Y-%m-%d %H:%M:%S")
   AG$minute_of_day <-
-    get_minute(AG$Timestamp, format = "%Y-%m-%d %H:%M:%S")
+    AGread::get_minute(AG$Timestamp, format = "%Y-%m-%d %H:%M:%S")
 
   order <-
     c("file_source_PrimaryAccel",
@@ -80,11 +98,28 @@ read_AG_raw <- function(file, output_window_secs = 1, verbose = FALSE) {
 #'         "TestID_LeftWrist_IMU.csv",
 #'         package = "TwoRegression")
 #'
+#' # Gives a warning about deprecation
 #' read_IMU(imu_file)
+#'
+#' # Use the following instead:
+#' AGread::read_AG_IMU(imu_file)
+#'
 #' }
 #'
+#' @name read_IMU-deprecated
+#' @usage read_IMU(file, output_window_secs = 1, verbose = FALSE)
+#' @seealso \code{\link{TwoRegression-deprecated}}
+#' @keywords internal
+NULL
+
+#' @rdname TwoRegression-deprecated
+#' @section \code{read_IMU}:
+#' For \code{read_IMU}, use \code{\link[AGread]{read_AG_IMU}}
 #' @export
 read_IMU <- function(file, output_window_secs = 1, verbose = FALSE) {
+
+  .Deprecated("AGread::read_AG_IMU")
+
   timer <- proc.time()
   if (verbose) message_update(1, file = file)
 

@@ -74,3 +74,12 @@ The PID variable can be manually defined to establish a vector of PIDs to assign
 ```
 
 This returns your processed files as separate items in a list. To combine them, use ``combined_data <- do.call(rbind, test_data)``. You can then export your data in csv format if you prefer to deal with it in another platform. A good recommendation is to use the ``fwrite`` function from the data.table package, which is substantially faster than ``write.csv``.
+
+
+## Other Algorithms
+
+There is now support for a number of other two-regression algorithms, including:
+
+* [Crouter et al. (2006)](https://www.ncbi.nlm.nih.gov/pubmed/16322367)
+* [Crouter et al. (2010)](https://www.ncbi.nlm.nih.gov/pubmed/20400882)
+* [Crouter et al. (2012), vertical axis and vector magnitude](https://www.ncbi.nlm.nih.gov/pubmed/22143114)

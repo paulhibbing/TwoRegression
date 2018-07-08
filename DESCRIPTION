@@ -12,11 +12,14 @@ Description: Application of two-regression algorithms for wearable
     device data files and apply an appropriate two-regression
     algorithm. More information is available from
     Hibbing PR, LaMunion SR, Kaplan AS, & Crouter SE (2018)
-    <doi:10.1249/MSS.0000000000001532>.
+    <doi:10.1249/MSS.0000000000001532>. Please see the associated
+    references in the package documentation for full details of the algorithms
+    that are supported.
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
+    AGread,
     data.table (>= 1.10.4),
     dplyr (>= 0.5.0),
     seewave (>= 2.0.5),

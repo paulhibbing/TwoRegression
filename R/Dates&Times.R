@@ -16,20 +16,34 @@
 #'             "12:00:00",
 #'             "23:59:59"))
 #'
+#' # Warns about deprecation
+#'
 #' TwoRegression:::get_minute(key_times)
 #' TwoRegression:::get_minute(key_times, rational = TRUE)
+#'
+#' # Use the following instead
+#'
+#' AGread:::get_minute(key_times)
+#' AGread:::get_minute(key_times, rational = TRUE)
+#'
 #' }
+#'
+#' @name get_minute-deprecated
+#' @usage get_minute(timestamp, format = "\%Y-\%m-\%d \%H:\%M:\%S", rational = FALSE)
+#' @seealso \code{\link{TwoRegression-deprecated}}
+#' @keywords internal
+NULL
+
+#' @rdname TwoRegression-deprecated
+#' @section \code{get_minute}:
+#' For \code{get_minute}, use \code{\link[AGread]{get_minute}}
 #'
 #' @keywords internal
 get_minute <- function(timestamp, format = "%Y-%m-%d %H:%M:%S", rational = FALSE) {
-    timestamp <- as.POSIXlt(timestamp, format = format)
-    hour      <- as.numeric(strftime(timestamp, format = "%H")) * 60
-    minute    <- as.numeric(strftime(timestamp, format = "%M"))
-    second    <- as.numeric(strftime(timestamp, format = "%S")) / 60
 
-    final_minute <- hour + minute + second
-    if(!rational) final_minute <- floor(final_minute)
-    return(final_minute)
+    .Deprecated("AGread::get_minute")
+
+    AGread::get_minute(timestamp, format, rational)
 }
 
 
@@ -44,12 +58,27 @@ get_minute <- function(timestamp, format = "%Y-%m-%d %H:%M:%S", rational = FALSE
 #' \dontrun{
 #' key_dates <- c("2018-01-01", "2018-12-31")
 #'
+#' # Warns about deprecation
 #' TwoRegression:::get_day_of_year(key_dates, "%Y-%m-%d")
+#'
+#' # Use the following instead
+#' AGread::get_day_of_year(key_dates, "%Y-%m-%d")
 #' }
+#'
+#' @name get_day_of_year-deprecated
+#' @usage get_day_of_year(timestamp, format = "\%Y-\%m-\%d \%H:\%M:\%S")
+#' @seealso \code{\link{TwoRegression-deprecated}}
+#' @keywords internal
+NULL
+
+#' @rdname TwoRegression-deprecated
+#' @section \code{get_day_of_year}:
+#' For \code{get_day_of_year} use \code{\link[AGread]{get_day_of_year}}
 #'
 #' @keywords internal
 get_day_of_year <- function(timestamp, format = "%Y-%m-%d %H:%M:%S") {
-    timestamp <- as.POSIXlt(timestamp, format = format)
-    day_of_year <- as.numeric(strftime(timestamp, format = "%j"))
-    return(day_of_year)
+
+    .Deprecated("AGread::get_day_of_year")
+
+    AGread::get_day_of_year(timestamp, format)
 }

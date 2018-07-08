@@ -6,9 +6,6 @@
 \usage{
 check_columns(file)
 }
-\arguments{
-\item{file}{A character scalar giving path to primary accelerometer file}
-}
 \description{
 \code{check_columns} returns a logical scalar indicating whether there is a
  formatting issue with the file passed as the argument. A value of TRUE

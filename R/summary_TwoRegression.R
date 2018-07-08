@@ -12,6 +12,14 @@
 #' @examples
 #'
 summary.TwoRegression <- function(object, ...) {
+
+  if (any("repro_TwoRegression" %in% class(object))) {
+    stop(paste(
+      "No summary method available for algorithms",
+      "formed outside of `TwoRegression`."
+    ))
+  }
+
   ## Initialize
   z <-
     list(
