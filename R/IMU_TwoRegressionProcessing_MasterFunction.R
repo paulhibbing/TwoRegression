@@ -100,7 +100,9 @@ hibbing18_twoReg_process <-
         stats::setNames(data.frame(CVS), cv_names))
 
     ## Calculate Direction Changes per 5s and add it to the data set
-    if (!is.null(IMU)) {
+    if (!is.null(IMU) &
+        ("mean_magnetometer_direction" %in% names(all_data))
+    ) {
       all_data$Direction <-
         get_directions(all_data$mean_magnetometer_direction)
     }
@@ -144,12 +146,9 @@ hibbing18_twoReg_process <-
         timestamps = as.POSIXlt(all_data$Timestamp),
       verbose = verbose, ...)
 
-    duration <-
-      unname((proc.time() - t)[3])
-
     if (verbose) message_update(14)
     if (verbose) message_update(15)
 
-    if (verbose) message_update(16, duration = duration)
+    if (verbose) message_update(16, duration = AGread::get_duration(t))
     return(all_data)
 }

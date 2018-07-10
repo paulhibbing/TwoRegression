@@ -15,8 +15,19 @@
 #' TwoRegression:::check_columns(file)
 #' }
 #'
+#' @name check_columns-deprecated
+#' @usage check_columns(file)
+#' @seealso \code{\link{TwoRegression-deprecated}}
+#'
+#' @keywords internal
+NULL
+
+#' @rdname TwoRegression-deprecated
+#' @section \code{check_columns}:
+#' For \code{check_columns}, use \code{\link[AGread]{check_columns}}
 #' @keywords internal
 check_columns <- function(file) {
+  .Deprecated("AGread::check_columns")
   test_read <- utils::read.csv(file, nrows = 15)
   if(ncol(test_read) == 1) FALSE else TRUE
 }
@@ -31,8 +42,18 @@ check_columns <- function(file) {
 #' TwoRegression:::check_second(imu_to_check)
 #' }
 #'
+#' @name check_second-deprecated
+#' @usage check_second(AG)
+#' @seealso \code{\link{TwoRegression-deprecated}}
+#' @keywords internal
+#'
+NULL
+#' @rdname TwoRegression-deprecated
+#' @section \code{check_second}:
+#' For \code{check_second}, use \code{\link[AGread]{check_second}}
 #' @keywords internal
 check_second <- function(AG) {
+  .Deprecated("AGread::check_second")
   AG$ms <-
     as.numeric(format(AG$Timestamp, "%OS3"))%%1
   if(AG$ms[1]!=0) {
@@ -55,6 +76,15 @@ check_second <- function(AG) {
 #' TwoRegression:::get_raw_file_meta(file)
 #' }
 #'
+#' @name get_raw_file_meta-deprecated
+#' @usage get_raw_file_meta(file)
+#' @seealso \code{\link{TwoRegression-deprecated}}
+#' @keywords internal
+#'
+NULL
+#' @rdname TwoRegression-deprecated
+#' @section \code{get_raw_file_meta}:
+#' For \code{get_raw_file_meta}, use \code{\link[AGread]{get_raw_file_meta}}
 #' @keywords internal
 get_raw_file_meta <- function(file) {
   file_meta <-
@@ -88,7 +118,7 @@ get_raw_file_meta <- function(file) {
   return(list(start = start, samp_freq = samp_freq))
 }
 
-#' Get file metadata (sampling frequency, start time, and samples per epoch) for primary accelerometer
+#' Get file metadata (sampling frequency, start time, and samples per epoch) for inertial measurement unit
 #'
 #' @param file character scalar giving path to IMU file
 #' @param output_window_secs the desired epoch length, over which to average IMU data
@@ -103,6 +133,16 @@ get_raw_file_meta <- function(file) {
 #' TwoRegression:::get_imu_file_meta(file, 1)
 #' }
 #'
+#' @name get_imu_file_meta-deprecated
+#' @usage get_imu_file_meta(file, output_window_secs)
+#' @seealso \code{\link{TwoRegression-deprecated}}
+#' @keywords internal
+#'
+NULL
+
+#' @rdname TwoRegression-deprecated
+#' @section \code{get_imu_file_meta}:
+#' For \code{get_imu_file_meta}, use \code{\link[AGread]{get_imu_file_meta}}
 #' @keywords internal
 get_imu_file_meta <- function(file, output_window_secs) {
   header <-
@@ -147,6 +187,16 @@ get_imu_file_meta <- function(file, output_window_secs) {
 #' TwoRegression:::AG_collapse(raw_to_collapse, 1, 80)
 #' }
 #'
+#' @name AG_collapse-deprecated
+#' @usage AG_collapse(AG, output_window_secs, samp_freq)
+#' @seealso \code{\link{TwoRegression-deprecated}}
+#' @keywords internal
+#'
+NULL
+
+#' @rdname TwoRegression-deprecated
+#' @section \code{AG_collapse}:
+#' For \code{AG_collapse}, use \code{\link[AGread]{AG_collapse}}
 #' @keywords internal
 AG_collapse <- function(AG, output_window_secs, samp_freq) {
   ## Get ENMO
@@ -183,7 +233,16 @@ AG_collapse <- function(AG, output_window_secs, samp_freq) {
 #' data(imu_to_collapse)
 #' TwoRegression:::imu_collapse(imu_to_collapse, 100)
 #' }
+#' @name imu_collapse-deprecated
+#' @usage imu_collapse(AG, block_size, verbose = FALSE)
+#' @seealso \code{\link{TwoRegression-deprecated}}
+#' @keywords internal
 #'
+NULL
+
+#' @rdname TwoRegression-deprecated
+#' @section \code{imu_collapse}:
+#' For \code{imu_collapse}, use \code{\link[AGread]{imu_collapse}}
 #' @keywords internal
 imu_collapse <- function(AG, block_size, verbose = FALSE) {
 

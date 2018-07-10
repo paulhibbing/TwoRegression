@@ -16,6 +16,16 @@
 #' }
 #'
 #' @return a vector of vector magnitude values
+#' @name get_VM-deprecated
+#' @usage get_VM(triaxial, verbose = FALSE)
+#' @seealso \code{\link{TwoRegression-deprecated}}
+#' @keywords internal
+#'
+NULL
+
+#' @rdname TwoRegression-deprecated
+#' @section \code{get_VM}:
+#' For \code{get_VM}, use \code{\link[AGread]{get_VM}}
 #' @keywords internal
 get_VM <- function(triaxial, verbose = FALSE) {
   if (verbose) {
@@ -44,6 +54,17 @@ get_VM <- function(triaxial, verbose = FALSE) {
 #' TwoRegression:::imu_filter_gyroscope(imu)
 #' }
 #'
+#' @return a vector of vector magnitude values
+#' @name imu_filter_gyroscope-deprecated
+#' @usage imu_filter_gyroscope(AG, samp_rate, verbose = FALSE)
+#' @seealso \code{\link{TwoRegression-deprecated}}
+#' @keywords internal
+#'
+NULL
+
+#' @rdname TwoRegression-deprecated
+#' @section \code{imu_filter_gyroscope}:
+#' For \code{imu_filter_gyroscope}, use \code{\link[AGread]{imu_filter_gyroscope}}
 #' @keywords internal
 imu_filter_gyroscope <- function(AG, samp_rate, verbose = FALSE) {
   if (verbose) message_update(5)
@@ -83,6 +104,18 @@ imu_filter_gyroscope <- function(AG, samp_rate, verbose = FALSE) {
 #' @seealso
 #'   \url{http://s3.amazonaws.com/actigraphcorp.com/wp-content/uploads/2017/11/26205750/ActiGraph_IMU_White_Paper.pdf}
 #'
+#' @return a vector of vector magnitude values
+#' @name classify_magnetometer-deprecated
+#' @usage classify_magnetometer(x = "Magnetometer X", y = "Magnetometer Y",
+#'   z = "Magnetometer Z", orientation = "vertical")
+#' @seealso \code{\link{TwoRegression-deprecated}}
+#' @keywords internal
+#'
+NULL
+
+#' @rdname TwoRegression-deprecated
+#' @section \code{classify_magnetometer}:
+#' For \code{classify_magnetometer}, use \code{\link[AGread]{classify_magnetometer}}
 #' @keywords internal
 classify_magnetometer <- function(x = "Magnetometer X", y = "Magnetometer Y", z = "Magnetometer Z", orientation = "vertical") {
 

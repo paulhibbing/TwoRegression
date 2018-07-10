@@ -52,7 +52,7 @@ message_update <-
       "All two-regression processing complete.",
       paste(
         "\nTwo-Regression processing complete. Total processing time:",
-        round(duration / 60, 2),
+        duration,
         "minutes.\n"
       ),
       "No IMU file detected, yet Algorithm is not set to 1. Setting to 1.",
