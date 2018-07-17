@@ -1,15 +1,8 @@
 ## Documentation & Release
- * Update README, DESCRIPTION, and TwoRegression.R as new algorithms are added
+ * Test Crouter Predictions and figure out generalized file reading for Sam
+ * Update vignette and TwoRegression.R as new algorithms/features are added
  * Update NEWS.md and cran_comments.md prior to re-release
- * Update README with badgecreatr
  * Create a new release on GitHub
- * Remove development-version numbering from DESCRIPTION
-
-## S3 Class Polishing
- * Message for summary on old models: "Model is fixed. Cannot summarize"
- * Make sure form_2rm has all list elements to comply with formatting for
-   other TwoRegression methods
- * Plot and summary methods still need examples for documentation
 
 ## Intermediate Steps
  * Make package usable by PAutilities
