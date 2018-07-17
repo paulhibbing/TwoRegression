@@ -30,7 +30,7 @@ load(choose.files(caption = "Select Algorithms.RData"))
             CV_zero_cwr = TRUE,
             method = "Hibbing 2018"
           )
-        class(a1) <- "TwoRegression"
+        class(a1) <- c("TwoRegression", "Hibbing18_TwoRegression")
 
         a2 <-
           list(
@@ -48,7 +48,7 @@ load(choose.files(caption = "Select Algorithms.RData"))
             CV_zero_cwr = TRUE,
             method = "Hibbing 2018"
           )
-        class(a2) <- "TwoRegression"
+        class(a2) <- c("TwoRegression", "Hibbing18_TwoRegression")
 
 
         a3 <-
@@ -67,7 +67,7 @@ load(choose.files(caption = "Select Algorithms.RData"))
             CV_zero_cwr = TRUE,
             method = "Hibbing 2018"
           )
-        class(a3) <- "TwoRegression"
+        class(a3) <- c("TwoRegression", "Hibbing18_TwoRegression")
 
         setNames(list(a1, a2, a3), eventual_names)
       }),
@@ -76,3 +76,12 @@ load(choose.files(caption = "Select Algorithms.RData"))
 
   lapply(Algorithms, list2env, envir = globalenv())
   # devtools::use_data(Algorithms, overwrite = TRUE, internal = TRUE)
+  # devtools::use_data(
+  #   Algorithms,
+  #   crouter06,
+  #   crouter10,
+  #   crouter12_VA,
+  #   crouter12_VM,
+  #   overwrite = TRUE,
+  #   internal = TRUE
+  # )
