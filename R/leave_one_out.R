@@ -26,12 +26,6 @@ DualCP_LOSO <- function(model, subject_var = "id", data,
   MET_var = "MET_RMR", activity_var = "Behavior",
   verbose = FALSE, trace = FALSE){
 
-  # subject_var <- "id"
-  # verbose <- TRUE
-  # trace <- TRUE
-  # MET_var <- "MET_RMR"
-  # activity_var <- "Behavior"
-
   temp_env <- new.env()
   ids <- unique(data[ ,subject_var])
   backup_data <- data
@@ -81,7 +75,7 @@ DualCP_LOSO <- function(model, subject_var = "id", data,
           )
           )
 
-      LOSO_Data <- data.frame(id = cvdata$id,
+      LOSO_Data <- data.frame(id = cvdata[ ,subject_var],
         Activity = cvdata[ ,activity_var],
         SedVar = cvdata[,model$sed_variable],
         AmbVar = cvdata[,model$walkrun_variable],

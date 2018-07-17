@@ -196,7 +196,7 @@ apply_two_regression_hibbing18 <-
         "This could take some work to figure out..."))
     }
 
-    if (length(matched_Algorithm) != 8) {
+    if (length(matched_Algorithm) != 9) {
       stop(paste("Found too many matching algorithms.",
         "This could take some work to figure out...",
         "Make sure there's only one wear",

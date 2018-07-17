@@ -1,12 +1,31 @@
 #' Process Data from Wearable Research Devices Using Two-Regression Algorithms
 #'
-#' The TwoRegression package is designed to make implementation of two-regression algorithms quick, easy, and accurate.
+#' The TwoRegression package is designed to make implementation of
+#' two-regression algorithms quick, easy, and accurate.
 #'
-#' @section Core functions:
+#' Originally, the package was designed to house the algorithms created by
+#' Hibbing et al. (2018). Since then, support has been added for other
+#' algorithms, including Crouter et al. (2006), Crouter et al. (2010), and
+#' Crouter et al. (2012). Functionality has also been added to develop and
+#' cross-validate new two-regression algorithms.
 #'
-#' \code{\link{get_cvPER}}
+#' @section Associated References:
+#' Hibbing PR, LaMunion SR, Kaplan AS, & Crouter SE (2018). Estimating
+#' energy expenditure with ActiGraph GT9X Inertial Measurement Unit.
+#' \emph{Medicine and Science in Sports and Exercise}. 50(5), 1093-1102.
+#' doi: 10.1249/MSS.0000000000001532
 #'
-#' \code{\link{hibbing18_twoReg_process}}
+#' Crouter, S. E., Clowers, K. G., & Bassett Jr, D. R. (2006). A novel method
+#' for using accelerometer data to predict energy expenditure. \emph{Journal of
+#' Applied Physiology}, 100(4), 1324-1331.
+#'
+#' Crouter, S. E., Kuffel, E., Haas, J. D., Frongillo, E. A., & Bassett Jr, D.
+#' R. (2010). Refined Two-Regression Model for the ActiGraph Accelerometer.
+#' \emph{Medicine and Science in Sports and Exercise}, 42(5), 1029.
+#'
+#' Crouter, S. E., Horton, M., & Bassett Jr, D. R. (2012). Use of a
+#' Two-regression model for estimating energy expenditure in children.
+#' \emph{Medicine and Science in Sports and Exercise}, 44(6), 1177.
 #'
 #' @examples
 #' \dontrun{
@@ -27,11 +46,6 @@
 #' hibbing18_twoReg_process(raw_file, imu_file, wear, id, alg)
 #' }
 #'
-#' @section Associated References:
-#' Hibbing PR, LaMunion SR, Kaplan AS, & Crouter SE (2018). Estimating
-#' energy expenditure with ActiGraph GT9X Inertial Measurement Unit.
-#' \emph{Medicine and Science in Sports and Exercise}. 50(5), 1093-1102.
-#' doi: 10.1249/MSS.0000000000001532
 #'
 #' @docType package
 #' @name TwoRegression

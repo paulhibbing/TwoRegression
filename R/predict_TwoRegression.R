@@ -12,12 +12,61 @@
 #'
 #' @examples
 #' data(all_data, package = "TwoRegression")
-#' newdata <- all_data
+#' all_data$PID <-
+#'   rep(
+#'     c("Test1", "Test2"),
+#'     each = ceiling(nrow(all_data) / 2))[seq(nrow(all_data))]
 #'
-#' predict(TwoRegression:::Algorithms$Hip$Hibbing18_Hip_A1, newdata)
+#' train_data <- all_data[all_data$PID != "Test2", ]
+#' test_data <- all_data[all_data$PID == "Test2", ]
+#'
+#' fake_sed <- c("Lying", "Sitting")
+#' fake_lpa <- c("Sweeping", "Dusting")
+#' fake_cwr <- c("Walking", "Running")
+#' fake_ila <- c("Tennis", "Basketball")
+#'
+#' fake_activities <- c(fake_sed, fake_lpa, fake_cwr, fake_ila)
+#'
+#' train_data$Activity <-
+#'   sample(fake_activities, nrow(train_data), TRUE)
+#'
+#' train_data$fake_METs <-
+#'   ifelse(train_data$Activity %in% c(fake_sed, fake_lpa),
+#'     runif(nrow(train_data), 1, 2),
+#'     runif(nrow(train_data), 2.5, 8)
+#'   )
+#'
+#' new_model <-
+#'   form_2rm(
+#'     data = train_data,
+#'     activity_var = "Activity",
+#'     sed_cp_activities = c(fake_sed, fake_lpa),
+#'     sed_activities = fake_sed,
+#'     sed_cp_var = "ENMO",
+#'     sed_METs = 1.25,
+#'     walkrun_activities = fake_cwr,
+#'     walkrun_cp_var = "ENMO_CV10s",
+#'     met_var = "fake_METs",
+#'     walkrun_formula = "fake_METs ~ ENMO",
+#'     intermittent_formula = "fake_METs ~ ENMO + I(ENMO^2) + I(ENMO^3)"
+#'   )
+#'
+#' predict(new_model, test_data)
 predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
 
   if (verbose) message_update(32, method = object$method)
+
+  # Make some behind-the-scenes tweaks to standardize this method for objects
+  # that were formed inside vs. outside of `form_2rm`
+  if (any(grepl("^walkrun", names(object)))) {
+    names(object) <-
+      gsub("^walkrun", "cwr", names(object))
+  }
+
+  if (any(grepl("^intermittent", names(object)))) {
+    names(object) <-
+      gsub("^intermittent", "ila", names(object))
+  }
 
   # Classify each observation and manually keep track of order
   sed_test <- newdata[, object$sed_variable] <= object$sed_cutpoint
@@ -62,7 +111,7 @@ predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
         object$cwr_model(CWR[ ,object$cwr_eq_vars])
     } else {
       CWR$METs <-
-        predict(object$cwr_model, newdata = CWR, verbose)
+        predict(object$cwr_model, newdata = CWR)
     }
   }
 
@@ -74,7 +123,7 @@ predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
         object$ila_model(ILA[ ,object$ila_eq_vars])
     } else {
       ILA$METs <-
-        predict(object$ila_model, newdata = ILA, verbose)
+        predict(object$ila_model, newdata = ILA)
     }
   }
 

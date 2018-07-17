@@ -1,8 +1,3 @@
-library(reshape2)
-library(dplyr)
-library(ggplot2)
-library(gridExtra)
-
 .set_Theme <- theme_classic() +
   theme(axis.line.x = element_line(size = .5),
   axis.line.y = element_line(size = .5),
@@ -46,12 +41,96 @@ library(gridExtra)
 #' @export
 #'
 #' @examples
+#' data(all_data, package = "TwoRegression")
+#' all_data$PID <-
+#'   rep(
+#'     c("Test1", "Test2"),
+#'     each = ceiling(nrow(all_data) / 2))[seq(nrow(all_data))]
 #'
-plot.TwoRegression <- function(x = NULL, object, sed_cp_activities,
+#' fake_sed <- c("Lying", "Sitting")
+#' fake_lpa <- c("Sweeping", "Dusting")
+#' fake_cwr <- c("Walking", "Running")
+#' fake_ila <- c("Tennis", "Basketball")
+#'
+#' fake_activities <- c(fake_sed, fake_lpa, fake_cwr, fake_ila)
+#'
+#' all_data$Activity <-
+#'   sample(fake_activities, nrow(all_data), TRUE)
+#'
+#' all_data$fake_METs <-
+#'   ifelse(all_data$Activity %in% c(fake_sed, fake_lpa),
+#'     runif(nrow(all_data), 1, 2),
+#'     runif(nrow(all_data), 2.5, 8)
+#'   )
+#'
+#' new_model <-
+#'   form_2rm(
+#'     data = all_data,
+#'     activity_var = "Activity",
+#'     sed_cp_activities = c(fake_sed, fake_lpa),
+#'     sed_activities = fake_sed,
+#'     sed_cp_var = "ENMO",
+#'     sed_METs = 1.25,
+#'     walkrun_activities = fake_cwr,
+#'     walkrun_cp_var = "ENMO_CV10s",
+#'     met_var = "fake_METs",
+#'     walkrun_formula = "fake_METs ~ ENMO",
+#'     intermittent_formula = "fake_METs ~ ENMO + I(ENMO^2) + I(ENMO^3)"
+#'   )
+#'
+#' model_plot_list <-
+#'   plot(
+#'     object = new_model,
+#'     sed_cp_activities = c(fake_sed, fake_lpa),
+#'     sed_activities = fake_sed,
+#'     sed_cpVar = "ENMO",
+#'     activity_var = "Activity",
+#'     met_var = "fake_METs",
+#'     walkrun_activities = fake_cwr,
+#'     walkrun_cpVar = "ENMO_CV10s",
+#'     print = FALSE
+#'   )
+#'
+#' \dontrun{
+#'   print(model_plot_list$sed_cut_point)
+#'   print(model_plot_list$walkrun_cut_point)
+#'   print(model_plot_list$walkrun_regression)
+#'   print(model_plot_list$intermittent_regression)
+#'
+#'   plot(
+#'     object = new_model,
+#'     sed_cp_activities = c(fake_sed, fake_lpa),
+#'     sed_activities = fake_sed,
+#'     sed_cpVar = "ENMO",
+#'     activity_var = "Activity",
+#'     met_var = "fake_METs",
+#'     walkrun_activities = fake_cwr,
+#'     walkrun_cpVar = "ENMO_CV10s",
+#'     print = TRUE
+#'   )
+#' }
+plot.TwoRegression <- function(x = NULL, object = NULL, sed_cp_activities,
   sed_activities, sed_cpVar = NULL, activity_var, met_var,
   walkrun_activities, walkrun_cpVar,
   x_sed = NULL, y_sed = NULL,
   x_walkrun = NULL, y_walkrun = NULL, print = TRUE, ...) {
+
+  if (is.null(object)) {
+    stop(paste(
+      "You must explicitly specify `object = ` to",
+      "use the print method for TwoRegression objects."
+    ))
+  }
+
+  if (any(
+    c("repro_TwoRegression", "Hibbing18_TwoRegression") %in%
+      class(object)
+  )) {
+    stop(paste(
+      "No print method available for algorithms",
+      "formed outside of `TwoRegression`."
+    ))
+  }
 
   ## Sedentary cut-point plot
   plot1 <- plot_sed(object,
