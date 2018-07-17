@@ -1,4 +1,11 @@
 
+-----
+
+[![minimal R
+version](https://img.shields.io/badge/R%3E%3D-3.1.0-6666ff.svg)](https://cran.r-project.org/)
+
+-----
+
 [![Project Status: Active ? The project has reached a stable, usable
 state and is being actively
 developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
@@ -13,15 +20,15 @@ Status](https://travis-ci.org/paulhibbing/TwoRegression.svg?branch=master)](http
 
 -----
 
-[![Last-changedate](https://img.shields.io/badge/last%20change-2018--04--19-yellowgreen.svg)](/commits/master)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2018--07--17-yellowgreen.svg)](/commits/master)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # Overview
 
-`TwoRegression` is a package designed to simplify the use of
-two-regression algorithms. The vignette called “TwoRegression” contains
-more specific information. To install v0.1.2 from CRAN and view the
+`TwoRegression` is a package designed to simplify the development and
+use of two-regression algorithms. The vignette called “TwoRegression”
+contains more specific information. To install from CRAN and view the
 vignette, use:
 
 ``` r

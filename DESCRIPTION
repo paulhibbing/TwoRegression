@@ -1,18 +1,18 @@
 Package: TwoRegression
 Type: Package
 Title: Process Data from Wearable Research Devices Using Two-Regression Algorithms
-Version: 0.1.2.9000
+Version: 0.1.3
 Authors@R: c(
     person(c("Paul", "R."), "Hibbing", email = "paulhibbing@gmail.com",
 		  role = c("aut","cre")),
     person(c("Vincent", "T."), "van Hees", role = "ctb"))
 Depends: R (>= 3.1.0)
-Description: Application of two-regression algorithms for wearable
-    research devices. It provides an easy way for users to read in
-    device data files and apply an appropriate two-regression
-    algorithm. More information is available from
-    Hibbing PR, LaMunion SR, Kaplan AS, & Crouter SE (2018)
-    <doi:10.1249/MSS.0000000000001532>. Please see the associated
+Description: Development and application of two-regression algorithms for
+    wearable research devices. It provides an easy way for users to
+    access previously-developed algorithms, and also to develop their own.
+    The package's initial motivation came from Hibbing PR, LaMunion SR,
+    Kaplan AS, & Crouter SE (2018) <doi:10.1249/MSS.0000000000001532>.
+    However, other algorithms are now supported. Please see the associated
     references in the package documentation for full details of the algorithms
     that are supported.
 License: GPL-3 | file LICENSE
@@ -29,7 +29,6 @@ Imports:
     gridExtra (>= 2.3),
     utils,
     stats
-Remotes: Rdatatable/data.table
 RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown,

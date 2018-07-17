@@ -7,7 +7,7 @@
 \usage{
 form_2rm(data, activity_var, sed_cp_activities, sed_activities, sed_cp_var,
   sed_METs, walkrun_activities, walkrun_cp_var, met_var, walkrun_formula,
-  intermittent_formula)
+  intermittent_formula, method = "`user_unspecified`")
 
 is.TwoRegression(x)
 }
@@ -42,6 +42,9 @@ walk/run regression model}
 \item{intermittent_formula}{Character scalar. Formula to use for developing the
 intermittent activity regression model}
 
+\item{method}{character scalar. Optional name for the model, potentially
+useful for printing.}
+
 \item{x}{object to be tested}
 }
 \value{
@@ -53,24 +56,36 @@ Develop a two-regression algorithm
 Check if an object has class TwoRegression
 }
 \examples{
-\dontrun{
-data(ag_metabolic_s1, package = "FLPAYr")
-test_data <- subset(ag_metabolic_s1, site == "hip")
+data(all_data, package = "TwoRegression")
+fake_sed <- c("Lying", "Sitting")
+fake_lpa <- c("Sweeping", "Dusting")
+fake_cwr <- c("Walking", "Running")
+fake_ila <- c("Tennis", "Basketball")
+
+fake_activities <- c(fake_sed, fake_lpa, fake_cwr, fake_ila)
+
+all_data$Activity <-
+  sample(fake_activities, nrow(all_data), TRUE)
+
+all_data$fake_METs <-
+  ifelse(all_data$Activity \%in\% c(fake_sed, fake_lpa),
+    runif(nrow(all_data), 1, 2),
+    runif(nrow(all_data), 2.5, 8)
+  )
+
 form_2rm(
-data = test_data,
-activity_var = "Behavior",
-sed_cp_activities = c("Internet", "Reclining",
-"Sweep", "Book", "Games", "Lying", "Dust"),
-sed_activities = c("Internet", "Reclining", "Book", "Games", "Lying"),
-sed_cp_var = "ENMO",
-sed_METs = 1.25,
-walkrun_activities = c("Run", "Walk_Slow", "Walk_Brisk"),
-walkrun_cp_var = "ENMO_CV10s",
-met_var = "MET_RMR",
-walkrun_formula = "MET_RMR ~ ENMO",
-intermittent_formula = "MET_RMR ~ I(ENMO)+I(ENMO^2)+I(ENMO^3)"
+  data = all_data,
+  activity_var = "Activity",
+  sed_cp_activities = c(fake_sed, fake_lpa),
+  sed_activities = fake_sed,
+  sed_cp_var = "ENMO",
+  sed_METs = 1.25,
+  walkrun_activities = fake_cwr,
+  walkrun_cp_var = "ENMO_CV10s",
+  met_var = "fake_METs",
+  walkrun_formula = "fake_METs ~ ENMO",
+  intermittent_formula = "fake_METs ~ ENMO + I(ENMO^2) + I(ENMO^3)"
 )
-}
 }
 \seealso{
 Links to methods for `TwoRegression` should go here (predict, plot,

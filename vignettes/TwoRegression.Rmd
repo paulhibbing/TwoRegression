@@ -19,7 +19,9 @@ knitr::opts_chunk$set(
 
 ## Vignette Info
 
-The TwoRegression package is designed to make it easy to quickly and accurately apply two-regression algorithms to data from wearable research devices. In conjunction with common batch processing syntax in R (e.g. ``mapply`` or ``lapply``), the TwoRegression package presents a powerful tool for handling data from large studies. This vignette will demonstrate how to utilize the core features of the package, to set you on your way towards processing your data.
+The TwoRegression package is designed to make it easy to quickly and accurately develop and apply two-regression algorithms to data from wearable research devices. In conjunction with common batch processing syntax in R (e.g. ``mapply`` or ``lapply``), the TwoRegression package presents a powerful tool for handling data from large studies. This vignette will demonstrate how to utilize the core features of the package, to set you on your way towards processing your data.
+
+The TwoRegression package was initially established as a home for the two-regression algorithms of [Hibbing et al. (2018)](https://www.ncbi.nlm.nih.gov/pubmed/29271847). Since the initial release, support has been added for other algorithms. The package documentation details which algorithms have been added. Another new feature is the ability to develop and cross-validate new two-regression algorithms. The contents of the vignette focus on implementing this 
 
 
 ## The basics
