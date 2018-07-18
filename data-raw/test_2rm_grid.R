@@ -1,6 +1,6 @@
 test_2rm_grid <- function(x, test_data = globalenv()$ag_metabolic_s1,
                           master_grid = globalenv()$master_grid) {
-  # x <- split(master_grid, seq(nrow(master_grid)))[[3]]
+  # x <- split(master_grid, seq(nrow(master_grid)))[[80]]
   # test_data <- ag_metabolic_s1
 
   n <- sapply(
@@ -28,7 +28,17 @@ test_2rm_grid <- function(x, test_data = globalenv()$ag_metabolic_s1,
     intermittent_formula = x$intermittent_formula
   )
 
-  object_summary <- summary(object)
+  object_summary <- suppressWarnings(
+    tryCatch(
+      summary(object),
+      warning = function(w)
+        c(summary(object), gives_warning = TRUE)
+    )
+  )
+
+  if (!"gives_warning" %in% names(object_summary)) {
+    object_summary$gives_warning <- FALSE
+  }
 
   data.frame(
     site = x$site,
@@ -40,6 +50,8 @@ test_2rm_grid <- function(x, test_data = globalenv()$ag_metabolic_s1,
     intermittent_activity_regression = object_summary$regression_models[[2]],
     leave_one_out = object_summary$leave_one_out,
     algorithm_textual = paste(object_summary$algorithm, collapse = "  ;  "),
-    stringsAsFactors = FALSE
+    gives_warning = object_summary$gives_warning,
+    stringsAsFactors = FALSE,
+    row.names = FALSE
   )
 }
