@@ -89,7 +89,7 @@ NULL
 get_raw_file_meta <- function(file) {
   file_meta <-
     data.frame(data.table::fread(
-      file,
+      file = file,
       nrow = 10,
       header = F,
       sep = "\n"

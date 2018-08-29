@@ -46,7 +46,10 @@ read_AG_raw <- function(file, output_window_secs = 1, verbose = FALSE) {
     AG <- utils::read.csv(file, stringsAsFactors = FALSE, skip = 10)
   } else {
   AG <-
-    data.table::fread(file, stringsAsFactors = FALSE, showProgress = FALSE, skip = 10)
+    data.table::fread(
+      file = file, stringsAsFactors = FALSE,
+      showProgress = FALSE, skip = 10
+    )
   }
   names(AG) <- gsub("\\.", " ", names(AG))
 
@@ -127,7 +130,7 @@ read_IMU <- function(file, output_window_secs = 1, verbose = FALSE) {
 
   AG <-
     suppressWarnings(try(data.table::fread(
-      file,
+      file = file,
       stringsAsFactors = FALSE,
       skip = 10,
       #nrows = 25,
