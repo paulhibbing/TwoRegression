@@ -112,7 +112,7 @@ hibbing18_twoReg_process <-
       expand.grid(
         Wear_Location = Wear_Location,
         Algorithm = Algorithm,
-        stringsAsFactors = F
+        stringsAsFactors = FALSE
       )
 
     all_predictions <-

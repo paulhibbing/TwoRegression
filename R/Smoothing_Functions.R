@@ -34,14 +34,14 @@ AG_smooth <- function(AG, timestamps, epoch = 60, class_summary = FALSE, verbose
 
   start_epoch <- as.numeric(diff.POSIXt(timestamps[1:2]))
   rows_per_block <- epoch / start_epoch
-  
-  minutes <- strftime(timestamps, "%Y-%m-%d %H:%M")
+
+  minutes <- strftime(timestamps, "%Y-%m-%d %H:%M", "UTC")
   excess  <- tapply(minutes, minutes, length)
   excess  <- excess[excess != rows_per_block]
 
   AG <- AG[!minutes %in% names(excess), ]
   stopifnot(nrow(AG) %% epoch == 0)
-  
+
   if (rows_per_block %% 1 != 0) {
     message_update(29,
       start_epoch = start_epoch,

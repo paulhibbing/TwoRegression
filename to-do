@@ -1,4 +1,5 @@
 ## Documentation & Release
+ * Check all POSIX commands for UTC timezone
  * Test Crouter Predictions and figure out generalized file reading for Sam
  * Update vignette and TwoRegression.R as new algorithms/features are added
  * Update NEWS.md and cran_comments.md prior to re-release
