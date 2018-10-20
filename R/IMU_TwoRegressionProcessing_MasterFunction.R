@@ -11,6 +11,7 @@
 #' @param IMU_ignore_A1 A logical scalar. If Algorithm = 1, should IMU files be ignored?
 #' @param smooth A logical scalar. Should data be averaged over a longer time period after processing?
 #' @param ... Further arguments passed to AG_smooth
+#' @param calibrate Perform autocalibration on \code{RAW}?
 #'
 #' @return A data frame giving the data and predictions
 #'
@@ -41,7 +42,7 @@ hibbing18_twoReg_process <-
       "Right Ankle"),
     PID,
     Algorithm = 1, verbose = FALSE,
-    IMU_ignore_A1 = TRUE, smooth = FALSE, ...) {
+    IMU_ignore_A1 = TRUE, smooth = FALSE, calibrate = FALSE, ...) {
 
     t <- proc.time()
 
@@ -50,7 +51,11 @@ hibbing18_twoReg_process <-
     Wear_Location <- attachment_verify(Wear_Location)
 
     ## Read the data, then merge if necessary
-    raw_data <- AGread::read_AG_raw(RAW, verbose = verbose)
+    raw_data <- AGread::read_AG_raw(
+      RAW,
+      verbose = verbose,
+      calibrate = calibrate
+    )
     raw_data$Timestamp <- as.character(raw_data$Timestamp)
 
     if (!is.null(IMU)) {
@@ -143,7 +148,7 @@ hibbing18_twoReg_process <-
 
     if (smooth) all_data <-
       AG_smooth(AG = all_data,
-        timestamps = as.POSIXlt(all_data$Timestamp),
+        timestamps = as.POSIXlt(all_data$Timestamp, "UTC"),
       verbose = verbose, ...)
 
     if (verbose) message_update(14)

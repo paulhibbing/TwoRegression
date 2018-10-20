@@ -7,7 +7,7 @@
 hibbing18_twoReg_process(RAW, IMU = NULL, Wear_Location = c("Hip",
   "Left Wrist", "Right Wrist", "Left Ankle", "Right Ankle"), PID,
   Algorithm = 1, verbose = FALSE, IMU_ignore_A1 = TRUE, smooth = FALSE,
-  ...)
+  calibrate = FALSE, ...)
 }
 \arguments{
 \item{RAW}{A character scalar giving path to primary accelerometer data file}
@@ -25,6 +25,8 @@ hibbing18_twoReg_process(RAW, IMU = NULL, Wear_Location = c("Hip",
 \item{IMU_ignore_A1}{A logical scalar. If Algorithm = 1, should IMU files be ignored?}
 
 \item{smooth}{A logical scalar. Should data be averaged over a longer time period after processing?}
+
+\item{calibrate}{Perform autocalibration on \code{RAW}?}
 
 \item{...}{Further arguments passed to AG_smooth}
 }
