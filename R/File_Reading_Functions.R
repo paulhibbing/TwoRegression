@@ -4,7 +4,8 @@
 #' @param output_window_secs the desired epoch length; defaults to one second
 #' @inheritParams hibbing18_twoReg_process
 #'
-#' @return A dataframe giving processed raw data from the primary accelerometer in the specified epoch length
+#' @return A dataframe giving processed raw data from the primary accelerometer
+#'   in the specified epoch length
 #'
 #' @examples
 #' raw_file <-
@@ -12,7 +13,7 @@
 #'     "TestID_LeftWrist_RAW.csv",
 #'     package = "TwoRegression")
 #'
-#' \dontrun{
+#' \donttest{
 #' # Gives warning about deprecation
 #'   read_AG_raw(raw_file)
 #'
