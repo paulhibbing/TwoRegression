@@ -54,7 +54,7 @@ NULL
 #' @import ggplot2
 NULL
 
-#' @importFrom magrittr %>%
+#' @import magrittr
 NULL
 
 #' @importFrom stats predict sd setNames lm

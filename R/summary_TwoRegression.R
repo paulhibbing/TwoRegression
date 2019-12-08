@@ -55,109 +55,119 @@
 #' )
 summary.TwoRegression <- function(object, ...) {
 
-  if (any(
-    c("repro_TwoRegression", "Hibbing18_TwoRegression") %in%
-      class(object)
-  )) {
-    stop(paste(
-      "No summary method available for algorithms",
-      "formed outside of `TwoRegression`."
-    ))
-  }
-
-  ## Initialize
   z <-
-    list(
-      cut_points = NULL,
-      regression_models = NULL,
-      leave_one_out = NULL,
-      algorithm = NULL
-    )
-
-  ## Sedentary cut-point
-  if (! is.null(object$sed_roc)) {
-    z$cut_points$sedentary <-
-      pROC::coords(object$sed_roc, "best",
-        best.method = "closest.topleft")
-  } else {
-    if (! is.null(object$sed_cutpoint)) {
-      z$cut_points$sedentary <-
-        object$sed_cutpoint
-    }
-  }
-
-  names(z$cut_points)[names(z$cut_points) == "sedentary"] <-
-    paste("sedentary", object$sed_variable, sep = "_")
-
-  ## Ambulation cut-point
-  if (! is.null(object$walkrun_roc)) {
-    z$cut_points$walkrun <-
-      pROC::coords(object$walkrun_roc, "best",
-        best.method = "closest.topleft")
-  } else {
-    if (! is.null(object$walkrun_cutpoint)) {
-      z$cut_points$walkrun <-
-        object$walkrun_cutpoint
-    }
-  }
-
-  names(z$cut_points)[names(z$cut_points) == "walkrun"] <-
-    paste("walk_run", object$sed_variable, sep = "_")
-
-  ## Walk/run model
-  if (! is.null(object$walkrun_model)) {
-    z$regression_models$walk_run <-
-      data.frame(
-        formula = object$walkrun_formula,
-        adj.r.squared = summary(object$walkrun_model)$adj.r.squared,
-        see = summary(object$walkrun_model)$sigma,
-        stringsAsFactors = FALSE
-        )
-  } else {
-    z$regression_models$walk_run <-
-      data.frame(
-        formula = NA,
-        adj.r.squared = NA,
-        see = NA,
-        stringsAsFactors = FALSE
-      )
-  }
-
-  ## Intermittent model
-  if (! is.null(object$intermittent_model)) {
-    z$regression_models$intermittent_activity <-
-      data.frame(
-        formula = object$intermittent_formula,
-        adj.r.squared = summary(object$intermittent_model)$adj.r.squared,
-        see = summary(object$intermittent_model)$sigma,
-        stringsAsFactors = FALSE
-      )
-  } else {
-    z$regression_models$intermittent_model <-
-      data.frame(
-        formula = NA,
-        adj.r.squared = NA,
-        see = NA,
-        stringsAsFactors = FALSE
-      )
-  }
+    new_summary(object) %>%
+    new_cut(object, "sed_roc", "sedentary") %>%
+    new_cut(object, "walkrun_roc", "walk_run") %>%
+    new_model(object, "walkrun_model", "walk_run") %>%
+    new_model(object, "intermittent_model", "intermittent_activity")
 
   ## Leave one out
   if (! is.null(object$all_data)) {
-    data_wPredictions <-
-      DualCP_LOSO(object, data = object$all_data, ...)
+    data_wPredictions <- DualCP_LOSO(
+      object, data = object$all_data, ...
+    )
     z$leave_one_out <-
-      data.frame(
-        RMSE = sqrt(mean(data_wPredictions$Error^2)),
-        MAPE = mean((abs(data_wPredictions$Error) /
-            data_wPredictions$Actual)*100)
-      )
+      DualCP_LOSO(object, data = object$all_data, ...) %>%
+      {data.frame(
+        RMSE = sqrt(mean(.$Error^2)),
+        MAPE = mean((abs(.$Error) / .$Actual)*100)
+      )}
 
-  } else {
-    z$leave_one_out <- NA
   }
 
   z$algorithm <- get_2rm_formula(object)
 
-  return(z)
+  z
+
+}
+
+#' @keywords internal
+#' @rdname summary.TwoRegression
+new_summary <- function(object) {
+
+  test <-
+    c("repro_TwoRegression", "Hibbing18_TwoRegression") %>%
+    {any(. %in% class(object))}
+  if (test)  stop(
+    "No summary method available for algorithms ",
+    "formed outside of `TwoRegression`."
+  )
+
+  list(
+    cut_points = NULL,
+    regression_models = NULL,
+    leave_one_out = NA,
+    algorithm = NULL
+  )
+
+}
+
+#' @keywords internal
+#' @param z An intermediate summary object for internal use
+#' @param element character. Element name to search for in \code{z}
+#' @param label character. A label for the cut point
+#' @rdname summary.TwoRegression
+new_cut <- function(
+  z, object, element = c("sed_roc", "walkrun_roc"),
+  label = c("sedentary", "walk_run")
+) {
+
+  element <- match.arg(element)
+  label   <- match.arg(label)
+
+  new_name <-
+    object$sed_variable %>%
+    paste(label, ., sep = "_")
+
+  if (!is.null(object[[element]])) {
+    z$cut_points[[new_name]] <- pROC::coords(
+      object[[element]],
+      "best",
+      best.method = "closest.topleft"
+    )
+    return(z)
+  }
+
+  element <- gsub("_roc", "_cutpoint", element)
+  if (! is.null(object[[element]])) {
+    z$cut_points[[new_name]] <- object[[element]]
+    return(z)
+  }
+
+  stop("Cut-point retrieval failed")
+
+}
+
+#' @keywords internal
+#' @rdname summary.TwoRegression
+new_model <- function(
+  z, object, element = c("walkrun_model", "intermittent_model"),
+  label = c("walk_run", "intermittent_activity")
+) {
+
+  element <- match.arg(element)
+  label <- match.arg(label)
+
+  form <- gsub("_model", "_formula", element)
+
+  ## Walk/run model
+  if (! is.null(object[[element]])) {
+    z$regression_models[[label]] <- data.frame(
+      formula = object[[form]],
+      adj.r.squared = summary(object[[element]])$adj.r.squared,
+      see = summary(object[[element]])$sigma,
+      stringsAsFactors = FALSE
+    )
+  } else {
+    z$regression_models$walk_run <- data.frame(
+      formula = NA,
+      adj.r.squared = NA,
+      see = NA,
+      stringsAsFactors = FALSE
+    )
+  }
+
+  z
+
 }
