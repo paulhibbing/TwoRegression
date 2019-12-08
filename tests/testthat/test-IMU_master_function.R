@@ -34,16 +34,18 @@ testthat::test_that("One or more valid wear locations are selected", {
 })
 
 testthat::test_that("Master function successfully reads in data", {
+
   RAW <- system.file("extdata", "TestID_LeftWrist_RAW.csv", package = "TwoRegression")
   IMU <- system.file("extdata", "TestID_LeftWrist_IMU.csv", package = "TwoRegression")
 
   testthat::expect_true(!any(RAW=="", IMU==""))
 
-  test_data <-
-    hibbing18_twoReg_process(RAW, IMU, c("Left Wrist", "Left Ankle"), "Test", 1:3)
+  test_data <- hibbing18_twoReg_process(
+    RAW, IMU, c("Left Wrist", "Left Ankle"), "Test", 1:3
+  )
   test_data <- test_data[ ,!grepl("date_processed", names(test_data))]
-  tmp <- "IMU_Sample_Data.rds"
-  testthat::expect_equal_to_reference(test_data, tmp)
+  testthat::expect_equal_to_reference(test_data, "IMU_Sample_Data.rds")
+
 })
 
 testthat::test_that("Data frame names are outputted as expected", {
@@ -52,18 +54,18 @@ testthat::test_that("Data frame names are outputted as expected", {
 
   testthat::expect_true(!any(RAW=="", IMU==""))
 
-  test_data <-
-    hibbing18_twoReg_process(RAW,
-      IMU,
-      c("Left Wrist", "Right Wrist", "Hip", "Left Ankle", "Right Ankle"),
-      "Test",
-      1:3)
+  test_data <- hibbing18_twoReg_process(
+    RAW,
+    IMU,
+    c("Left Wrist", "Right Wrist", "Hip", "Left Ankle", "Right Ankle"),
+    "Test",
+    1:3
+  )
 
-  required_names <-
-    c("PID",
-      "file_source_PrimaryAccel", "date_processed_PrimaryAccel",
-      "Timestamp", "day_of_year", "minute_of_day",
-      "ENMO")
+  required_names <- c(
+    "PID", "file_source_PrimaryAccel", "date_processed_PrimaryAccel",
+    "Timestamp", "day_of_year", "minute_of_day", "ENMO"
+  )
 
   constructed_names <-
     expand.grid(
@@ -85,20 +87,22 @@ testthat::test_that("Data frame names are outputted as expected", {
       )
     )
 
-  constructed_names <-
-    apply(constructed_names, 1, paste, collapse = "_")
+  constructed_names <- apply(constructed_names, 1, paste, collapse = "_")
 
+  other_names <- c(
 
+    "file_source_IMU", "date_processed_IMU",
 
-  other_names <-
-    c("file_source_IMU", "date_processed_IMU",
+    "mean_Accelerometer_x", "mean_Accelerometer_y", "mean_Accelerometer_z",
 
-      "Gyroscope_VM_DegPerS",         "mean_abs_Gyroscope_x_DegPerS",
-      "mean_abs_Gyroscope_y_DegPerS", "mean_abs_Gyroscope_z_DegPerS",
+    "Gyroscope_VM_DegPerS",         "mean_abs_Gyroscope_x_DegPerS",
+    "mean_abs_Gyroscope_y_DegPerS", "mean_abs_Gyroscope_z_DegPerS",
 
-      "mean_magnetometer_direction", "Direction",
+    "mean_Temperature_C", "mean_magnetometer_direction", "Direction",
 
-      "ENMO_CV10s", "GVM_CV10s")
+    "ENMO_CV10s", "GVM_CV10s"
+
+  )
 
 
   testthat::expect_true(all(
@@ -106,4 +110,5 @@ testthat::test_that("Data frame names are outputted as expected", {
   ))
 
   testthat::expect_true(all(required_names %in% names(test_data)))
+
 })
