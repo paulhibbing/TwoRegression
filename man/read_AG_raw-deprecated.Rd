@@ -12,7 +12,8 @@ read_AG_raw(file, output_window_secs = 1, verbose = FALSE)
 \item{output_window_secs}{the desired epoch length; defaults to one second}
 }
 \value{
-A dataframe giving processed raw data from the primary accelerometer in the specified epoch length
+A dataframe giving processed raw data from the primary accelerometer
+  in the specified epoch length
 }
 \description{
 File reading function for primary accelerometer files
@@ -23,7 +24,7 @@ raw_file <-
     "TestID_LeftWrist_RAW.csv",
     package = "TwoRegression")
 
-\dontrun{
+\donttest{
 # Gives warning about deprecation
   read_AG_raw(raw_file)
 

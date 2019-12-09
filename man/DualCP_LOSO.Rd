@@ -2,28 +2,53 @@
 % Please edit documentation in R/leave_one_out.R
 \name{DualCP_LOSO}
 \alias{DualCP_LOSO}
+\alias{fold}
+\alias{get_cv_predictions}
+\alias{get_fold_model}
+\alias{get_classifications}
 \title{Perform leave-one-participant-out-cross-validation on a two-regression
 algorithm}
 \usage{
-DualCP_LOSO(model, subject_var = "id", data, MET_var = "MET_RMR",
+DualCP_LOSO(subject_var = "id", data, model, MET_var = "MET_RMR",
   activity_var = "Behavior", verbose = FALSE, trace = FALSE)
+
+fold(x, subject_var, data, model, MET_var, activity_var, trace)
+
+get_cv_predictions(model, fold_data, cv_data)
+
+get_fold_model(formula_string, fold_data, level = c("walkrun",
+  "intermittent"))
+
+get_classifications(data, model, numeric = TRUE, labels = c("SB", "walkrun",
+  "intermittent"))
 }
 \arguments{
-\item{model}{A \code{TwoRegression} object formed with \code{\link{form_2rm}}
+\item{subject_var}{character. Variable name that distinguishes between
+participants}
+
+\item{data}{fhe full data set to cross-validate}
+
+\item{model}{a \code{TwoRegression} object formed with \code{\link{form_2rm}}
 on which to perform the cross-validation}
 
-\item{subject_var}{The variable that distinguishes between participants
-(i.e., the fold-defining variable)}
+\item{MET_var}{character. The outcome variable name (in metabolic equivalents)}
 
-\item{data}{The full data set to cross-validate}
+\item{activity_var}{character. The variable name for the activity being
+performed}
 
-\item{MET_var}{The outcome variable (in metabolic equivalents)}
+\item{verbose}{logical. Print updates?}
 
-\item{activity_var}{The activity being performed}
+\item{trace}{logical. Print information about each iteration?}
 
-\item{verbose}{Logical. Print updates?}
+\item{x}{character. The id to hold out}
 
-\item{trace}{Logical. Print information about each iteration?}
+\item{fold_data}{the validation data set}
+
+\item{cv_data}{the holdout (i.e., cross-validation) data set}
+
+\item{formula_string}{character. Formula to apply in call to \code{lm}}
+
+\item{level}{character. Classification subset to include in call to \code{lm}}
 }
 \value{
 A data frame with predictions obtained from
@@ -36,7 +61,7 @@ algorithm
 \note{
 This function will not work for \code{TwoRegression} objects formed
   from previously-published research. The \code{TwoRegression} object needs
-  to have more information than is avaintermittentble in those cases in order to
+  to have more information than is available in those cases in order to
   perform cross-validation, and this is sensible, since there is no reason or
   way to re-perform cross-validation on an already-finalized algorithm.
 }

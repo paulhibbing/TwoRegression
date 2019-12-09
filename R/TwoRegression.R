@@ -1,3 +1,5 @@
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))
+
 #' Process Data from Wearable Research Devices Using Two-Regression Algorithms
 #'
 #' The TwoRegression package is designed to make implementation of

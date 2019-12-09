@@ -2,14 +2,31 @@
 % Please edit documentation in R/summary_TwoRegression.R
 \name{summary.TwoRegression}
 \alias{summary.TwoRegression}
+\alias{new_summary}
+\alias{new_cut}
+\alias{new_model}
 \title{Summary method for TwoRegression objects}
 \usage{
 \method{summary}{TwoRegression}(object, ...)
+
+new_summary(object)
+
+new_cut(z, object, element = c("sed_roc", "walkrun_roc"),
+  label = c("sedentary", "walk_run"))
+
+new_model(z, object, element = c("walkrun_model", "intermittent_model"),
+  label = c("walk_run", "intermittent_activity"))
 }
 \arguments{
 \item{object}{The TwoRegression object to summarize}
 
 \item{...}{Arguments passed to \code{\link{DualCP_LOSO}}}
+
+\item{z}{An intermediate summary object for internal use}
+
+\item{element}{character. Element name to search for in \code{z}}
+
+\item{label}{character. A label for the cut point}
 }
 \value{
 and object of class \code{summary.TwoRegression}, containing
@@ -65,3 +82,4 @@ summary(
   activity_var = "Activity"
 )
 }
+\keyword{internal}
