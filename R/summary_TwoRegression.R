@@ -64,11 +64,8 @@ summary.TwoRegression <- function(object, ...) {
 
   ## Leave one out
   if (! is.null(object$all_data)) {
-    data_wPredictions <- DualCP_LOSO(
-      object, data = object$all_data, ...
-    )
     z$leave_one_out <-
-      DualCP_LOSO(object, data = object$all_data, ...) %>%
+      DualCP_LOSO(model = object, data = object$all_data, ...) %>%
       {data.frame(
         RMSE = sqrt(mean(.$Error^2)),
         MAPE = mean((abs(.$Error) / .$Actual)*100)
