@@ -1,6 +1,6 @@
 Package: TwoRegression
 Type: Package
-Title: Process Data from Wearable Research Devices Using Two-Regression Algorithms
+Title: Develop and Apply Two-Regression Algorithms
 Version: 1.0.0
 Authors@R: c(
     person(c("Paul", "R."), "Hibbing", email = "paulhibbing@gmail.com",
@@ -22,18 +22,21 @@ Imports:
     AGread,
     data.table (>= 1.10.4),
     dplyr (>= 0.5.0),
-    seewave (>= 2.0.5),
+    ggplot2 (>= 2.2.0),
     magrittr (>= 1.5),
+    gridExtra (>= 2.3),
     PAutilities,
     pROC (>= 1.16.0),
-    ggplot2 (>= 2.2.0),
-    gridExtra (>= 2.3),
-    utils,
-    stats
-RoxygenNote: 7.1.1
-Suggests: knitr,
+    RcppRoll,
+    seewave (>= 2.0.5),
+    stats,
+    utils
+RoxygenNote: 7.1.2
+Suggests: 
+    knitr,
     rmarkdown,
-    testthat
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 URL: https://github.com/paulhibbing/TwoRegression
 BugReports: https://github.com/paulhibbing/TwoRegression/issues
+Config/testthat/edition: 3
