@@ -1,0 +1,39 @@
+Package: TwoRegression
+Type: Package
+Title: Process Data from Wearable Research Devices Using Two-Regression Algorithms
+Version: 1.0.0
+Authors@R: c(
+    person(c("Paul", "R."), "Hibbing", email = "paulhibbing@gmail.com",
+		  role = c("aut","cre")),
+    person(c("Vincent", "T."), "van Hees", role = "ctb"))
+Depends: R (>= 3.1.0)
+Description: Facilitates development and application of two-regression
+    algorithms for research-grade wearable devices. It provides an easy
+    way for users to access previously-developed algorithms, and also to
+    develop their own. Initial motivation came from Hibbing PR, LaMunion SR,
+    Kaplan AS, & Crouter SE (2018) <doi:10.1249/MSS.0000000000001532>.
+    However, other algorithms are now supported. Please see the associated
+    references in the package documentation for full details of the algorithms
+    that are supported.
+License: GPL-3 | file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    AGread,
+    data.table (>= 1.10.4),
+    dplyr (>= 0.5.0),
+    seewave (>= 2.0.5),
+    magrittr (>= 1.5),
+    PAutilities,
+    pROC (>= 1.16.0),
+    ggplot2 (>= 2.2.0),
+    gridExtra (>= 2.3),
+    utils,
+    stats
+RoxygenNote: 7.1.1
+Suggests: knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
+URL: https://github.com/paulhibbing/TwoRegression
+BugReports: https://github.com/paulhibbing/TwoRegression/issues
