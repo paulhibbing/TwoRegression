@@ -41,7 +41,11 @@ Two-regression model for estimating energy expenditure in children.
 \examples{
 \donttest{
 
-message("Stay tuned!")
+data(count_data, package = "TwoRegression")
+crouter_2006(count_data, "Axis1", "time")
+crouter_2010(count_data, "Axis1", "time")
+crouter_2012(count_data, "Axis1", "time", "VA", FALSE)
+crouter_2012(count_data, "Vector.Magnitude", "time", "VM", FALSE)
 
 }
 
