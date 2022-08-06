@@ -6,7 +6,7 @@ Authors@R: c(
     person(c("Paul", "R."), "Hibbing", email = "paulhibbing@gmail.com",
 		  role = c("aut","cre")),
     person(c("Vincent", "T."), "van Hees", role = "ctb"))
-Depends: R (>= 3.1.0)
+Depends: R (>= 3.5.0)
 Description: Facilitates development and application of two-regression
     algorithms for research-grade wearable devices. It provides an easy
     way for users to access previously-developed algorithms, and also to
