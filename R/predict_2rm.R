@@ -151,6 +151,13 @@ predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
 
   ## Finish up
 
-    newdata[ ,setdiff(names(newdata), "Orig_index")]
+    newdata[ ,setdiff(names(newdata), "Orig_index")] %>%
+    dplyr::mutate(
+      Classification = factor(
+        Classification,
+        c("SED", "CWR", "ILA"),
+        c("SB", "walkrun", "intermittent")
+      )
+    )
 
 }

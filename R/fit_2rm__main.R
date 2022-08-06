@@ -25,8 +25,10 @@
 #' @return An object of class `TwoRegression`
 #' @export
 #'
-#' @seealso Links to methods for `TwoRegression` should go here (predict, plot,
-#'   summary)
+#' @seealso
+#' \code{\link{predict.TwoRegression}}
+#' \code{\link{summary.TwoRegression}}
+#' \code{\link{plot.TwoRegression}}
 #'
 #' @examples
 #' data(all_data, package = "TwoRegression")

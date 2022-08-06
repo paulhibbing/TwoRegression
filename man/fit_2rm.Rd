@@ -98,6 +98,7 @@ fit_2rm(
 )
 }
 \seealso{
-Links to methods for `TwoRegression` should go here (predict, plot,
-  summary)
+\code{\link{predict.TwoRegression}}
+\code{\link{summary.TwoRegression}}
+\code{\link{plot.TwoRegression}}
 }
