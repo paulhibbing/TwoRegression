@@ -19,8 +19,6 @@ License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    AGread,
-    data.table (>= 1.10.4),
     dplyr (>= 0.5.0),
     ggplot2 (>= 2.2.0),
     magrittr (>= 1.5),
@@ -30,9 +28,13 @@ Imports:
     RcppRoll,
     seewave (>= 2.0.5),
     stats,
-    utils
+    utils,
+    rlang,
+    lubridate,
+    tidyr
 RoxygenNote: 7.1.2
 Suggests: 
+    agcounts,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)

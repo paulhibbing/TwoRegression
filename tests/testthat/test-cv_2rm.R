@@ -8,7 +8,7 @@ cv <- function(signal) {
   if (mean(signal) == 0) {
     0
   } else {
-    stats::sd(signal)/mean(signal) * 100
+    sd(signal)/mean(signal) * 100
   }
 
 }
