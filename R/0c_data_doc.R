@@ -104,3 +104,18 @@
 #'   \item{ENMO}{Euclidian Norm Minus One, in milli-g}
 #' }
 "raw_for_cv"
+
+#' Activity count data for demonstrating prior two-regression models
+#'
+#' A small amount of 10-s epoch activity counts for code examples
+#'
+#' @format A data frame with 30 rows and 5 variables:
+#' \describe{
+#'   \item{time}{POSIX. The timestamp}
+#'   \item{Axis1}{numeric. The vertical axis activity counts}
+#'   \item{Axis2}{numeric. The horizontal axis}
+#'   \item{Axis3}{numeric. The lateral axis}
+#'   \item{Vector.Magnitude}{numeric. The vector magnitude of all three axes}
+#' }
+#'
+"count_data"
