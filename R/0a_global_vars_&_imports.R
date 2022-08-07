@@ -2,7 +2,7 @@
 
 if(getRversion() >= "2.15.1") utils::globalVariables(c(
   ".", "Axis1", "Class", "cv_10", "Classification", "Freq",
-  "METs", "Timestamp", "where", "x"
+  "METs", "Orig_index", "Timestamp", "where", "x"
 ))
 
 

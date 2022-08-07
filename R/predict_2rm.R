@@ -54,7 +54,9 @@
 #' @export
 predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
 
+
   if (verbose) message_update(32, method = object$method)
+
 
   ## Make some behind-the-scenes tweaks to standardize this method for objects
   ## that were formed inside vs. outside of `fit_2rm`
@@ -66,6 +68,7 @@ predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
     if (any(grepl("^intermittent", names(object)))) {
       names(object) %<>% gsub("^intermittent", "ila", .)
     }
+
 
   ## Classify each observation and manually keep track of order
 
@@ -84,14 +87,17 @@ predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
 
     newdata$Orig_index <- seq(nrow(newdata))
 
+
   ## Make predictions after initializing a MET variable to NA
 
     newdata$METs <- NA
+
 
   ## Separate missing entries
 
     class_NA <- newdata[is.na(newdata$Classification),  ]
     newdata  <- newdata[!is.na(newdata$Classification), ]
+
 
   ## Predict sedentary METs
 
@@ -99,6 +105,7 @@ predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
     if(nrow(SED) > 0) {
       SED$METs <- object$sed_METs
     }
+
 
   ## Predict CWR METs
 
@@ -113,6 +120,7 @@ predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
 
     }
 
+
   ## Predict ILA METs
 
     ILA <- newdata[newdata$Classification == "ILA", ]
@@ -126,8 +134,18 @@ predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
 
     }
 
-    newdata <- rbind(class_NA, SED, CWR, ILA)
-    newdata <- newdata[order(newdata$Orig_index), ]
+    newdata <-
+      rbind(class_NA, SED, CWR, ILA) %>%
+      dplyr::arrange(Orig_index) %>%
+      dplyr::select(-Orig_index) %>%
+      dplyr::mutate(
+        Classification = factor(
+          Classification,
+          c("SED", "CWR", "ILA"),
+          c("SB", "walkrun", "intermittent")
+        )
+      )
+
 
   ## Test for missing MET values
 
@@ -141,23 +159,37 @@ predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
       newdata[ ,c("Classification", "METs")] %>%
       apply(1, anyNA)
 
-    stopifnot(all(ifelse(
-      !test_new,    # If prediction is not missing
-      TRUE,         # Give TRUE
-      test_original # Otherwise give FALSE unless the
+    stopifnot(all(
+      ifelse(
+
+        !test_new,    # If prediction is not missing
+        TRUE,         # Give TRUE
+        test_original # Otherwise give FALSE unless the
                     # original data were also missing
       )
     ))
 
+
+  ## Test for MET values below the minimum value
+
+    too_low <- newdata$METs < object$sed_METs
+
+    if (any(too_low)) {
+
+      warning(
+        "Rounding up ", sum(too_low), " MET value(s) below the minimum of ",
+        object$sed_METs, " METs for the ", sQuote(object$method),
+        " method", call. = FALSE
+      )
+
+      newdata$METs %<>% pmin(object$sed_METs)
+
+    }
+
+
   ## Finish up
 
-    newdata[ ,setdiff(names(newdata), "Orig_index")] %>%
-    dplyr::mutate(
-      Classification = factor(
-        Classification,
-        c("SED", "CWR", "ILA"),
-        c("SB", "walkrun", "intermittent")
-      )
-    )
+    newdata
+
 
 }
