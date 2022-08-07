@@ -23,23 +23,4 @@ a numeric vector of values, giving the number of direction
 \code{get_directions} is legacy code, whereas \code{get_dcp5} is cleaner and
 (possibly) faster
 }
-\examples{
-\donttest{
-##All possible directions
-directions <-
-  c("N", "NNE", "NE", "ENE",
-    "E", "ESE", "SE", "SSE",
-    "S", "SSW", "SW", "WSW",
-    "W", "WNW", "NW", "NNW")
-
-##Reproducible results
-set.seed(55)
-direction_vector <- sample(directions, 50, replace = TRUE)
-
-##Vector of direction changes per 5-s. First and last two values are always NA
-get_directions(direction_vector)
-get_dcp5(direction_vector)
-}
-
-}
 \keyword{internal}

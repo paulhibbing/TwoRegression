@@ -48,7 +48,7 @@ combination thereof}
 
 \item{verbose}{lobical. Print progress updates?}
 
-\item{...}{Further arguments passed to \code{\link{hibbing_smooth}}}
+\item{...}{Further arguments passed to \code{\link{ag_smooth}}}
 }
 \description{
 Apply two-regression models from Hibbing et al.
@@ -74,5 +74,5 @@ collapsed
 \emph{Med Sci Sports Exerc})}
 
 \code{\link{apply_two_regression_hibbing18}}
-\code{\link{hibbing_smoot}}
+\code{\link{ag_smooth}}
 }

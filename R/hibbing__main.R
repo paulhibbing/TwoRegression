@@ -19,14 +19,14 @@
 #'   combination thereof
 #' @param smooth A logical scalar. Should data be averaged over a longer time period after processing?
 #' @param verbose lobical. Print progress updates?
-#' @param ... Further arguments passed to \code{\link{hibbing_smooth}}
+#' @param ... Further arguments passed to \code{\link{ag_smooth}}
 #'
 #' @seealso
 #' \href{https://pubmed.ncbi.nlm.nih.gov/29271847/}{Hibbing et al. (2018,
 #' \emph{Med Sci Sports Exerc})}
 #'
 #' \code{\link{apply_two_regression_hibbing18}}
-#' \code{\link{hibbing_smoot}}
+#' \code{\link{ag_smooth}}
 #'
 #' @examples
 #' data(all_data, package = "TwoRegression")
