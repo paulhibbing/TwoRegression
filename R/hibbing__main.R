@@ -1,6 +1,6 @@
 #' Apply two-regression models from Hibbing et al.
 #'
-#' @inheritParams crouter_2006
+#' @inheritParams crouter
 #' @param accel_var Character scalar. Name of accelerometer variable to
 #'   operate on (expected format is Euclidian Norm Minus One, in
 #'   milli-gravitational units)

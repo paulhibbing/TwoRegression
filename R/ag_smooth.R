@@ -1,6 +1,6 @@
 #' Smooth two-regression estimates over specified periods
 #'
-#' @inheritParams crouter_2006
+#' @inheritParams crouter
 #' @inheritParams hibbing_2018
 #' @param unit the interval to use for smoothing (see
 #'   \code{\link[lubridate]{floor_date}}). Default is \code{"60 sec"}
