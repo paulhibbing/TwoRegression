@@ -121,3 +121,21 @@ custom_cv <- function(x, window_size, pad_size = window_size - 1, ...) {
   RcppRoll::roll_min(window_size, na.rm = TRUE)
 
 }
+
+# Purely internal function ------------------------------------------------
+
+get_cv_vars <- function(
+  Algorithm, accel_var = "ENMO",
+  gyro_var = "Gyroscope_VM_DegPerS", verbose = FALSE
+) {
+
+  cvs <-
+    c(accel_var, gyro_var, gyro_var) %>%
+    {.[1:3 %in% Algorithm]} %>%
+    unique(.)
+
+  if(verbose) message_update(11, cvs = cvs)
+
+  cvs
+
+}

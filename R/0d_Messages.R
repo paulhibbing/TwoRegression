@@ -37,7 +37,7 @@ message_update <- function(
       paste("Determining direction from mean values of x and y, replicating", n, "times."),
       "Unable to detect sampling rate. Defaulting to 100",
       "IMU file provided, but Algorithm 1 selected. Ignoring IMU file. Set IMU_ignore_A1 = FALSE to override.",
-      "Only algorithms 1-3 exist. Removing selections outside that range.",
+      "hibbing_2018 only has algorithms 1-3. Removing selections outside that range.",
       "No valid algorithms specified. Setting Algorithm to 1.",
       "Wear_Location must be one or more of c(\"Hip\", \"Left Wrist\", \"Right Wrist\", \"Left Ankle\", \"Right Ankle\").",
       "No valid Wear_Location specified. Defaulting to Hip.",
@@ -49,7 +49,7 @@ message_update <- function(
       paste("Aborting AG_smooth because there is currently no support for collapsing the following variable(s):\n ",
         paste(missing_vars, collapse = "\n  ")),
       paste("... Calculating CVs using non-overlapping blocks of size", window_size),
-      paste("Calculating EE using the", method, "two-regression algorithm\n"),
+      paste("\nCalculating EE using the", method, "two-regression algorithm"),
       "33"
     )
   if (is_message) {
