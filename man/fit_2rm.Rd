@@ -17,7 +17,7 @@ fit_2rm(
   met_var,
   walkrun_formula,
   intermittent_formula,
-  method = "`user_unspecified`"
+  method = "user_unspecified"
 )
 
 is.TwoRegression(x)
@@ -67,6 +67,9 @@ Develop a two-regression algorithm
 Check if an object has class TwoRegression
 }
 \examples{
+
+set.seed(307)
+
 data(all_data, package = "TwoRegression")
 fake_sed <- c("Lying", "Sitting")
 fake_lpa <- c("Sweeping", "Dusting")
@@ -77,11 +80,11 @@ fake_activities <- c(fake_sed, fake_lpa, fake_cwr, fake_ila)
 
 all_data$Activity <- sample(fake_activities, nrow(all_data), TRUE)
 
-all_data$fake_METs <-
-  ifelse(all_data$Activity \%in\% c(fake_sed, fake_lpa),
-    runif(nrow(all_data), 1, 2),
-    runif(nrow(all_data), 2.5, 8)
-  )
+all_data$fake_METs <- ifelse(
+  all_data$Activity \%in\% c(fake_sed, fake_lpa),
+  runif(nrow(all_data), 1, 2),
+  runif(nrow(all_data), 2.5, 8)
+)
 
 fit_2rm(
   data = all_data,

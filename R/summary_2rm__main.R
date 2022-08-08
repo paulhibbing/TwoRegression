@@ -10,11 +10,14 @@
 #' @export
 #'
 #' @examples
+#'
+#' set.seed(307)
+#'
 #' data(all_data, package = "TwoRegression")
-#' all_data$PID <-
-#'   rep(
-#'     c("Test1", "Test2"),
-#'     each = ceiling(nrow(all_data) / 2))[seq(nrow(all_data))]
+#' all_data$PID <- rep(
+#'   c("Test1", "Test2"),
+#'   each = ceiling(nrow(all_data) / 2)
+#' )[seq(nrow(all_data))]
 #'
 #' fake_sed <- c("Lying", "Sitting")
 #' fake_lpa <- c("Sweeping", "Dusting")

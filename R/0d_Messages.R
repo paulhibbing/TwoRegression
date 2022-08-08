@@ -49,7 +49,7 @@ message_update <- function(
       paste("Aborting AG_smooth because there is currently no support for collapsing the following variable(s):\n ",
         paste(missing_vars, collapse = "\n  ")),
       paste("... Calculating CVs using non-overlapping blocks of size", window_size),
-      paste("\nCalculating EE using the", method, "two-regression algorithm"),
+      paste("\nCalculating EE using the", sQuote(method), "two-regression model"),
       "33"
     )
   if (is_message) {

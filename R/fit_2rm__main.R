@@ -31,6 +31,9 @@
 #' \code{\link{plot.TwoRegression}}
 #'
 #' @examples
+#'
+#' set.seed(307)
+#'
 #' data(all_data, package = "TwoRegression")
 #' fake_sed <- c("Lying", "Sitting")
 #' fake_lpa <- c("Sweeping", "Dusting")
@@ -41,11 +44,11 @@
 #'
 #' all_data$Activity <- sample(fake_activities, nrow(all_data), TRUE)
 #'
-#' all_data$fake_METs <-
-#'   ifelse(all_data$Activity %in% c(fake_sed, fake_lpa),
-#'     runif(nrow(all_data), 1, 2),
-#'     runif(nrow(all_data), 2.5, 8)
-#'   )
+#' all_data$fake_METs <- ifelse(
+#'   all_data$Activity %in% c(fake_sed, fake_lpa),
+#'   runif(nrow(all_data), 1, 2),
+#'   runif(nrow(all_data), 2.5, 8)
+#' )
 #'
 #' fit_2rm(
 #'   data = all_data,
@@ -63,7 +66,7 @@
 fit_2rm <- function(
   data, activity_var, sed_cp_activities, sed_activities, sed_cp_var,
   sed_METs, walkrun_activities, walkrun_cp_var, met_var, walkrun_formula,
-  intermittent_formula, method = "`user_unspecified`"
+  intermittent_formula, method = "user_unspecified"
 ) {
 
   # SB Cut-Point

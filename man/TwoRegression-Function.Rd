@@ -47,8 +47,8 @@ subsections}
 \item{verbose}{logical. Print updates to console?}
 
 \item{...}{arguments passed to the implementation function indicated by
-\code{method} (and further passed to \code{\link{smooth_2rm}}) when
-\code{method == "Hibbing 2018"}}
+\code{method} (and further passed to \code{\link{smooth_2rm}} when
+\code{method == "Hibbing 2018"})}
 
 \item{movement_var}{character scalar. Name of the movement variable (default
 is \code{"Axis1"})}

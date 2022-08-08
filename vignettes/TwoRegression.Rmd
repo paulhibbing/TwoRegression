@@ -1,0 +1,400 @@
+---
+title: "The TwoRegression Package"
+author: "Paul R. Hibbing"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The TwoRegression Package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## INTRODUCTION
+
+The TwoRegression package allows users to quickly and accurately develop/apply
+two-regression algorithms to data from research-grade wearable devices. This
+vignette is designed to demonstrate  usage of the package's core features.
+
+Before getting into that, it's valuable to cover some history. The package was
+initially established as a home for the models of [Hibbing et al.
+(2018)](https://www.ncbi.nlm.nih.gov/pubmed/29271847). Since the initial
+release, support has been added for developing/applying new models, as well as
+applying others from prior research (see [Crouter et
+al.(2006)](https://pubmed.ncbi.nlm.nih.gov/16322367/), [Crouter et
+al.(2010)](https://pubmed.ncbi.nlm.nih.gov/20400882/), and [Crouter et
+al.(2012)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3324667/)). As of
+version 1.0.0, a new approach has been implemented for invoking prior methods
+via the `TwoRegression` function, which we will look at in the following
+section. Afterwards, we will cover the process of creating and cross-validating
+new models, plus other aspects of using them effectively.
+
+
+## IMPLEMENTING TWO-REGRESSION MODELS THAT ALREADY EXIST
+
+#### Approach and Options
+
+Prior models are implemented using the `TwoRegression` function. Currently,
+support is available for the following:
+
+* [Crouter et al.(2006)](https://pubmed.ncbi.nlm.nih.gov/16322367/)
+  - The original Crouter two-regression model (for adults)
+* [Crouter et al.(2010)](https://pubmed.ncbi.nlm.nih.gov/20400882/)
+  - The refined Crouter two-regression model (for adults)
+* [Crouter et al.(2012)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3324667/))
+  - Two youth-specific Crouter two-regression models, one for vertical axis
+    data and the other for vector magnitude data
+* [Hibbing et al. (2018)](https://pubmed.ncbi.nlm.nih.gov/29271847/)
+  - Fifteen two-regression models for adults, corresponding to one of five
+    attachment sites (hip, wrists, ankles) and one of three model
+    configurations (accelerometer only, accelerometer and gyroscope, or
+    accelerometer, gyroscope, and magnetometer)
+    
+#### Help documentation
+
+It's very important that you look at the `TwoRegression` function documentation.
+It will help you understand what settings you need to provide in order to run a
+specific model correctly. To view the documentation, run the following:
+
+```{r, eval = FALSE}
+
+?TwoRegression::TwoRegression
+
+```
+
+This will pull up a documentation page where you can see the syntax for calling
+the `TwoRegression` function. Importantly, the page also lists the syntax for
+several internal functions that apply to specific models (i.e., the
+`crouter_2006`, `crouter_2010`, `crouter_2012`, and `hibbing_2018` functions).
+The `TwoRegression` function is just a wrapper around those other internal
+functions. That is, based on the method you select, `TwoRegression` will call
+the corresponding internal function. In most cases, you will also need to
+provide settings for the internal function, and those can be passed into the
+`TwoRegression` function directly. This will be easier to see and understand in
+the coding samples later on in this section, but it's important to be aware of
+all this from the get-go.
+
+#### Assumptions and Data
+
+The function operates under the assumption you already have data read into R.
+You can do this with the [AGread package](https://github.com/paulhibbing/AGread),
+although installation of that package might be tricky. Feel free to [file an issue
+on the GitHub webpage](https://github.com/paulhibbing/AGread/issues/new) if you need extra help.
+
+Anyway, the TwoRegression package provides some sample data to show how you
+might apply the models. If you can get your own data into a form that mirrors
+the sample data, you'll be in good shape. Here's how to access these built-in
+datasets:
+
+```{r}
+
+data(count_data, package = "TwoRegression")
+data(all_data, package = "TwoRegression")
+
+```
+
+Notably, the `count_data` object contains activity count data (for the Crouter
+two-regression models), while the `all_data` object contains raw sensor data
+(for the Hibbing models). We can view the first few rows of count data as
+follows:
+
+```{r}
+
+utils::head(count_data)
+
+```
+
+We can do the same using a similar approach for the raw data. However, let's
+remove some extraneous variables as well, just for the sake of this
+illustration.
+
+```{r}
+
+all_data <- all_data[ ,setdiff(
+  names(all_data),
+  ## These are the variables to remove:
+  c(
+    "file_source_PrimaryAccel", "date_processed_PrimaryAccel",
+    "file_source_IMU", "date_processed_IMU", "day_of_year", "minute_of_day",
+    "ENMO_CV10s", "GVM_CV10s", "Direction"
+  )
+)]
+
+utils::head(all_data)
+```
+
+#### Applying Crouter models (for activity count data)
+
+Once you have your dataset ready, it's easy to apply a two-regression model.
+Just invoke the `TwoRegression` function like this:
+
+```{r}
+
+crouter2006 <- TwoRegression::TwoRegression(
+  count_data, "Crouter 2006", movement_var = "Axis1", time_var = "time"
+)
+
+crouter2010 <- TwoRegression::TwoRegression(
+  count_data, "Crouter 2010", movement_var = "Axis1", time_var = "time"
+)
+
+crouter2012_va <- TwoRegression::TwoRegression(
+  count_data, "Crouter 2012", movement_var = "Axis1",
+  time_var = "time", model = "VA", check = FALSE
+)
+
+crouter2012_vm <- TwoRegression::TwoRegression(
+  count_data, "Crouter 2012", movement_var = "Vector.Magnitude",
+  time_var = "time", model = "VM", check = FALSE
+)
+
+```
+
+For the Crouter 2012 models, you have to choose between the vertical axis model
+and the vector magnitude model. If you don't set `check = FALSE`, you will get a
+warning about which movement variable and model you've selected. This is meant
+as a prompt for you to ensure your selected movement variable matches your
+selected model. Once you're confident in your selection, you can set `check =
+FALSE` and the warning won't show up.
+
+For the time being, you can only implement Crouter models one at a time. Of
+course, you can combine the output from multiple models yourself. Ideally, with
+ongoing development, a point will come where this can be done automatically and
+efficiently (see the [GitHub issue on this topic](https://github.com/paulhibbing/TwoRegression/issues/1)), but for now it
+isn't built in. As we'll see in the following subsection, though, that's not the
+case for the Hibbing models. Here's a look at the output from the prior commands:
+
+```{r}
+
+utils::head(crouter2006)
+utils::head(crouter2010)
+utils::head(crouter2012_va)
+utils::head(crouter2012_vm)
+
+```
+
+#### Applying Hibbing models (for raw sensor data)
+
+The Hibbing models are implemented similarly to the Crouter models. A key
+difference, though, is that you can ask the function to run multiple models
+simultaneously. That's what we'll see in the following example:
+
+```{r}
+
+hibbing2018 <- TwoRegression::TwoRegression(
+  
+  all_data, "Hibbing 2018", accel_var = "ENMO",
+  gyro_var = "Gyroscope_VM_DegPerS",
+  direction_var = "mean_magnetometer_direction",
+  
+  ## Here is where we can select an algorithm from multiple sites:
+  site = c("Left Ankle", "Right Ankle"),
+  
+  ## And here is where we can select multiple algorithms
+  ## (1 = accelerometer only; 2 = accelerometer and gyroscope;
+  ## 3 = accelerometer, gyroscope, and magnetometer)
+  algorithm = 1:2,
+  
+  ## We can also ask the function to collapse data every minute by making an
+  ## extra call to `smooth_2rm`
+  smooth = TRUE
+)
+
+utils::head(hibbing2018)
+
+```
+
+So, each algorithm is run, and the information is stored in a unique and
+descriptive variable name.
+
+## FITTING AND EXAMINING NEW MODELS
+
+#### Background and Setup
+
+The TwoRegression package is also useful if you want to create your own model.
+Your dataset needs to have some more complex information to get this going,
+though. Using our previous `all_data` object, we need to label it with some
+pretend activity labels and some pretent energy expenditure values in metabolic
+equivalents (METs). In a real-life setting, the MET values would likely come
+from indirect calorimetry. To create some of this imaginary data, we can run the following:
+
+```{r}
+
+set.seed(307)
+
+fake_sed <- c("Lying", "Sitting")
+fake_lpa <- c("Sweeping", "Dusting")
+fake_cwr <- c("Walking", "Running")
+fake_ila <- c("Tennis", "Basketball")
+
+fake_activities <- c(fake_sed, fake_lpa, fake_cwr, fake_ila)
+
+all_data$Activity <- sample(fake_activities, nrow(all_data), TRUE)
+
+all_data$fake_METs <- ifelse(
+  all_data$Activity %in% c(fake_sed, fake_lpa),
+  runif(nrow(all_data), 1, 2),
+  runif(nrow(all_data), 2.5, 8)
+)
+
+```
+
+There are a couple of other steps we need to take care of that are somewhat
+specific to this demonstration. Nevertheless, they may be helpful to see. One is
+to make sure our data have a column indicating which participant each data point
+came from. In this case, we'll just label our data to pretend it came from two
+sample files instead of one (where 'sample file' is analogous to 'participant').
+The other step is calculating the coefficient of variation. We technically
+deleted that variable earler, but here we'll see how to add it back in.
+
+```{r}
+
+all_data$PID <- rep(
+  c("Test1", "Test2"),
+  each = ceiling(nrow(all_data) / 2)
+)[seq(nrow(all_data))]
+
+all_data$ENMO_CV10s <- TwoRegression::cv_2rm(all_data$ENMO)
+
+```
+
+#### Fitting the Model
+
+When we go to fit the model, we'll use the `fit_2rm` function. There are a lot
+of arguments to provide here:
+
+* **data: ** The dataset
+* **activity_var: ** The name of the variable that indicates the activity
+* **sed_cp_activities: ** The subset of values from `activity_var` that should
+  be included when calibrating the 2RM sedentary cut point
+* **sed_activities: ** The subset of values from `activity_var` that should be
+  labeled as positive for sedentary behavior when calibrating the 2RM sedentary
+  cut point
+* **sed_cp_var: ** The name of the variable for which the 2RM sedentary cut
+  point should be calibrated.
+* **sed_METs: ** The MET value to assign for sedentary behaviors (i.e., when
+  the value for `sed_cp_var` falls below the 2RM sedentary cut point)
+* **walkrun_activities: ** The subset of values from `activity_var` that should
+  be labeled as positive for "continuous walking/running" (CWR) when
+  calibrating the 2RM CWR cut point
+* **walkrun_cp_var: ** The name of the variable for which the 2RM CWR cut point
+  should be calibrated
+* **met_var: ** The name of the MET variable that the 2RM should be fitted
+  to predict
+* **walkrun_formula: ** A character representation of the formula that should
+  be used when fitting the CWR model (formulated as `outcome ~ predictors`)
+* **intermittent_formula: ** A character representation of the formulat that
+  should be used when fitting the intermittent lifestyle activities model
+  (formulated like `walkrun_formula` -- note that data transformations like
+  squaring or cubing should be wrapped in `I()`)
+  
+From there, we can fit our model like this:
+
+```{r}
+
+my_model <- TwoRegression::fit_2rm(
+  data = all_data,
+  activity_var = "Activity",
+  sed_cp_activities = c(fake_sed, fake_lpa),
+  sed_activities = fake_sed,
+  sed_cp_var = "ENMO",
+  sed_METs = 1.25,
+  walkrun_activities = fake_cwr,
+  walkrun_cp_var = "ENMO_CV10s",
+  met_var = "fake_METs",
+  walkrun_formula = "fake_METs ~ ENMO",
+  intermittent_formula = "fake_METs ~ ENMO + I(ENMO^2) + I(ENMO^3)"
+)
+
+```
+
+#### Examining Model Performance
+
+The package provides summary and plot methods to understand, cross-validate, and
+visualize the model. Notably, this demonstration model is not meant to perform
+well or look pretty (the data are just numbers that have no real meaning), but
+we'll still take a look at how to run the code.
+
+As far as the summary method goes, this is where we need the participant
+identification column we set up earlier. Specifically, it will be used for
+leave-one-out cross-validation, where the data are split up into different
+chunks while the model is repeatedly re-fitted. Other information in the output
+includes a textual representation of the overall algorithm and summaries of the
+fit/performance of individual components (i.e., ROC and regression analyses). To
+pull all of this up, you just have to run code that matches the following
+pattern:
+
+```{r}
+
+summary(
+  my_model,
+  subject_var = "PID",
+  MET_var = "fake_METs",
+  activity_var = "Activity"
+)
+
+```
+
+For the plot function, you'll need to fill in some of the same values from the
+original call to `fit_2rm`. Use code that matches the following pattern:
+
+```{r, fig.align='center', fig.width=12, fig.height=6, out.width="85%"}
+
+## You have to explicitly type `object = ` for this to work
+plot(
+  object = my_model,
+  sed_cp_activities = c(fake_sed, fake_lpa),
+  sed_activities = fake_sed,
+  sed_cpVar = "ENMO",
+  activity_var = "Activity",
+  met_var = "fake_METs",
+  walkrun_activities = fake_cwr,
+  walkrun_cpVar = "ENMO_CV10s",
+  print = TRUE
+)
+
+```
+
+## USING NEW MODELS
+
+Once you've created your model, you want to use it on new data. That's easy to
+do using the `predict` method included in the package. If we pretend our
+`all_data` object is a new dataset, we could get predictions by running code
+like this:
+
+```{r}
+
+results <- predict(my_model, all_data)
+
+utils::head(results)
+
+```
+
+When making predictions, you can specify `verbose = TRUE` if you want to print a
+message to the console about making predictions from your model. By default, it
+will say it's making predictions using the 'user_unspecified' model. To give
+your model a name, you can assign a value to its `method` element. Consider the following:
+
+```{r}
+
+results_default <- predict(my_model, all_data, verbose = TRUE)
+
+
+my_model$method <- "My Customized 2RM"
+
+
+results_updated <- predict(my_model, all_data, verbose = TRUE)
+
+```
+
+## CONCLUSION
+
+That's it. This has been a quick crash course in the core features and functions
+of the TwoRegression package. If you have questions or feedback, feel free to
+connect by [posting an issue on the GitHub page](https://github.com/paulhibbing/TwoRegression/issues/new). Happy coding!
