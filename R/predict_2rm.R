@@ -177,12 +177,12 @@ predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
     if (any(too_low)) {
 
       warning(
-        "Rounding up ", sum(too_low), " MET value(s) below the minimum of ",
-        object$sed_METs, " METs for the ", sQuote(object$method),
+        "Rounding up ", sum(too_low), " MET value(s) below the minimum (",
+        object$sed_METs, " METs) for the ", sQuote(object$method),
         " method", call. = FALSE
       )
 
-      newdata$METs %<>% pmin(object$sed_METs)
+      newdata$METs %<>% pmax(object$sed_METs)
 
     }
 
