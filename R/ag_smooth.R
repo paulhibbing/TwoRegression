@@ -1,13 +1,24 @@
 #' Smooth two-regression estimates over specified periods
 #'
-#' @inheritParams crouter
-#' @inheritParams hibbing_2018
+#' @inheritParams TwoRegression-Function
 #' @param unit the interval to use for smoothing (see
 #'   \code{\link[lubridate]{floor_date}}). Default is \code{"60 sec"}
 #'
 #' @return Smoothed data, collapsed in the specified intervals
 #'
-#' @keywords internal
+#' @examples
+#'
+#' data(all_data, package = "TwoRegression")
+#'
+#'   result <- TwoRegression(
+#'     all_data, "Hibbing 2018", gyro_var = "Gyroscope_VM_DegPerS",
+#'     direction_var = "mean_magnetometer_direction",
+#'     site = c("Left Ankle", "Right Ankle"), algorithm = 1:2
+#'   )
+#'
+#'   ag_smooth(result)
+#'
+#' @export
 ag_smooth <- function(
   AG, time_var = "Timestamp", unit = "60 sec", verbose = FALSE
 ) {
