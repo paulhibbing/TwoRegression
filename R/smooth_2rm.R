@@ -16,10 +16,10 @@
 #'     site = c("Left Ankle", "Right Ankle"), algorithm = 1:2
 #'   )
 #'
-#'   ag_smooth(result)
+#'   smooth_2rm(result)
 #'
 #' @export
-ag_smooth <- function(
+smooth_2rm <- function(
   AG, time_var = "Timestamp", unit = "60 sec", verbose = FALSE
 ) {
 
