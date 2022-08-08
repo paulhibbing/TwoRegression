@@ -73,7 +73,7 @@ get_dcp5 <- function(x, window_size = 5) {
       ## Subtract 1 because first row doesn't count as a change
       length(rle(x[i])$values) - 1
     },
-    x = x
+    x = if (is.factor(x) | !is.atomic(x)) as.character(x) else x
   ) %>%
   ## Pad to appropriate length
   append(rep(NA, (window_size - 1)/2)) %>%

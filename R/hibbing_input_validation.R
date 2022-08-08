@@ -71,10 +71,19 @@ TwoRegression_Hibbing18_variable_validate <- function(
 
   }
 
+  arg <- switch(
+    sensor,
+    "accelerometer" = "accel_var",
+    "gyroscope" = "gyro_var",
+    "magnetometer" = "direction_var",
+    stop("Error matching `sensor` with an `arg` value")
+  )
+
   if (!varname %in% names(AG)) {
     stop(
-      "The expected ", sensor, " variable name (", varname,
-      ") cannot be found in `AG", call. = FALSE
+      "The expected ", sensor, " variable name (", sQuote(varname),
+      ") cannot be found in ", sQuote("AG"), "\nThe ", sQuote(arg),
+      " argument must be set to an existing variable name", call. = FALSE
     )
   }
 

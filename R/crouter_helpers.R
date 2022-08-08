@@ -22,7 +22,7 @@ crouter_general_form <- function(
     cv_10 = cv_2rm(!!as.name(model$sed_variable), 6, "sliding")
   ) %>%
   predict(model, .) %>%
-  ag_smooth(time_var) %>%
+  smooth_2rm(time_var) %>%
   dplyr::rename(
     !!as.name(movement_var) := !!as.name(model$sed_variable),
     mean_cv_10 = cv_10

@@ -7,8 +7,7 @@
 #'
 #' @param which_algorithm a dataframe specifying which algorithm to use, based
 #'   on \code{Wear_Location} and \code{Algorithm} columns
-#' @inheritParams crouter
-#' @inheritParams hibbing_2018
+#' @inheritParams TwoRegression-Function
 #'
 #' @return a numeric vector of predicted energy expenditure values, expressed in
 #'   metabolic equivalents

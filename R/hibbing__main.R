@@ -1,6 +1,3 @@
-#' Apply two-regression models from Hibbing et al.
-#'
-#' @inheritParams crouter
 #' @param accel_var Character scalar. Name of accelerometer variable to
 #'   operate on (expected format is Euclidian Norm Minus One, in
 #'   milli-gravitational units)
@@ -17,33 +14,13 @@
 #'   IMU. Must be \code{1} (accelerometer only), \code{2} (accelerometer and
 #'   gyroscope), \code{3} (accelerometer, gyroscope, and magnetometer), or any
 #'   combination thereof
-#' @param smooth A logical scalar. Should data be averaged over a longer time period after processing?
-#' @param verbose lobical. Print progress updates?
-#' @param ... Further arguments passed to \code{\link{ag_smooth}}
+#' @param smooth logical. Should data be averaged over a longer time period after processing?
 #'
 #' @seealso
-#' \href{https://pubmed.ncbi.nlm.nih.gov/29271847/}{Hibbing et al. (2018,
-#' \emph{Med Sci Sports Exerc})}
 #'
-#' \code{\link{apply_two_regression_hibbing18}}
-#' \code{\link{ag_smooth}}
 #'
-#' @examples
-#' data(all_data, package = "TwoRegression")
-#'
-#' result <- hibbing_2018(
-#'   all_data, "ENMO", "Gyroscope_VM_DegPerS", "mean_magnetometer_direction",
-#'   site = "Hip", algorithm = 1
-#' )
-#' utils::head(result)
-#'
-#' collapsed <- hibbing_2018(
-#'   all_data, "ENMO", "Gyroscope_VM_DegPerS", "mean_magnetometer_direction",
-#'   site = "Hip", algorithm = 1:2, smooth = TRUE
-#' )
-#' collapsed
-#'
-#' @export
+#' @rdname TwoRegression-Function
+#' @keywords internal
 hibbing_2018 <- function(
   AG, accel_var = "ENMO", gyro_var = "GVM",
   direction_var = "Direction", time_var = "Timestamp",
@@ -113,11 +90,29 @@ hibbing_2018 <- function(
 
   ## Fix names for model implementation -- will undo later
 
-    AG %<>% dplyr::rename(
-      "ENMO" := !!as.name(accel_var),
-      "Gyroscope_VM_DegPerS" := !!as.name(gyro_var),
-      "direction_var" := !!as.name(direction_var)
-    )
+    AG %<>%
+      dplyr::rename("ENMO" := !!as.name(accel_var)) %>%
+      {if (any(2:3 %in% algorithm))
+        dplyr::rename(., "Gyroscope_VM_DegPerS" := !!as.name(gyro_var))
+        else .} %>%
+      {if (3 %in% algorithm)
+        dplyr::rename(., "direction_var" := !!as.name(direction_var))
+        else .}
+
+    other_direction_var <-
+      ## Accounts for the case where direction_var is some other
+      ## variable name, but 'Direction' still exists in the data
+      direction_var != "Direction" & "Direction" %in% names(AG) &
+      3 %in% algorithm
+
+    if (other_direction_var) {
+      ## Further issues will only arise if there is ALSO a lowercase `direction`
+      ## variable in the dataset. But `rename` will throw an error in that case,
+      ## and it would be bad practice on the user's part to have both
+      ## `direction` and `Direction` in the dataset, so I'm comfortable with the
+      ## way this is handled
+      AG %<>% dplyr::rename("direction" = "Direction")
+    }
 
     if (3 %in% algorithm) {
       AG$Direction <- get_dcp5(AG$direction_var)
@@ -167,18 +162,27 @@ hibbing_2018 <- function(
 
     AG %<>% cbind(all_predictions)
 
-    if (smooth) AG %<>% ag_smooth(time_var, verbose = verbose, ...)
+    if (smooth) AG %<>% smooth_2rm(time_var, verbose = verbose, ...)
 
     AG %>%
-    dplyr::rename(
-      !!as.name(accel_var) := "ENMO",
-      !!as.name(gyro_var) := "Gyroscope_VM_DegPerS",
-      "direction_changes_5s" := "Direction",
-      !!as.name(direction_var) := "direction_var"
-    ) %T>%
+    dplyr::rename(!!as.name(accel_var) := "ENMO") %>%
+    {if (any(2:3 %in% algorithm))
+      dplyr::rename(., !!as.name(gyro_var) := "Gyroscope_VM_DegPerS")
+      else .} %>%
+    {if (3 %in% algorithm)
+      dplyr::rename(
+        .,
+        "direction_changes_5s" = "Direction",
+        !!as.name(direction_var) := "direction_var"
+      )
+      else .} %>%
+    {if (other_direction_var)
+      dplyr::rename(., "Direction" = "direction")
+      else .} %T>%
     {PAutilities::manage_procedure(
       "End", "\nProcess complete -- Elapsed time:",
-      PAutilities::get_duration(timer), "mins"
+      PAutilities::get_duration(timer), "mins",
+      verbose = verbose
     )}
 
 }
