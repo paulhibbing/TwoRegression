@@ -2,7 +2,7 @@
 #'
 #' Acts as a generic function that dispatches to specific implementation
 #' functions (\code{\link{crouter_2006}}, \code{\link{crouter_2010}},
-#' \code{\link{crouter_2012}}, or \code{\link{Hibbing_2018}})
+#' \code{\link{crouter_2012}}, or \code{\link{hibbing_2018}})
 #'
 #' @param AG data frame of actigraph data
 #' @param method character scalar telling which model to apply to the data.

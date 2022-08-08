@@ -33,11 +33,46 @@
 #' @examples
 #' \donttest{
 #'
-#' data(count_data, package = "TwoRegression")
-#' crouter_2006(count_data, "Axis1", "time")
-#' crouter_2010(count_data, "Axis1", "time")
-#' crouter_2012(count_data, "Axis1", "time", "VA", FALSE)
-#' crouter_2012(count_data, "Vector.Magnitude", "time", "VM", FALSE)
+#' ## Datasets
+#'
+#'   data(count_data, package = "TwoRegression")
+#'   data(all_data, package = "TwoRegression")
+#'
+#' ## Crouter 2006-2012 models
+#'
+#'   TwoRegression(
+#'     count_data, "Crouter 2006",
+#'     movement_var = "Axis1", time_var = "time"
+#'   )
+#'
+#'   TwoRegression(
+#'     count_data, "Crouter 2010",
+#'     movement_var = "Axis1", time_var = "time"
+#'   )
+#'
+#'   TwoRegression(
+#'     count_data, "Crouter 2012", movement_var = "Axis1",
+#'     time_var = "time", model = "VA", check = FALSE
+#'   )
+#'
+#'   TwoRegression(
+#'     count_data, "Crouter 2012", movement_var = "Vector.Magnitude",
+#'     time_var = "time", model = "VM", check = FALSE
+#'   )
+#'
+#' ## Hibbing 2018 models (can be vectorized)
+#'
+#'   all_data$ENMO_CV10s <- NULL
+#'   all_data$GVM_CV10s  <- NULL
+#'   all_data$Direction  <- NULL
+#'
+#'   result <- TwoRegression(
+#'     all_data, "Hibbing 2018", gyro_var = "Gyroscope_VM_DegPerS",
+#'     direction_var = "mean_magnetometer_direction",
+#'     site = c("Left Ankle", "Right Ankle"), algorithm = 1:2
+#'   )
+#'
+#'   utils::head(result)
 #'
 #' }
 #'

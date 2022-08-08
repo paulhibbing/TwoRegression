@@ -18,7 +18,7 @@ TwoRegression_Hibbing18_algorithm_validate(algorithm)
 \arguments{
 \item{varname}{character scalar. Name of variable to check}
 
-\item{AG}{data frame containing ActiGraph data (activity counts)}
+\item{AG}{data frame of actigraph data}
 
 \item{algorithm}{An integer/numeric scalar or vector giving the algorithm(s)
 to apply to the data from the primary accelerometer and (if applicable)

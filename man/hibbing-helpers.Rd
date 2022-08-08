@@ -15,9 +15,9 @@ apply_two_regression_hibbing18(
 \item{which_algorithm}{a dataframe specifying which algorithm to use, based
 on \code{Wear_Location} and \code{Algorithm} columns}
 
-\item{AG}{data frame containing ActiGraph data (activity counts)}
+\item{AG}{data frame of actigraph data}
 
-\item{verbose}{lobical. Print progress updates?}
+\item{verbose}{logical. Print updates to console?}
 }
 \value{
 a numeric vector of predicted energy expenditure values, expressed in
