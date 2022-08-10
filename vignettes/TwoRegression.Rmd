@@ -43,18 +43,18 @@ new models, plus other aspects of using them effectively.
 Prior models are implemented using the `TwoRegression` function. Currently,
 support is available for the following:
 
-* [Crouter et al.(2006)](https://pubmed.ncbi.nlm.nih.gov/16322367/)
-  - The original Crouter two-regression model (for adults)
-* [Crouter et al.(2010)](https://pubmed.ncbi.nlm.nih.gov/20400882/)
-  - The refined Crouter two-regression model (for adults)
-* [Crouter et al.(2012)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3324667/))
-  - Two youth-specific Crouter two-regression models, one for vertical axis
-    data and the other for vector magnitude data
-* [Hibbing et al. (2018)](https://pubmed.ncbi.nlm.nih.gov/29271847/)
-  - Fifteen two-regression models for adults, corresponding to one of five
-    attachment sites (hip, wrists, ankles) and one of three model
-    configurations (accelerometer only, accelerometer and gyroscope, or
-    accelerometer, gyroscope, and magnetometer)
+* [Crouter et al.(2006)](https://pubmed.ncbi.nlm.nih.gov/16322367/): The
+  original Crouter two-regression model (for adults)
+* [Crouter et al.(2010)](https://pubmed.ncbi.nlm.nih.gov/20400882/): The refined
+  Crouter two-regression model (for adults)
+* [Crouter et al.(2012)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3324667/):
+  Two youth-specific Crouter two-regression models for activity count data, one
+  using vertical axis counts and the other using vector magnitude counts
+* [Hibbing et al. (2018)](https://pubmed.ncbi.nlm.nih.gov/29271847/): Fifteen
+  two-regression models for adults, each corresponding to one of five attachment
+  sites (hip, wrists, ankles) and one of three model configurations (accelerometer
+  only, accelerometer and gyroscope, or accelerometer, gyroscope, and
+  magnetometer)
     
 #### Help documentation
 
@@ -70,26 +70,29 @@ specific model correctly. To view the documentation, run the following:
 
 This will pull up a documentation page where you can see the syntax for calling
 the `TwoRegression` function. Importantly, the page also lists the syntax for
-several internal functions that apply to specific models (i.e., the
-`crouter_2006`, `crouter_2010`, `crouter_2012`, and `hibbing_2018` functions).
-The `TwoRegression` function is just a wrapper around those other internal
-functions. That is, based on the method you select, `TwoRegression` will call
-the corresponding internal function. In most cases, you will also need to
-provide settings for the internal function, and those can be passed into the
-`TwoRegression` function directly. This will be easier to see and understand in
-the coding samples later on in this section, but it's important to be aware of
-all this from the get-go.
+several internal applicators (i.e., `crouter_2006`, `crouter_2010`,
+`crouter_2012`, and `hibbing_2018`), which are the functions that actually do
+the work of applying your selected model. That is, the `TwoRegression` function
+is just a wrapper around those other internal functions, and based on the method
+you select, `TwoRegression` will call out to the corresponding applicator. In
+most cases, you will need to designate some extra settings for the applicator,
+which is why the syntax is listed in the documentation file alongside the
+`TwoRegression` syntax. Arguments for the internal functions can be passed into
+the `TwoRegression` function directly, as if they were arguments to that
+function itself. This will be easier to see and understand in the coding samples
+later on in this section, but it's important to be aware of all this from the
+get-go.
 
 #### Assumptions and Data
 
 The function operates under the assumption you already have data read into R.
 You can do this with the [AGread package](https://github.com/paulhibbing/AGread),
 although installation of that package might be tricky. Feel free to [file an issue
-on the GitHub webpage](https://github.com/paulhibbing/AGread/issues/new) if you need extra help.
+on the AGread GitHub webpage](https://github.com/paulhibbing/AGread/issues/new) if you need extra help.
 
-Anyway, the TwoRegression package provides some sample data to show how you
+The TwoRegression package provides some sample data to show how you
 might apply the models. If you can get your own data into a form that mirrors
-the sample data, you'll be in good shape. Here's how to access these built-in
+the sample data, you'll be in good shape. Here's how to access the built-in
 datasets:
 
 ```{r}
@@ -111,8 +114,7 @@ utils::head(count_data)
 ```
 
 We can do the same using a similar approach for the raw data. However, let's
-remove some extraneous variables as well, just for the sake of this
-illustration.
+remove some extraneous variables first.
 
 ```{r}
 
@@ -122,6 +124,7 @@ all_data <- all_data[ ,setdiff(
   c(
     "file_source_PrimaryAccel", "date_processed_PrimaryAccel",
     "file_source_IMU", "date_processed_IMU", "day_of_year", "minute_of_day",
+    ## Remove the following because they'll be recalculated later
     "ENMO_CV10s", "GVM_CV10s", "Direction"
   )
 )]
@@ -166,9 +169,10 @@ FALSE` and the warning won't show up.
 For the time being, you can only implement Crouter models one at a time. Of
 course, you can combine the output from multiple models yourself. Ideally, with
 ongoing development, a point will come where this can be done automatically and
-efficiently (see the [GitHub issue on this topic](https://github.com/paulhibbing/TwoRegression/issues/1)), but for now it
-isn't built in. As we'll see in the following subsection, though, that's not the
-case for the Hibbing models. Here's a look at the output from the prior commands:
+efficiently (see the [GitHub issue on this topic](https://github.com/paulhibbing/TwoRegression/issues/1)),
+but for now it isn't built in. As we'll see in the following subsection, though,
+that's not the case for the Hibbing models. Here's a look at the output from the
+prior commands:
 
 ```{r}
 
@@ -218,11 +222,12 @@ descriptive variable name.
 #### Background and Setup
 
 The TwoRegression package is also useful if you want to create your own model.
-Your dataset needs to have some more complex information to get this going,
-though. Using our previous `all_data` object, we need to label it with some
-pretend activity labels and some pretent energy expenditure values in metabolic
-equivalents (METs). In a real-life setting, the MET values would likely come
-from indirect calorimetry. To create some of this imaginary data, we can run the following:
+To get this going, though, your dataset needs to have some more complex
+information in it. We'll use our previous `all_data` object in this
+illustration. First, we need to label it with some pretend activity labels and
+energy expenditure values (METs). In a real-life setting, the MET values would
+likely come from indirect calorimetry. To create some of this imaginary data, we
+can run the following:
 
 ```{r}
 
@@ -245,13 +250,16 @@ all_data$fake_METs <- ifelse(
 
 ```
 
-There are a couple of other steps we need to take care of that are somewhat
-specific to this demonstration. Nevertheless, they may be helpful to see. One is
-to make sure our data have a column indicating which participant each data point
-came from. In this case, we'll just label our data to pretend it came from two
-sample files instead of one (where 'sample file' is analogous to 'participant').
-The other step is calculating the coefficient of variation. We technically
-deleted that variable earler, but here we'll see how to add it back in.
+For this demonstration, a couple of extra hacks are needed, which would be much
+more natural to handle with real data. Still, they're helpful to see. First, we
+need to make sure our dataset has a column indicating which participant each
+data point came from. In this case, we'll just label our data to pretend it came
+from two sample files instead of one (where 'sample file' is analogous to
+'participant'). The other step is calculating the coefficient of variation. We
+technically could have avoided this by choosing not to delete the CV variables
+earlier. But that decision now gives us an excuse to show how the calculations
+work, and there are some technical reasons to take this approach as well (see
+[another GitHub issue](https://github.com/paulhibbing/TwoRegression/issues/2)).
 
 ```{r}
 
@@ -393,8 +401,22 @@ results_updated <- predict(my_model, all_data, verbose = TRUE)
 
 ```
 
+And, of course, you can collapse the estimates to a particular time granularity
+using `smooth_2rm` like this:
+
+```{r}
+
+## This code illustrates collapsing every 60 seconds. (This is the default
+## period and also the typical recommendation, but you could do anything,
+## e.g., "10 sec", "30 sec", or "0.25 hour")
+TwoRegression::smooth_2rm(results_updated, "Timestamp", "60 sec")
+
+```
+
 ## CONCLUSION
 
 That's it. This has been a quick crash course in the core features and functions
 of the TwoRegression package. If you have questions or feedback, feel free to
-connect by [posting an issue on the GitHub page](https://github.com/paulhibbing/TwoRegression/issues/new). Happy coding!
+connect by
+[posting an issue on the TwoRegression GitHub page](https://github.com/paulhibbing/TwoRegression/issues/new).
+Happy coding!
