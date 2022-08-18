@@ -1,12 +1,17 @@
 ## Resubmission:
-This is about to be a resubmission with the following changes:
+This is a resubmission with a major version increment
+due to the following changes:
 
-* Major version increment
-* << LIST CHANGES HERE AND NEWS.md >>
+* Added support for other pre-existing models in addition to those
+  of Hibbing et al. (2018, *Med Sci Sports Exerc*)
+* Established unified means of implementing pre-existing models through
+  a single `TwoRegression` function
+* Added functions to facilitate development and application of new models
+
 
 ## Test environments
 * local Windows 10 install, R 4.0.5
-* ubuntu 14.04.5 (on travis-ci), R 3.4.2
+* ubuntu 20.04.1 (on R-hub, R-release)
 * win-builder (devel and release)
 
 ## R CMD check results
