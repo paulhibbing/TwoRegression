@@ -85,15 +85,16 @@ get-go.
 
 #### Assumptions and Data
 
-The function operates under the assumption you already have data read into R.
-You can do this with the [AGread package](https://github.com/paulhibbing/AGread),
-although installation of that package might be tricky. Feel free to [file an issue
-on the AGread GitHub webpage](https://github.com/paulhibbing/AGread/issues/new) if you need extra help.
+The `TwoRegression` function operates under the assumption you already have data
+read into R. You can do this with the [AGread package](https://github.com/paulhibbing/AGread),
+although installation of that package might be tricky. Feel free to
+[file an issue on the AGread GitHub webpage](https://github.com/paulhibbing/AGread/issues/new)
+if you need extra help.
 
-The TwoRegression package provides some sample data to show how you
-might apply the models. If you can get your own data into a form that mirrors
-the sample data, you'll be in good shape. Here's how to access the built-in
-datasets:
+To get started, though, the TwoRegression package provides some sample data we
+can use to see model application in action. If you can get your own data into a
+form that mirrors the sample data, you'll be in good shape. Here's how to access
+the built-in datasets:
 
 ```{r}
 
@@ -139,20 +140,20 @@ Just invoke the `TwoRegression` function like this:
 
 ```{r}
 
-crouter2006 <- TwoRegression::TwoRegression(
+crouter2006_results <- TwoRegression::TwoRegression(
   count_data, "Crouter 2006", movement_var = "Axis1", time_var = "time"
 )
 
-crouter2010 <- TwoRegression::TwoRegression(
+crouter2010_results <- TwoRegression::TwoRegression(
   count_data, "Crouter 2010", movement_var = "Axis1", time_var = "time"
 )
 
-crouter2012_va <- TwoRegression::TwoRegression(
+crouter2012_va_results <- TwoRegression::TwoRegression(
   count_data, "Crouter 2012", movement_var = "Axis1",
   time_var = "time", model = "VA", check = FALSE
 )
 
-crouter2012_vm <- TwoRegression::TwoRegression(
+crouter2012_vm_results <- TwoRegression::TwoRegression(
   count_data, "Crouter 2012", movement_var = "Vector.Magnitude",
   time_var = "time", model = "VM", check = FALSE
 )
@@ -171,15 +172,15 @@ course, you can combine the output from multiple models yourself. Ideally, with
 ongoing development, a point will come where this can be done automatically and
 efficiently (see the [GitHub issue on this topic](https://github.com/paulhibbing/TwoRegression/issues/1)),
 but for now it isn't built in. As we'll see in the following subsection, though,
-that's not the case for the Hibbing models. Here's a look at the output from the
+it *is* doable for the Hibbing models. Here's a look at the output from the
 prior commands:
 
 ```{r}
 
-utils::head(crouter2006)
-utils::head(crouter2010)
-utils::head(crouter2012_va)
-utils::head(crouter2012_vm)
+utils::head(crouter2006_results)
+utils::head(crouter2010_results)
+utils::head(crouter2012_va_results)
+utils::head(crouter2012_vm_results)
 
 ```
 
@@ -191,7 +192,7 @@ simultaneously. That's what we'll see in the following example:
 
 ```{r}
 
-hibbing2018 <- TwoRegression::TwoRegression(
+hibbing2018_results <- TwoRegression::TwoRegression(
   
   all_data, "Hibbing 2018", accel_var = "ENMO",
   gyro_var = "Gyroscope_VM_DegPerS",
@@ -210,7 +211,7 @@ hibbing2018 <- TwoRegression::TwoRegression(
   smooth = TRUE
 )
 
-utils::head(hibbing2018)
+utils::head(hibbing2018_results)
 
 ```
 
@@ -255,11 +256,13 @@ more natural to handle with real data. Still, they're helpful to see. First, we
 need to make sure our dataset has a column indicating which participant each
 data point came from. In this case, we'll just label our data to pretend it came
 from two sample files instead of one (where 'sample file' is analogous to
-'participant'). The other step is calculating the coefficient of variation. We
-technically could have avoided this by choosing not to delete the CV variables
-earlier. But that decision now gives us an excuse to show how the calculations
-work, and there are some technical reasons to take this approach as well (see
-[another GitHub issue](https://github.com/paulhibbing/TwoRegression/issues/2)).
+'participant'). The other step is calculating the coefficient of variation (CV).
+We technically could have avoided this by choosing not to delete the CV
+variables earlier. But that decision now gives us an excuse to show how convenient
+it is to calculate CV in the TwoRegression package.There were also some technical
+reasons for deleting the variables earlier, but nevermind that (see
+[another GitHub issue](https://github.com/paulhibbing/TwoRegression/issues/2)
+if you're curious).
 
 ```{r}
 
@@ -378,9 +381,9 @@ like this:
 
 ```{r}
 
-results <- predict(my_model, all_data)
+new_results <- predict(my_model, all_data)
 
-utils::head(results)
+utils::head(new_results)
 
 ```
 

@@ -21,7 +21,7 @@ developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repo
 # Overview
 
 `TwoRegression` is a package designed to simplify the development and
-use of two-regression algorithms. The vignette called “TwoRegression”
+application of two-regression models. The vignette called “TwoRegression”
 contains more specific information. To install from CRAN and view the
 vignette, use:
 
