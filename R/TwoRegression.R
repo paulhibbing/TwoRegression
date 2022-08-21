@@ -4,7 +4,7 @@
 #' functions (\code{\link{crouter_2006}}, \code{\link{crouter_2010}},
 #' \code{\link{crouter_2012}}, or \code{\link{hibbing_2018}})
 #'
-#' @param AG data frame of actigraph data
+#' @param AG data frame of ActiGraph data
 #' @param method character scalar telling which model to apply to the data.
 #'   Currently supported selections are \code{"Crouter 2006"}, \code{"Crouter
 #'   2010"}, \code{"Crouter 2012"}, and \code{"Hibbing 2018"}. See following
@@ -16,8 +16,8 @@
 #'
 #' @seealso
 #' \href{https://pubmed.ncbi.nlm.nih.gov/16322367/}{Crouter et al. (2006, \emph{J Appl Physiol})}
-#' \href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2891855/}{Crouter et al. (2010, \emph{Med Sci Sports Exerc})}
-#' \href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3324667/}{Crouter et al. (2012, \emph{Med Sci Sports Exerc})}
+#' \href{https://pubmed.ncbi.nlm.nih.gov/20400882/}{Crouter et al. (2010, \emph{Med Sci Sports Exerc})}
+#' \href{https://pubmed.ncbi.nlm.nih.gov/22143114/}{Crouter et al. (2012, \emph{Med Sci Sports Exerc})}
 #' \href{https://pubmed.ncbi.nlm.nih.gov/29271847/}{Hibbing et al. (2018,
 #' \emph{Med Sci Sports Exerc})}
 #'

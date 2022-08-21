@@ -3,7 +3,7 @@
 #'
 #' @param subject_var character. Variable name that distinguishes between
 #'   participants
-#' @param data fhe full data set to cross-validate
+#' @param data the full data set to cross-validate
 #' @param model a \code{TwoRegression} object formed with \code{\link{fit_2rm}}
 #'   on which to perform the cross-validation
 #' @param MET_var character. The outcome variable name (in metabolic equivalents)

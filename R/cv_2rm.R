@@ -34,7 +34,7 @@
 #' cv_2rm(raw_for_cv$ENMO)
 #'
 #' @seealso
-#'   \href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2891855/}{Crouter et al. (2010, \emph{Med Sci Sports Exerc})}
+#'   \href{https://pubmed.ncbi.nlm.nih.gov/20400882/}{Crouter et al. (2010, \emph{Med Sci Sports Exerc})}
 #'   \href{https://pubmed.ncbi.nlm.nih.gov/16322367/}{Crouter et al. (2006, \emph{J Appl Physiol})}
 #'
 #' @name get_cv

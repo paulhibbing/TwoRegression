@@ -24,12 +24,12 @@ vignette is designed to demonstrate  usage of the package's core features.
 
 Before getting into that, it's valuable to cover some history. The package was
 initially established as a home for the models of [Hibbing et al.
-(2018)](https://www.ncbi.nlm.nih.gov/pubmed/29271847). Since the initial
+(2018)](https://pubmed.ncbi.nlm.nih.gov/29271847). Since the initial
 release, support has been added for developing/applying new models, as well as
 applying others from prior research (see [Crouter et
 al.(2006)](https://pubmed.ncbi.nlm.nih.gov/16322367/), [Crouter et
 al.(2010)](https://pubmed.ncbi.nlm.nih.gov/20400882/), and [Crouter et
-al.(2012)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3324667/)). As of
+al.(2012)](https://pubmed.ncbi.nlm.nih.gov/22143114/)). As of
 version 1.0.0, a new approach has been implemented for invoking prior methods
 via the `TwoRegression` function, which we will look at in the following
 section. Afterwards, we will cover the process of creating and cross-validating
@@ -47,7 +47,7 @@ support is available for the following:
   original Crouter two-regression model (for adults)
 * [Crouter et al.(2010)](https://pubmed.ncbi.nlm.nih.gov/20400882/): The refined
   Crouter two-regression model (for adults)
-* [Crouter et al.(2012)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3324667/):
+* [Crouter et al.(2012)](https://pubmed.ncbi.nlm.nih.gov/22143114/):
   Two youth-specific Crouter two-regression models for activity count data, one
   using vertical axis counts and the other using vector magnitude counts
 * [Hibbing et al. (2018)](https://pubmed.ncbi.nlm.nih.gov/29271847/): Fifteen
@@ -300,7 +300,7 @@ of arguments to provide here:
   to predict
 * **walkrun_formula: ** A character representation of the formula that should
   be used when fitting the CWR model (formulated as `outcome ~ predictors`)
-* **intermittent_formula: ** A character representation of the formulat that
+* **intermittent_formula: ** A character representation of the formula that
   should be used when fitting the intermittent lifestyle activities model
   (formulated like `walkrun_formula` -- note that data transformations like
   squaring or cubing should be wrapped in `I()`)

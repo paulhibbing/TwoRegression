@@ -7,7 +7,7 @@
 smooth_2rm(AG, time_var = "Timestamp", unit = "60 sec", verbose = FALSE)
 }
 \arguments{
-\item{AG}{data frame of actigraph data}
+\item{AG}{data frame of ActiGraph data}
 
 \item{time_var}{character scalar. Name of the timestamp variable (required to
 verify that input epoch length is 10 seconds)}

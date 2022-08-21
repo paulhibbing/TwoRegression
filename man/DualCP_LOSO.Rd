@@ -36,7 +36,7 @@ get_classifications(
 \item{subject_var}{character. Variable name that distinguishes between
 participants}
 
-\item{data}{fhe full data set to cross-validate}
+\item{data}{the full data set to cross-validate}
 
 \item{model}{a \code{TwoRegression} object formed with \code{\link{fit_2rm}}
 on which to perform the cross-validation}

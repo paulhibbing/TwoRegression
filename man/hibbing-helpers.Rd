@@ -15,7 +15,7 @@ apply_two_regression_hibbing18(
 \item{which_algorithm}{a dataframe specifying which algorithm to use, based
 on \code{Wear_Location} and \code{Algorithm} columns}
 
-\item{AG}{data frame of actigraph data}
+\item{AG}{data frame of ActiGraph data}
 
 \item{verbose}{logical. Print updates to console?}
 }
