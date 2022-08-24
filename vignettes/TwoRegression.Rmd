@@ -86,15 +86,15 @@ get-go.
 #### Assumptions and Data
 
 The `TwoRegression` function operates under the assumption you already have data
-read into R. You can do this with the [AGread package](https://github.com/paulhibbing/AGread),
-although installation of that package might be tricky. Feel free to
-[file an issue on the AGread GitHub webpage](https://github.com/paulhibbing/AGread/issues/new)
-if you need extra help.
+read into R. You can do this with the `AGread` package.
 
-To get started, though, the TwoRegression package provides some sample data we
-can use to see model application in action. If you can get your own data into a
-form that mirrors the sample data, you'll be in good shape. Here's how to access
-the built-in datasets:
+```{r, eval=FALSE}
+if (!"AGread" %in% installed.packages()) install.packages("AGread")
+```
+
+For the sake of this illustration, the TwoRegression package provides some
+sample data we can use. If you can get your own data into a form that mirrors
+the sample data below, you'll be in good shape. Here's how to access it:
 
 ```{r}
 
@@ -103,7 +103,7 @@ data(all_data, package = "TwoRegression")
 
 ```
 
-Notably, the `count_data` object contains activity count data (for the Crouter
+The `count_data` object contains activity count data (for the Crouter
 two-regression models), while the `all_data` object contains raw sensor data
 (for the Hibbing models). We can view the first few rows of count data as
 follows:
