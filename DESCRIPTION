@@ -23,7 +23,7 @@ Imports:
     ggplot2 (>= 2.2.0),
     magrittr (>= 1.5),
     gridExtra (>= 2.3),
-    PAutilities,
+    PAutilities (>= 1.1.0),
     pROC (>= 1.16.0),
     RcppRoll,
     stats,

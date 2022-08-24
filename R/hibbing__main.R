@@ -16,8 +16,6 @@
 #'   combination thereof
 #' @param smooth logical. Should data be averaged over a longer time period after processing?
 #'
-#' @seealso
-#'
 #'
 #' @rdname TwoRegression-Function
 #' @keywords internal
@@ -65,7 +63,7 @@ hibbing_2018 <- function(
     stopifnot(
       time_var %in% names(AG),
       inherits(AG[ ,time_var], "POSIXt"),
-      epoch_length_sec(AG, time_var) == 1
+      epoch_length(AG[ ,time_var]) == 1
     )
 
 

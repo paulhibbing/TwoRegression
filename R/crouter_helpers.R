@@ -4,7 +4,7 @@ crouter_input_check <- function(AG, movement_var, time_var) {
   {stopifnot(
     movement_var %in% names(.),
     time_var %in% names(.),
-    epoch_length_sec(. ,time_var) == 10
+    epoch_length(.[ ,time_var]) == 10
   )}
 
 }

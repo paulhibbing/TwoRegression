@@ -1,23 +1,13 @@
-epoch_length_sec <- function (AG, time_var = "Timestamp") {
+epoch_length <- function (timestamps) {
 
   stopifnot(
-    inherits(AG, "data.frame"),
-    exists(time_var, AG)
+    inherits(timestamps, "POSIXt")
   )
 
-  nrow(AG) %>%
-  {. * 0.1} %>%
-  ceiling(.) %>%
-  pmax(2) %>%
-  seq(.) %>%
-  AG[., time_var] %>%
-  diff(.) %>%
-  as.numeric(units = "secs") %>%
-  unique(.) %T>%
-  {if (length(.) != 1) stop(
-    "Detected multiple epoch lengths",
-    call. = FALSE
-  )}
+  {length(timestamps) %/% 10} %>%
+  max(2) %>%
+  {timestamps[1:.]} %>%
+  PAutilities::epoch_length_sec(.)
 
 }
 
