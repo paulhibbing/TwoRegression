@@ -12,7 +12,7 @@
 #' @param verbose logical. Print updates to console?
 #' @param ... arguments passed to the implementation function indicated by
 #'   \code{method} (and further passed to \code{\link{smooth_2rm}} when
-#'   \code{method == "Hibbing 2018"})
+#'   \code{method == "Hibbing 2018"}; otherwise, used as a pass-through)
 #'
 #' @seealso
 #' \href{https://pubmed.ncbi.nlm.nih.gov/16322367/}{Crouter et al. (2006, \emph{J Appl Physiol})}

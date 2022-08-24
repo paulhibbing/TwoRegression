@@ -3,6 +3,7 @@
 #' @inheritParams TwoRegression-Function
 #' @param unit the interval to use for smoothing (see
 #'   \code{\link[lubridate]{floor_date}}). Default is \code{"60 sec"}
+#' @param ... currently unused
 #'
 #' @return Smoothed data, collapsed in the specified intervals
 #'
@@ -20,7 +21,8 @@
 #'
 #' @export
 smooth_2rm <- function(
-  AG, time_var = "Timestamp", unit = "60 sec", verbose = FALSE
+  AG, time_var = "Timestamp",
+  unit = "60 sec", verbose = FALSE, ...
 ) {
 
   AG %T>%

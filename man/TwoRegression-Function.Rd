@@ -17,11 +17,11 @@ TwoRegression(
   ...
 )
 
-crouter_2006(AG, movement_var, time_var)
+crouter_2006(AG, movement_var, time_var, ...)
 
-crouter_2010(AG, movement_var, time_var)
+crouter_2010(AG, movement_var, time_var, ...)
 
-crouter_2012(AG, movement_var, time_var, model, check = TRUE)
+crouter_2012(AG, movement_var, time_var, model, check = TRUE, ...)
 
 hibbing_2018(
   AG,
@@ -48,7 +48,7 @@ subsections}
 
 \item{...}{arguments passed to the implementation function indicated by
 \code{method} (and further passed to \code{\link{smooth_2rm}} when
-\code{method == "Hibbing 2018"})}
+\code{method == "Hibbing 2018"}; otherwise, used as a pass-through)}
 
 \item{movement_var}{character scalar. Name of the movement variable (default
 is \code{"Axis1"})}
@@ -149,7 +149,5 @@ functions (\code{\link{crouter_2006}}, \code{\link{crouter_2010}},
 
 \code{\link{apply_two_regression_hibbing18}}
 \code{\link{smooth_2rm}}
-
-
 }
 \keyword{internal}

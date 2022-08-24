@@ -4,7 +4,7 @@
 \alias{smooth_2rm}
 \title{Smooth two-regression estimates over specified periods}
 \usage{
-smooth_2rm(AG, time_var = "Timestamp", unit = "60 sec", verbose = FALSE)
+smooth_2rm(AG, time_var = "Timestamp", unit = "60 sec", verbose = FALSE, ...)
 }
 \arguments{
 \item{AG}{data frame of ActiGraph data}
@@ -16,6 +16,8 @@ verify that input epoch length is 10 seconds)}
 \code{\link[lubridate]{floor_date}}). Default is \code{"60 sec"}}
 
 \item{verbose}{logical. Print updates to console?}
+
+\item{...}{currently unused}
 }
 \value{
 Smoothed data, collapsed in the specified intervals

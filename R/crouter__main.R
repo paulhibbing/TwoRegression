@@ -10,7 +10,7 @@
 #'
 #' @rdname TwoRegression-Function
 #' @keywords internal
-crouter_2006 <- function(AG, movement_var, time_var) {
+crouter_2006 <- function(AG, movement_var, time_var, ...) {
 
   crouter_input_check(AG, movement_var, time_var) %>%
   reintegrate(time_var, "60 sec") %>%
@@ -26,7 +26,7 @@ crouter_2006 <- function(AG, movement_var, time_var) {
 
 #' @rdname TwoRegression-Function
 #' @keywords internal
-crouter_2010 <- function(AG, movement_var, time_var) {
+crouter_2010 <- function(AG, movement_var, time_var, ...) {
 
   crouter_general_form(AG, movement_var, time_var, crouter10)
 
@@ -37,7 +37,7 @@ crouter_2010 <- function(AG, movement_var, time_var) {
 #' @keywords internal
 crouter_2012 <- function(
     AG, movement_var, time_var,
-    model, check = TRUE
+    model, check = TRUE, ...
 ) {
 
   if (missing(model)) {
