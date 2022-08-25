@@ -83,13 +83,16 @@ TwoRegression_Hibbing18_variable_validate <- function(
     stop(
       "The expected ", sensor, " variable name (", sQuote(varname),
       ") cannot be found in ", sQuote("AG"), "\nThe ", sQuote(arg),
-      " argument must be set to an existing variable name", call. = FALSE
+      " argument must be set to an existing variable name",
+      "\n  (Try passing `algorithm = 1` if you need a way of dodging this.)",
+      call. = FALSE
     )
   }
 
   varname
 
 }
+
 
 #' @keywords internal
 #' @rdname hibbing-input-validation
