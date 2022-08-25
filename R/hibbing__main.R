@@ -50,14 +50,14 @@ hibbing_2018 <- function(
       AG, algorithm, "gyroscope"
     )
 
-    if (!gyro_var %in% names(AG)) AG[ ,gyro_var] <- NA
+    if (!gyro_var %in% names(AG)) AG[ ,gyro_var] <- NA_real_
 
 
     direction_var %<>% TwoRegression_Hibbing18_variable_validate(
       AG, algorithm, "magnetometer"
     )
 
-    if (!direction_var %in% names(AG)) AG[ ,direction_var] <- NA
+    if (!direction_var %in% names(AG)) AG[ ,direction_var] <- NA_real_
 
 
     stopifnot(
