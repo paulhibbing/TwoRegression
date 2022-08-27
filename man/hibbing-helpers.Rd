@@ -8,7 +8,8 @@
 apply_two_regression_hibbing18(
   which_algorithm = data.frame(Wear_Location = "Hip", Algorithm = 1),
   AG,
-  verbose = FALSE
+  verbose = FALSE,
+  ...
 )
 }
 \arguments{
@@ -18,6 +19,8 @@ on \code{Wear_Location} and \code{Algorithm} columns}
 \item{AG}{data frame of ActiGraph data}
 
 \item{verbose}{logical. Print updates to console?}
+
+\item{...}{arguments passed to \code{\link{predict.TwoRegression}}}
 }
 \value{
 a numeric vector of predicted energy expenditure values, expressed in

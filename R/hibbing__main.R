@@ -132,7 +132,8 @@ hibbing_2018 <- function(
         all_processes,
         apply_two_regression_hibbing18,
         AG = AG,
-        verbose = verbose
+        verbose = verbose,
+        ...
       ) %>%
       lapply(
         dplyr::select,

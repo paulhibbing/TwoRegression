@@ -10,8 +10,8 @@ crouter_input_check <- function(AG, movement_var, time_var) {
 }
 
 crouter_general_form <- function(
-    AG, movement_var = "Axis1",
-    time_var = "Timestamp", model
+  AG, movement_var = "Axis1",
+  time_var = "Timestamp", model, ...
 ) {
 
   crouter_input_check(AG, movement_var, time_var) %>%
@@ -21,7 +21,7 @@ crouter_general_form <- function(
   dplyr::mutate(
     cv_10 = cv_2rm(!!as.name(model$sed_variable), 6, "sliding")
   ) %>%
-  predict(model, .) %>%
+  predict(model, ., ...) %>%
   smooth_2rm(time_var) %>%
   dplyr::rename(
     !!as.name(movement_var) := !!as.name(model$sed_variable),

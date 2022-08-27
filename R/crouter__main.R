@@ -17,7 +17,7 @@ crouter_2006 <- function(AG, movement_var, time_var, ...) {
   data.frame(cv_10 = cv_2rm(AG[ ,movement_var], 6, "static")) %>%
   dplyr::rename(Axis1 = dplyr::all_of(movement_var)) %T>%
   {stopifnot(anyDuplicated(names(.)) == 0)} %>%
-  predict(crouter06, .) %>%
+  predict(crouter06, ., ...) %>%
   dplyr::rename(!!as.name(movement_var) := Axis1) %T>%
   {stopifnot(anyDuplicated(names(.)) == 0)}
 
@@ -28,7 +28,7 @@ crouter_2006 <- function(AG, movement_var, time_var, ...) {
 #' @keywords internal
 crouter_2010 <- function(AG, movement_var, time_var, ...) {
 
-  crouter_general_form(AG, movement_var, time_var, crouter10)
+  crouter_general_form(AG, movement_var, time_var, crouter10, ...)
 
 }
 
@@ -36,8 +36,8 @@ crouter_2010 <- function(AG, movement_var, time_var, ...) {
 #' @rdname TwoRegression-Function
 #' @keywords internal
 crouter_2012 <- function(
-    AG, movement_var, time_var,
-    model, check = TRUE, ...
+  AG, movement_var, time_var,
+  model, check = TRUE, ...
 ) {
 
   if (missing(model)) {
@@ -60,8 +60,8 @@ crouter_2012 <- function(
 
   switch(
     model,
-    "VA" = crouter_general_form(AG, movement_var, time_var, crouter12_VA),
-    "VM" = crouter_general_form(AG, movement_var, time_var, crouter12_VM),
+    "VA" = crouter_general_form(AG, movement_var, time_var, crouter12_VA, ...),
+    "VM" = crouter_general_form(AG, movement_var, time_var, crouter12_VM, ...),
     NULL
   )
 

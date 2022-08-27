@@ -5,9 +5,10 @@
 #' \emph{Med Sci Sports Exerc})} to data from the primary accelerometer and IMU
 #' (if applicable)
 #'
+#' @inheritParams TwoRegression-Function
 #' @param which_algorithm a dataframe specifying which algorithm to use, based
 #'   on \code{Wear_Location} and \code{Algorithm} columns
-#' @inheritParams TwoRegression-Function
+#' @param ... arguments passed to \code{\link{predict.TwoRegression}}
 #'
 #' @return a numeric vector of predicted energy expenditure values, expressed in
 #'   metabolic equivalents
@@ -27,7 +28,7 @@
 #' @keywords internal
 apply_two_regression_hibbing18 <- function(
   which_algorithm = data.frame(Wear_Location = "Hip", Algorithm = 1),
-  AG, verbose = FALSE
+  AG, verbose = FALSE, ...
 ) {
 
   Site <-
@@ -58,6 +59,6 @@ apply_two_regression_hibbing18 <- function(
     call. = FALSE
   )
 
-  predict(matched_Algorithm, AG, verbose)
+  predict(matched_Algorithm, AG, verbose, ...)
 
 }
