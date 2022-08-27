@@ -89,7 +89,13 @@ The `TwoRegression` function operates under the assumption you already have data
 read into R. You can do this with the `AGread` package.
 
 ```{r, eval=FALSE}
-if (!"AGread" %in% installed.packages()) install.packages("AGread")
+
+if (!"remotes" %in% installed.packages)
+  install.packages("remotes")
+
+if (!"AGread" %in% installed.packages())
+  remotes::install_github("paulhibbing/AGread")
+
 ```
 
 For the sake of this illustration, the TwoRegression package provides some

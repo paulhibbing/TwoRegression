@@ -1,7 +1,11 @@
 #' Predict metabolic equivalents from a TwoRegression object
 #'
 #' @param object the TwoRegression object
-#' @param newdata the data on which to predict metabolic equivalents
+#' @param newdata the data on which to predict metabolic equivalents (METs)
+#' @param min_mets the minimum allowable value for MET predictions. Defaults to
+#'   the value stored in \code{object}
+#' @param max_mets the maximum allowable value for MET predictions. There is no
+#'   value embedded in \code{object}. The default is 20
 #' @param verbose logical. Print processing updates?
 #' @param ... further arguments passed to or from other methods
 #'
@@ -52,7 +56,10 @@
 #' predict(ex_2rm, test_data)
 #'
 #' @export
-predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
+predict.TwoRegression <- function (
+  object, newdata, min_mets = object$sed_METs,
+  max_mets = 20, verbose = FALSE, ...
+) {
 
 
   if (verbose) message_update(32, method = object$method)
@@ -103,7 +110,7 @@ predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
 
     SED <- newdata[newdata$Classification == "SED", ]
     if(nrow(SED) > 0) {
-      SED$METs <- object$sed_METs
+      SED$METs <- min_mets
     }
 
 
@@ -170,19 +177,34 @@ predict.TwoRegression <- function (object, newdata, verbose = FALSE, ...) {
     ))
 
 
-  ## Test for MET values below the minimum value
+  ## Test for MET values outside the specified range
 
-    too_low <- newdata$METs < object$sed_METs
+    too_low <- newdata$METs < min_mets
 
     if (any(too_low)) {
 
       warning(
         "Rounding up ", sum(too_low), " MET value(s) below the minimum (",
-        object$sed_METs, " METs) for the ", sQuote(object$method),
+        min_mets, " METs) for the ", sQuote(object$method),
         " model", call. = FALSE
       )
 
-      newdata$METs %<>% pmax(object$sed_METs)
+      newdata$METs %<>% pmax(min_mets)
+
+    }
+
+
+    too_high <- newdata$METs > max_mets
+
+    if (any(too_high)) {
+
+      warning(
+        "Rounding down ", sum(too_high), "MET value(s) above the maximum (",
+        max_mets, " METs) for the ", sQuote(object$method),
+        " model", call. = FALSE
+      )
+
+      newdata$METs %<>% pmin(max_mets)
 
     }
 

@@ -4,12 +4,25 @@
 \alias{predict.TwoRegression}
 \title{Predict metabolic equivalents from a TwoRegression object}
 \usage{
-\method{predict}{TwoRegression}(object, newdata, verbose = FALSE, ...)
+\method{predict}{TwoRegression}(
+  object,
+  newdata,
+  min_mets = object$sed_METs,
+  max_mets = 20,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{the TwoRegression object}
 
-\item{newdata}{the data on which to predict metabolic equivalents}
+\item{newdata}{the data on which to predict metabolic equivalents (METs)}
+
+\item{min_mets}{the minimum allowable value for MET predictions. Defaults to
+the value stored in \code{object}}
+
+\item{max_mets}{the maximum allowable value for MET predictions. There is no
+value embedded in \code{object}. The default is 20}
 
 \item{verbose}{logical. Print processing updates?}
 
