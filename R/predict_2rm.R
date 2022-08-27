@@ -6,6 +6,8 @@
 #'   the value stored in \code{object$sed_METs}
 #' @param max_mets the maximum allowable value for MET predictions. There is no
 #'   value embedded in \code{object}. The default is 20
+#' @param warn_high_low logical. Issue warnings about values less than
+#'   \code{min_mets} or greater than \code{max_mets}?
 #' @param verbose logical. Print processing updates?
 #' @param ... further arguments passed to or from other methods
 #'
@@ -58,7 +60,7 @@
 #' @export
 predict.TwoRegression <- function (
   object, newdata, min_mets = object$sed_METs,
-  max_mets = 20, verbose = FALSE, ...
+  max_mets = 20, warn_high_low = TRUE, verbose = FALSE, ...
 ) {
 
 
@@ -185,7 +187,7 @@ predict.TwoRegression <- function (
 
       min_label <- if (min_mets == 1) "1 MET" else paste(min_mets, "METs")
 
-      warning(
+      if (warn_high_low) warning(
         "Rounding up ", sum(too_low), " MET value(s) below the minimum (",
         min_label, ") for the ", sQuote(object$method),
         " model", call. = FALSE
@@ -202,7 +204,7 @@ predict.TwoRegression <- function (
 
       max_label <- if (max_mets == 1) "1 MET" else paste(max_mets, "METs")
 
-      warning(
+      if (warn_high_low) warning(
         "Rounding down ", sum(too_high), " MET value(s) above the maximum (",
         max_label, ") for the ", sQuote(object$method),
         " model", call. = FALSE

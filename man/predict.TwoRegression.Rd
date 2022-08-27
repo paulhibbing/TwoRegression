@@ -9,6 +9,7 @@
   newdata,
   min_mets = object$sed_METs,
   max_mets = 20,
+  warn_high_low = TRUE,
   verbose = FALSE,
   ...
 )
@@ -23,6 +24,9 @@ the value stored in \code{object$sed_METs}}
 
 \item{max_mets}{the maximum allowable value for MET predictions. There is no
 value embedded in \code{object}. The default is 20}
+
+\item{warn_high_low}{logical. Issue warnings about values less than
+\code{min_mets} or greater than \code{max_mets}?}
 
 \item{verbose}{logical. Print processing updates?}
 
