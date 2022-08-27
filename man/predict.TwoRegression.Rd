@@ -19,7 +19,7 @@
 \item{newdata}{the data on which to predict metabolic equivalents (METs)}
 
 \item{min_mets}{the minimum allowable value for MET predictions. Defaults to
-the value stored in \code{object}}
+the value stored in \code{object$sed_METs}}
 
 \item{max_mets}{the maximum allowable value for MET predictions. There is no
 value embedded in \code{object}. The default is 20}

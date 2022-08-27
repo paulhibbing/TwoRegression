@@ -3,7 +3,7 @@
 #' @param object the TwoRegression object
 #' @param newdata the data on which to predict metabolic equivalents (METs)
 #' @param min_mets the minimum allowable value for MET predictions. Defaults to
-#'   the value stored in \code{object}
+#'   the value stored in \code{object$sed_METs}
 #' @param max_mets the maximum allowable value for MET predictions. There is no
 #'   value embedded in \code{object}. The default is 20
 #' @param verbose logical. Print processing updates?
@@ -183,9 +183,11 @@ predict.TwoRegression <- function (
 
     if (any(too_low)) {
 
+      min_label <- if (min_mets == 1) "1 MET" else paste(min_mets, "METs")
+
       warning(
         "Rounding up ", sum(too_low), " MET value(s) below the minimum (",
-        min_mets, " METs) for the ", sQuote(object$method),
+        min_label, ") for the ", sQuote(object$method),
         " model", call. = FALSE
       )
 
@@ -198,9 +200,11 @@ predict.TwoRegression <- function (
 
     if (any(too_high)) {
 
+      max_label <- if (max_mets == 1) "1 MET" else paste(max_mets, "METs")
+
       warning(
-        "Rounding down ", sum(too_high), "MET value(s) above the maximum (",
-        max_mets, " METs) for the ", sQuote(object$method),
+        "Rounding down ", sum(too_high), " MET value(s) above the maximum (",
+        max_label, ") for the ", sQuote(object$method),
         " model", call. = FALSE
       )
 

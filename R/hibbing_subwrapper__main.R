@@ -59,6 +59,6 @@ apply_two_regression_hibbing18 <- function(
     call. = FALSE
   )
 
-  predict(matched_Algorithm, AG, verbose, ...)
+  predict(matched_Algorithm, AG, verbose = verbose, ...)
 
 }
