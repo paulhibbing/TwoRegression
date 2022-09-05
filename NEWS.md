@@ -3,7 +3,7 @@
   Major revision of package structure and scope
 ##Changes
 * Added support for other pre-existing models in addition to those
-  of Hibbing et al. (2018, *Med Sci Sports Exerc*)
+  of Hibbing et al. (2018) <10.1249/MSS.0000000000001532>
 * Established unified means of implementing pre-existing models through
   a single `TwoRegression` function
 * Added functions to facilitate development and application of new models
