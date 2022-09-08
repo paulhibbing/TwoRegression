@@ -3,15 +3,12 @@
 
 [![minimal R
 version](https://img.shields.io/badge/R%3E%3D-3.1.0-6666ff.svg)](https://cran.r-project.org/)
-
------
-
 [![License](https://img.shields.io/badge/license-GPL-blue.svg)](http://www.gnu.org/licenses/gpl-3.0.html)
 
 -----
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/TwoRegression)](https://cran.r-project.org/package=TwoRegression)
-[![packageversion](https://img.shields.io/badge/Package%20version-0.1.2.9000-orange.svg?style=flat-square)](https://github.com/paulhibbing/TwoRegression/commits/main)
+[![packageversion](https://img.shields.io/badge/Package%20version-1.0.0.9000-orange.svg?style=flat-square)](https://github.com/paulhibbing/TwoRegression/commits/main)
 
 -----
 
