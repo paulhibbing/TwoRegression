@@ -30,6 +30,8 @@ Imports:
     rlang,
     lubridate,
     tidyr
+Remotes:
+    paulhibbing/PAutilities
 RoxygenNote: 7.1.2
 Suggests: 
     knitr,
