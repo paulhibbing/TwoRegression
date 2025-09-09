@@ -183,12 +183,13 @@ predict.TwoRegression <- function (
 
     too_low <- newdata$METs < min_mets
 
-    if (any(too_low)) {
+    # use %in% TRUE to skirt any issues with missing values
+    if (any(too_low %in% TRUE)) {
 
       min_label <- if (min_mets == 1) "1 MET" else paste(min_mets, "METs")
 
       if (warn_high_low) warning(
-        "Rounding up ", sum(too_low), " MET value(s) below the minimum (",
+        "Rounding up ", sum(too_low %in% TRUE), " MET value(s) below the minimum (",
         min_label, ") for the ", sQuote(object$method),
         " model", call. = FALSE
       )
