@@ -179,11 +179,10 @@ predict.TwoRegression <- function (
     ))
 
 
-  ## Test for MET values outside the specified range
+  ## Test for MET values outside the specified range (use `%in% TRUE` to skirt any issues with missing values)
 
     too_low <- newdata$METs < min_mets
 
-    # use %in% TRUE to skirt any issues with missing values
     if (any(too_low %in% TRUE)) {
 
       min_label <- if (min_mets == 1) "1 MET" else paste(min_mets, "METs")
@@ -201,12 +200,12 @@ predict.TwoRegression <- function (
 
     too_high <- newdata$METs > max_mets
 
-    if (any(too_high)) {
+    if (any(too_high %in% TRUE)) {
 
       max_label <- if (max_mets == 1) "1 MET" else paste(max_mets, "METs")
 
       if (warn_high_low) warning(
-        "Rounding down ", sum(too_high), " MET value(s) above the maximum (",
+        "Rounding down ", sum(too_high %in% TRUE), " MET value(s) above the maximum (",
         max_label, ") for the ", sQuote(object$method),
         " model", call. = FALSE
       )
