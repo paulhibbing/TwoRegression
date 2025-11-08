@@ -10,7 +10,7 @@ due to the following changes:
 
 
 ## Test environments
-* local Windows 10 install, R 4.0.5
+* local Windows 10 install, R 4.4.1
 * Debian Linux, R-release, GCC (on R-hub)
 * win-builder (devel and release)
 
