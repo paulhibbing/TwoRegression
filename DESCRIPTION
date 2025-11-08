@@ -1,7 +1,7 @@
 Package: TwoRegression
 Type: Package
 Title: Develop and Apply Two-Regression Algorithms
-Version: 1.0.0.9000
+Version: 1.1.0
 Authors@R: c(
     person(c("Paul", "R."), "Hibbing", email = "paulhibbing@gmail.com",
 		  role = c("aut","cre")),
@@ -30,8 +30,6 @@ Imports:
     rlang,
     lubridate,
     tidyr
-Remotes:
-    paulhibbing/PAutilities
 RoxygenNote: 7.1.2
 Suggests: 
     knitr,
