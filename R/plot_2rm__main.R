@@ -1,6 +1,6 @@
 .set_Theme <- theme_classic() +
-  theme(axis.line.x = element_line(size = .5),
-  axis.line.y = element_line(size = .5),
+  theme(axis.line.x = element_line(linewidth = .5),
+  axis.line.y = element_line(linewidth = .5),
   axis.title.x = element_text(size = 14, face = 'bold'),
   axis.text.x = element_text(size = 12),
   axis.title.y = element_text(size = 14, face = 'bold'),

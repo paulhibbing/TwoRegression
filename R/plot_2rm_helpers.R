@@ -113,7 +113,7 @@ plotCP <- function(fig, cutPoint, x = NULL, y = NULL){
     paste('Threshold =', format(cutPoint, digits = 1, nsmall = 1))
 
   fig +
-  geom_vline(xintercept = cutPoint, size = 1.3) +
+  geom_vline(xintercept = cutPoint, linewidth = 1.3) +
   geom_label(x = x, y = y, label = label, colour = 'black', size = 4) +
   expand_limits(y = y, x = x)
 
