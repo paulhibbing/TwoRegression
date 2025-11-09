@@ -14,6 +14,8 @@ This is to re-release the package following removal at the hands of
 ## R CMD check results
 0 ERRORs | 0 WARNINGs | 1 NOTE
 
+
+
   Maintainer: 'Paul R. Hibbing <paulhibbing@gmail.com>'
 
   New submission
@@ -30,8 +32,10 @@ This is to re-release the package following removal at the hands of
     X-CRAN-Comment: Archived on 2023-04-19 as requires archived package
       'PAutilities'.
 
-* The archived dependency is now available again. The possibly-misspelled
-  words are false positives.
+
+
+* EXPLANATION: The archived dependency is now available again. The
+  possibly-misspelled words are false positives.
 
 ## Downstream dependencies
 There are no reverse dependencies for TwoRegression.
