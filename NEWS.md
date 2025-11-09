@@ -1,3 +1,11 @@
+#TwoRegression 1.1.0
+##Summary
+  Re-releasing after dependency-related removal
+##Changes
+* Resolved issues related to availability and versioning
+  of dependencies
+
+
 #TwoRegression 1.0.0
 ##Summary
   Major revision of package structure and scope

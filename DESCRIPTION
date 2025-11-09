@@ -21,14 +21,14 @@ LazyData: true
 Imports:
     dplyr (>= 0.5.0),
     ggplot2 (>= 3.4.0),
-    magrittr (>= 1.5),
     gridExtra (>= 2.3),
+    lubridate,
+    magrittr (>= 1.5),
     PAutilities (>= 1.1.0),
     pROC (>= 1.16.0),
     RcppRoll,
-    stats,
     rlang,
-    lubridate,
+    stats,
     tidyr
 RoxygenNote: 7.1.2
 Suggests: 
