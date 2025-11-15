@@ -2,6 +2,7 @@
 ##Summary
   Fixing issues with prior submission
 ##Changes
+* Removed unnecessary LICENSE file from top-level
 * Removed examples from internal function documentation
 
 
