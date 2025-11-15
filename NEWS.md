@@ -1,3 +1,10 @@
+#TwoRegression 1.1.1
+##Summary
+  Fixing issues with prior submission
+##Changes
+* Removed examples from internal function documentation
+
+
 #TwoRegression 1.1.0
 ##Summary
   Re-releasing after dependency-related removal

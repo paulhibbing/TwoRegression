@@ -1,9 +1,7 @@
 ## Resubmission:
-This is to re-release the package following removal at the hands of
-(now-resolved) dependency-related issues.
-
-* No major changes, other than to resolve issues related to
-  availability and versioning of dependencies
+This addresses issues with the prior submission. The top-level LICENSE file has
+been removed since there are no additional restrictions. Examples have been
+removed for unexported functions.
 
 
 ## Test environments
