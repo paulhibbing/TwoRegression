@@ -13,17 +13,6 @@
 #' @return a numeric vector of predicted energy expenditure values, expressed in
 #'   metabolic equivalents
 #'
-#' @examples
-#' \donttest{
-#' data(all_data, package = "TwoRegression")
-#' process  <-
-#'     data.frame(Wear_Location = "Left Wrist",
-#'         Algorithm = 2,
-#'         stringsAsFactors = FALSE)
-#'
-#' TwoRegression:::apply_two_regression_hibbing18(process, all_data)
-#' }
-#'
 #' @name hibbing-helpers
 #' @keywords internal
 apply_two_regression_hibbing18 <- function(

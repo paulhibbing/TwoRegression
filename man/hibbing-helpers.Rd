@@ -32,16 +32,4 @@ Applies the specified two-regression algorithm from
 \emph{Med Sci Sports Exerc})} to data from the primary accelerometer and IMU
 (if applicable)
 }
-\examples{
-\donttest{
-data(all_data, package = "TwoRegression")
-process  <-
-    data.frame(Wear_Location = "Left Wrist",
-        Algorithm = 2,
-        stringsAsFactors = FALSE)
-
-TwoRegression:::apply_two_regression_hibbing18(process, all_data)
-}
-
-}
 \keyword{internal}

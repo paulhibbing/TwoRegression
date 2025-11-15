@@ -15,7 +15,7 @@ Description: Facilitates development and application of two-regression
     However, other algorithms are now supported. Please see the associated
     references in the package documentation for full details of the algorithms
     that are supported.
-License: GPL-3 | file LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:
