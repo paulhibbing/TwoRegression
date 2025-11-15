@@ -79,10 +79,10 @@
 #' @export
 #'
 TwoRegression <- function(
-    AG,
-    method = c("Crouter 2006", "Crouter 2010", "Crouter 2012", "Hibbing 2018"),
-    verbose = FALSE,
-    ...
+  AG,
+  method = c("Crouter 2006", "Crouter 2010", "Crouter 2012", "Hibbing 2018"),
+  verbose = FALSE,
+  ...
 ) {
 
   method <- match.arg(method)
